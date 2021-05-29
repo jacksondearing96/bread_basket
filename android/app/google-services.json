@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "114118643095",
+    "project_id": "bread-basket-919ab",
+    "storage_bucket": "bread-basket-919ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114118643095:android:dfa3042019cccef08d08d2",
+        "android_client_info": {
+          "package_name": "com.jacksondearing.bread_basket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114118643095-b93dmr1n06qq78p679ospud1412pbt34.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbO5ut5xsHjCx3Huzf5fm7rJ3YEu28-a0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "114118643095-b93dmr1n06qq78p679ospud1412pbt34.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
