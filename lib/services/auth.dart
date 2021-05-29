@@ -6,7 +6,9 @@ class AuthService {
 
   // Create custom user from Firebase User.
   User? _userFromFirebaseUser(Firebase.User? user) {
-    return user != null ? User(userId: user.uid) : null;
+    if (user == null) return null;
+    String displayName = user.displayName == null ? '' : user.displayName.toString();
+    return User(userId: user.uid, name: displayName);
   }
 
   // Auth changed user stream.
@@ -42,6 +44,7 @@ class AuthService {
     try {
       Firebase.UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
+      
       return _userFromFirebaseUser(userCredential.user);
     } catch (e) {
       print(e.toString());
