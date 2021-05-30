@@ -28,10 +28,6 @@ class DatabaseService {
 
   // Get exercises stream.
   Stream<List<Exercise>> get exercises {
-    print('GETTING EXERCISES');
-    Stream<List<Exercise>> ex =
-        exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
-    print('GOT EXERCISES');
-    return ex;
+    return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
   }
 }

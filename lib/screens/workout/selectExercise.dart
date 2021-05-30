@@ -12,6 +12,8 @@ class SelectExercise extends StatefulWidget {
 }
 
 class _SelectExerciseState extends State<SelectExercise> {
+  List<Exercise> selectedExercises = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,18 +21,23 @@ class _SelectExerciseState extends State<SelectExercise> {
       appBar: AppBar(
         backgroundColor: Constants.accentColor,
         elevation: 0.0,
-        title: Text('Select exercise'),
+        title: Text('Select exercises'),
         actions: [
           TextButton(
             child: const Text('Cancel'),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(context, 'EXERCISE SELECTED'),
             style: TextButton.styleFrom(
               primary: Constants.textColor,
             ),
           ),
         ],
       ),
-      body: ExerciseList(exercises: widget.exercises),
+      body: ExerciseList(exercises: widget.exercises, selectedExercises: selectedExercises),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pop(context, selectedExercises),
+        tooltip: 'New exercise',
+        child: Icon(Icons.check),
+      ),
     );
   }
 }

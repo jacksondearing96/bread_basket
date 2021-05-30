@@ -4,7 +4,10 @@ import 'package:bread_basket/models/exercise.dart';
 
 class ExerciseTile extends StatelessWidget {
   final Exercise exercise;
-  ExerciseTile({required this.exercise});
+  final Function onTap;
+  bool isSelected;
+  ExerciseTile(
+      {required this.exercise, required this.onTap, required this.isSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +17,14 @@ class ExerciseTile extends StatelessWidget {
         margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
         child: ListTile(
           leading: CircleAvatar(
-            radius: 25.0,
-            backgroundColor: Constants.accentColor,
-          ),
+              radius: 25.0,
+              backgroundColor: isSelected
+                  ? Constants.accentColor
+                  : Colors.grey),
           title: Text(exercise.name),
           subtitle: Text('subtitle goes here'),
+          onTap: () => onTap(exercise),
+          onLongPress: () => onTap(exercise),
         ),
       ),
     );

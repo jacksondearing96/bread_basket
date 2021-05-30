@@ -15,10 +15,6 @@ class _WorkoutState extends State<Workout> {
   String workoutName = 'Workout';
 
   Widget build(BuildContext context) {
-    print('Printing exercises');
-    for (var exercise in widget.exercises) {
-      print(exercise.name);
-    }
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
       appBar: AppBar(
@@ -36,14 +32,23 @@ class _WorkoutState extends State<Workout> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return SelectExercise(exercises: widget.exercises);
-          }));
-        },
+        onPressed: () => _navigateToSelectExercise(context),
         tooltip: 'New exercise',
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  void _navigateToSelectExercise(BuildContext context) async {
+    // Navigator.push returns a Future that completes after calling
+    // Navigator.pop on the Selection Screen.
+    final result =
+        await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return SelectExercise(exercises: widget.exercises);
+    }));
+
+    for (Exercise exercise in result) {
+      print(exercise.name);
+    }
   }
 }
