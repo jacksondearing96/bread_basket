@@ -47,6 +47,8 @@ class _WorkoutState extends State<Workout> {
       return SelectExercise(exercises: widget.exercises);
     }));
 
+    if (result == null) return;
+
     for (Exercise exercise in result) {
       print(exercise.name);
     }
