@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           }
 
           // Replace this with loading animation.
-          return Text('Loading');
+          return Text('Loading', textDirection: TextDirection.ltr);
         });
   }
 }

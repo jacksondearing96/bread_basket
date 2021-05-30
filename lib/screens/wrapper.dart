@@ -1,6 +1,8 @@
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/screens/authenticate/authenticate.dart';
 import 'package:bread_basket/screens/home/home.dart';
+import 'package:bread_basket/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,9 @@ class Wrapper extends StatelessWidget {
     // this class in (inside main.dart).
     final user = Provider.of<User?>(context);
 
-    return user == null ? Authenticate() : Home();
+    return user == null
+        ? Authenticate()
+        : StreamProvider<List<Exercise>>.value(
+            initialData: [], value: DatabaseService().exercises, child: Home());
   }
 }
