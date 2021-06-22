@@ -8,12 +8,30 @@ class Constants {
   static const Color errorColor = Colors.red;
 
   static const InputDecoration textInputDecoration = InputDecoration(
-      hintStyle: TextStyle(color: hintColor),
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: textColor,
-          width: 1.0,
-        ),
+    hintStyle: TextStyle(color: hintColor),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: textColor,
+        width: 1.0,
       ),
-    );
+    ),
+  );
+
+  static const InputDecoration setInputDecoration = InputDecoration(
+    hintStyle: TextStyle(color: hintColor),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: textColor,
+        width: 1.0,
+      ),
+    ),
+  );
+
+  static const double workoutSetTypeDropdownWidth = 65.0;
+  static const double workoutSetInputWidth = 45.0;
+
+  static const String warmUpCode = 'W';
+  static const String dropSetCode = 'D';
+  static const String failureCode = 'F';
+  static const String normalCode = 'N';
 }

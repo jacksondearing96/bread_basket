@@ -23,11 +23,19 @@ class DatabaseService {
   }
 
   List<Exercise> _exerciseListFromQuerySnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) => Exercise(name: doc['name'])).toList();
+    return snapshot.docs.map((doc) => Exercise(id: doc.id, name: doc['name'])).toList();
   }
 
   // Get exercises stream.
   Stream<List<Exercise>> get exercises {
     return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
   }
+
+  // Get exercise list for a workout.
+  // Stream<List<Exercise>> getWorkout({ workoutId: workoutId }) {
+  //   return broCollection
+  //     .doc(userId)
+  //     .collection('workouts')
+  //     .doc(workoutId)
+  // }
 }

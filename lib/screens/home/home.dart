@@ -56,7 +56,7 @@ class Home extends StatelessWidget {
                 color: Constants.textColor,
               ),
               label: Text(
-                'History',
+                'History (coming soon)',
                 style: TextStyle(color: Constants.textColor),
               ),
               onPressed: () => {},
@@ -67,7 +67,7 @@ class Home extends StatelessWidget {
                 color: Constants.textColor,
               ),
               label: Text(
-                'Analytics',
+                'Analytics (coming soon)',
                 style: TextStyle(color: Constants.textColor),
               ),
               onPressed: () => {},

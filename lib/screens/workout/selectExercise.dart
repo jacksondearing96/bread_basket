@@ -1,5 +1,5 @@
 import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/screens/workout/exerciseList.dart';
+import 'package:bread_basket/screens/workout/selectExerciseList.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +32,7 @@ class _SelectExerciseState extends State<SelectExercise> {
           ),
         ],
       ),
-      body: ExerciseList(exercises: widget.exercises, selectedExercises: selectedExercises),
+      body: SelectExerciseList(exercises: widget.exercises, selectedExercises: selectedExercises),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pop(context, selectedExercises),
         tooltip: 'New exercise',

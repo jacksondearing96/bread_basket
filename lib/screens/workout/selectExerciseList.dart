@@ -1,17 +1,17 @@
 import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/screens/workout/exerciseTile.dart';
+import 'package:bread_basket/screens/workout/selectExerciseTile.dart';
 import 'package:flutter/material.dart';
 
-class ExerciseList extends StatefulWidget {
+class SelectExerciseList extends StatefulWidget {
   final List<Exercise> exercises;
   List<Exercise> selectedExercises;
-  ExerciseList({required this.exercises, required this.selectedExercises});
+  SelectExerciseList({required this.exercises, required this.selectedExercises});
 
   @override
-  _ExerciseListState createState() => _ExerciseListState();
+  _SelectExerciseListState createState() => _SelectExerciseListState();
 }
 
-class _ExerciseListState extends State<ExerciseList> {
+class _SelectExerciseListState extends State<SelectExerciseList> {
   @override
   Widget build(BuildContext context) {
     void onExerciseTileTap(Exercise exercise) {
@@ -27,7 +27,7 @@ class _ExerciseListState extends State<ExerciseList> {
         itemCount: widget.exercises.length,
         itemBuilder: (context, index) {
           return Container(
-            child: ExerciseTile(
+            child: SelectExerciseTile(
               exercise: widget.exercises[index],
               onTap: onExerciseTileTap,
               isSelected: widget.selectedExercises.contains(widget.exercises[index]),

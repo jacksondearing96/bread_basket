@@ -2,11 +2,11 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 
-class ExerciseTile extends StatelessWidget {
+class SelectExerciseTile extends StatelessWidget {
   final Exercise exercise;
   final Function onTap;
   bool isSelected;
-  ExerciseTile(
+  SelectExerciseTile(
       {required this.exercise, required this.onTap, required this.isSelected});
 
   @override
