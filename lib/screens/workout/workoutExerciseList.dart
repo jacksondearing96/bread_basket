@@ -19,6 +19,7 @@ class _WorkoutExerciseListState extends State<WorkoutExerciseList> {
   Widget build(BuildContext context) {
     return Consumer<PerformedExerciseListProvider>(
       builder: (context, performedExercisesProvider, child) => ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemCount: performedExercisesProvider.exercises.length,

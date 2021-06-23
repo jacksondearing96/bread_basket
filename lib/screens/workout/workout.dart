@@ -41,38 +41,33 @@ class _WorkoutState extends State<Workout> {
           ),
         ],
       ),
-      body: Container(
-          margin: const EdgeInsets.all(15.0),
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints viewportConstraints) =>
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight,),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text("Exercises",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Constants.textColor)),
-                      ChangeNotifierProvider(
-                          create: (_) => performedExercisesProvider,
-                          child: WorkoutExerciseList()),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                          abandonButton(context),
-                          completeButton(context),
-                          addNewExerciseButton(context)
-                        ]),
-                      ),
+      body: SingleChildScrollView(
+        child: Container(
+            margin: const EdgeInsets.all(15.0),
+            child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text("Exercises",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Constants.textColor)),
+                  ChangeNotifierProvider(
+                      create: (_) => performedExercisesProvider,
+                      child: WorkoutExerciseList()),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                      abandonButton(context),
+                      completeButton(context),
+                      addNewExerciseButton(context)
                     ]),
-              ),
+                  ),
+                ]),
             ),
-          )),
+      ),
     );
   }
 

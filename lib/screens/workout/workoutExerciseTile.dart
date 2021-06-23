@@ -36,6 +36,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
             ),
             _header(),
             ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
               itemCount: sets.length,
