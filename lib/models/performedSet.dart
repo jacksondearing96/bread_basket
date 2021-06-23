@@ -1,13 +1,14 @@
-class PerformedSet {
-  int reps = 0;
-  final String id;
+import 'package:bread_basket/shared/constants.dart';
 
-  PerformedSet({ required this.id, required this.reps});
+class PerformedSet {
+  String setType = Constants.normalCode;
+  int reps = 0;
+  double weight = 0.0;
+
+  PerformedSet();
 
   void log() {
-    print("PERFORMED SET >> Set ID: " +
-        this.id +
-        ", reps: " +
-        this.reps.toString());
+    print(
+        "PERFORMED SET >> weight: $weight, reps: ${this.reps.toString()}, type: $setType");
   }
 }

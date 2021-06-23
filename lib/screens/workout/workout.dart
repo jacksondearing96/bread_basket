@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bread_basket/models/performedExercise.dart';
-import 'package:bread_basket/providers/performedExercisesProvider.dart';
+import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -19,8 +19,8 @@ class Workout extends StatefulWidget {
 
 class _WorkoutState extends State<Workout> {
   String workoutName = 'New Workout';
-  PerformedExercisesProvider performedExercisesProvider =
-      PerformedExercisesProvider();
+  PerformedExerciseListProvider performedExercisesProvider = new
+      PerformedExerciseListProvider();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,30 +43,36 @@ class _WorkoutState extends State<Workout> {
       ),
       body: Container(
           margin: const EdgeInsets.all(15.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text("Exercises",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Constants.textColor)),
-                ChangeNotifierProvider(
-                    create: (_) => performedExercisesProvider,
-                    child: WorkoutExerciseList()),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      abandonButton(context),
-                      completeButton(context),
-                      addNewExerciseButton(context)
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints viewportConstraints) =>
+            SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: viewportConstraints.maxHeight,),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text("Exercises",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Constants.textColor)),
+                      ChangeNotifierProvider(
+                          create: (_) => performedExercisesProvider,
+                          child: WorkoutExerciseList()),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                          abandonButton(context),
+                          completeButton(context),
+                          addNewExerciseButton(context)
+                        ]),
+                      ),
                     ]),
-                  ),
-                ),
-              ])),
+              ),
+            ),
+          )),
     );
   }
 
@@ -88,6 +94,7 @@ class _WorkoutState extends State<Workout> {
 
   FloatingActionButton addNewExerciseButton(BuildContext context) {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       onPressed: () => _navigateToSelectExercise(context),
       tooltip: 'New exercise',
       child: Icon(Icons.add),
@@ -96,6 +103,7 @@ class _WorkoutState extends State<Workout> {
 
   FloatingActionButton completeButton(BuildContext context) {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       child: Icon(Icons.check_outlined),
       tooltip: 'Complete',
       onPressed: () => completeWorkout(context),
@@ -105,6 +113,7 @@ class _WorkoutState extends State<Workout> {
 
   FloatingActionButton abandonButton(BuildContext context) {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       child: Icon(Icons.close),
       tooltip: 'Abandon',
       onPressed: () => confirmAbandonment(context),

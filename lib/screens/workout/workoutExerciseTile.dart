@@ -1,76 +1,83 @@
+import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/providers/performedExerciseListProvider.dart';
+import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:bread_basket/models/performedExercise.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutExerciseTile extends StatefulWidget {
-  final PerformedExercise exercise;
-  bool isSelected;
-  WorkoutExerciseTile({required this.exercise, required this.isSelected});
+  final int exerciseIndex;
+  WorkoutExerciseTile({Key? key, required this.exerciseIndex}) : super(key: key);
 
   @override
   _WorkoutExerciseTileState createState() => _WorkoutExerciseTileState();
 }
 
 class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
-  List<WorkoutSet> sets = [WorkoutSet()];
-
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
-      child: Column(
-        children: <Widget>[
-          ListTile(
-            leading: CircleAvatar(
-                radius: 25.0,
-                backgroundColor:
-                    widget.isSelected ? Constants.accentColor : Colors.grey),
-            title: Text(widget.exercise.exercise.name),
-            subtitle: Text('subtitle goes here'),
-          ),
-          _header(),
-          ListView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: sets.length,
-            itemBuilder: (context, index) {
-              final thisSet = sets[index];
-              sets[index].setSetIndex(index + 1);
-              return Dismissible(
-                  direction: DismissDirection.endToStart,
-                  key: Key(getRandomString(10)),
-                  background: Container(
-                    alignment: AlignmentDirectional.centerEnd,
-                    color: Colors.red,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.white,
+    return Consumer<PerformedExerciseProvider>(
+        builder: (context, performedExerciseProvider, child) {
+      String exerciseName = performedExerciseProvider.exercise.exercise.name;
+      List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
+
+      return Card(
+        margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
+        child: Column(
+          children: <Widget>[
+            ListTile(
+              leading: CircleAvatar(
+                  radius: 25.0, backgroundColor: Constants.accentColor),
+              title: Text(exerciseName),
+              subtitle: Text('subtitle goes here'),
+            ),
+            _header(),
+            ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              itemCount: sets.length,
+              itemBuilder: (context, index) {
+                final thisSet = sets[index];
+                return Dismissible(
+                    direction: DismissDirection.endToStart,
+                    key: Key(getRandomString(10)),
+                    background: Container(
+                      alignment: AlignmentDirectional.centerEnd,
+                      color: Colors.red,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                  onDismissed: (direction) {
-                    setState(() => sets.removeAt(index));
-                  },
-                  child: thisSet);
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _removeExerciseButton(),
-                _addNewExerciseButton(),
-              ],
+                    onDismissed: (direction) => 
+                      performedExerciseProvider.removeSet(index)
+                    ,
+                    child: ChangeNotifierProvider.value(
+                      value: performedExerciseProvider,
+                      child: WorkoutSet(key: UniqueKey(), setIndex: index),
+                    ));
+              },
             ),
-          ),
-        ],
-      ),
-    );
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _removeExerciseButton(),
+                  _addNewSetButton(performedExerciseProvider.addSet),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   String getRandomString(int length) =>
@@ -97,6 +104,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
 
   FloatingActionButton _removeExerciseButton() {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       onPressed: () => _removeExercise(),
       tooltip: 'Remove exercise',
       child: Icon(Icons.close),
@@ -105,19 +113,17 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
     );
   }
 
-  FloatingActionButton _addNewExerciseButton() {
+  FloatingActionButton _addNewSetButton(Function addSet) {
     return FloatingActionButton(
-      onPressed: () => _addNewSet(),
+      heroTag: UniqueKey(),
+      onPressed: () => addSet(),
       tooltip: 'Add set',
       child: Icon(Icons.add),
       mini: true,
     );
   }
 
-  void _addNewSet() {
-    print('Add another set');
-    setState(() => sets.add(WorkoutSet()));
+  void _removeExercise() {
+    // Remove the entire exercise.
   }
-
-  void _removeExercise() {}
 }

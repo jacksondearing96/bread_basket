@@ -6,6 +6,10 @@ class Constants {
   static const Color textColor = Colors.white;
   static const Color hintColor = Colors.grey;
   static const Color errorColor = Colors.red;
+  static const Color warmUpSetTypeColor = Colors.orange;
+  static const Color dropSetSetTypeColor = Colors.purple;
+  static const Color failureSetTypeColor = Colors.red;
+  static const Color normalSetTypeColor = Colors.black;
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),

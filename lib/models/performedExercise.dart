@@ -3,7 +3,7 @@ import 'package:bread_basket/models/performedSet.dart';
 
 class PerformedExercise {
   final Exercise exercise;
-  List<PerformedSet> sets = [];
+  List<PerformedSet> sets = [PerformedSet()];
 
   PerformedExercise({required this.exercise});
 

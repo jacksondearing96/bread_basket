@@ -33,12 +33,19 @@ class _WorkoutSetTypeState extends State<WorkoutSetType> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        !widget._abbreviate ? Container() : Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.0),
-          child: Text(widget.setNumber == -1 ? widget.code : widget.setNumber.toString(),
-              style: TextStyle(color: widget.color)),
-        ),
-            widget._abbreviate ? Container() : Text(widget.name),
+        !widget._abbreviate
+            ? Container()
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: Text(
+                    widget.code == Constants.normalCode
+                        ? widget.setNumber.toString()
+                        : widget.code,
+                    style: TextStyle(color: widget.color)),
+              ),
+        widget._abbreviate
+            ? Container()
+            : Text(widget.name, style: TextStyle(color: widget.color)),
       ],
     );
   }

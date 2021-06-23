@@ -1,16 +1,15 @@
+import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/providers/performedExerciseListProvider.dart';
+import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetTypeDropdown.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class WorkoutSet extends StatefulWidget {
-  WorkoutSet();
+  int setIndex;
 
-  int setNumber = -1;
-
-  void setSetIndex(int index) {
-    setNumber = index;
-    print('Set number is: $setNumber');
-  }
+  WorkoutSet({Key? key, required this.setIndex}) : super(key: key);
 
   @override
   _WorkoutSetState createState() => _WorkoutSetState();
@@ -19,44 +18,83 @@ class WorkoutSet extends StatefulWidget {
 class _WorkoutSetState extends State<WorkoutSet> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  double weight = 0.0;
-  int reps = 0;
+  FocusNode weightFocusNode = FocusNode();
+  FocusNode repsFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 3.0),
-      child: Form(
-          key: _formKey,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              WorkoutSetTypeDropdown(setNumber: widget.setNumber),
-              Container(
-                width: Constants.workoutSetInputWidth,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration:
-                      Constants.setInputDecoration.copyWith(hintText: 'kg'),
-                  validator: isAValidNumber,
-                  onChanged: (val) => setState(() => weight = double.parse(val)),
+    return Consumer<PerformedExerciseProvider>(
+        builder: (context, performedExerciseProvider, child) {
+      performedExerciseProvider.exercise.log();
+      PerformedSet performedSet =
+          performedExerciseProvider.exercise.sets[widget.setIndex];
+
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: 3.0),
+        child: Form(
+            key: _formKey,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                ChangeNotifierProvider.value(
+                  value: performedExerciseProvider,
+                  child: WorkoutSetTypeDropdown(setIndex: widget.setIndex),
                 ),
-              ),
-              Container(
-                width: Constants.workoutSetInputWidth,
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  decoration:
-                      Constants.setInputDecoration.copyWith(hintText: 'reps'),
-                  validator: isAValidInteger,
-                  onChanged: (val) => setState(() => reps = int.parse(val)),
+                Container(
+                  width: Constants.workoutSetInputWidth,
+                  child: TextFormField(
+                      focusNode: weightFocusNode,
+                      initialValue: performedSet.weight == 0.0
+                          ? ''
+                          : performedSet.weight.toString(),
+                      keyboardType: TextInputType.number,
+                      textAlign: TextAlign.center,
+                      decoration:
+                          Constants.setInputDecoration.copyWith(hintText: 'kg'),
+                      validator: isAValidNumber,
+                      onChanged: (val) {
+                        setState(() => performedSet.weight = double.parse(val));
+                        updateSet(
+                            performedExerciseProvider.updateSet, performedSet);
+                        // performedExerciseProvider.updateSet(
+                        //     widget.setIndex, performedSet);
+                      }),
                 ),
-              ),
-            ],
-          )),
-    );
+                Container(
+                  width: Constants.workoutSetInputWidth,
+                  child: TextFormField(
+                    focusNode: repsFocusNode,
+                    initialValue: performedSet.reps == 0
+                        ? ''
+                        : performedSet.reps.toString(),
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    decoration:
+                        Constants.setInputDecoration.copyWith(hintText: 'reps'),
+                    validator: isAValidInteger,
+                    onChanged: (val) {
+                      setState(() => performedSet.reps = int.parse(val));
+                      updateSet(
+                          performedExerciseProvider.updateSet, performedSet);
+                      // performedExerciseProvider.updateSet(
+                      //     widget.setIndex, performedSet);
+                    },
+                  ),
+                ),
+              ],
+            )),
+      );
+    });
+  }
+
+  void updateSet(Function providerUpdateSet, PerformedSet performedSet) {
+    for (var focusNode in [weightFocusNode, repsFocusNode]) {
+      focusNode.addListener(() {
+        if (!focusNode.hasFocus) {
+          providerUpdateSet(widget.setIndex, performedSet);
+        }
+      });
+    }
   }
 
   String? isAValidNumber(String? val) {
