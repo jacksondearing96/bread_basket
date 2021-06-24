@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/user.dart';
+import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
+import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
@@ -11,6 +14,8 @@ import 'package:provider/provider.dart';
 
 class Workout extends StatefulWidget {
   final List<Exercise> exercises;
+  PerformedWorkout performedWorkout =
+      PerformedWorkout(id: UniqueKey().toString());
   Workout({required this.exercises});
 
   @override
@@ -19,10 +24,12 @@ class Workout extends StatefulWidget {
 
 class _WorkoutState extends State<Workout> {
   String workoutName = 'New Workout';
-  PerformedExerciseListProvider performedExercisesProvider = new
-      PerformedExerciseListProvider();
+  PerformedExerciseListProvider performedExerciseListProvider =
+      new PerformedExerciseListProvider();
 
   Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
       appBar: AppBar(
@@ -43,30 +50,29 @@ class _WorkoutState extends State<Workout> {
       ),
       body: SingleChildScrollView(
         child: Container(
-            margin: const EdgeInsets.all(15.0),
-            child:  Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text("Exercises",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Constants.textColor)),
-                  ChangeNotifierProvider(
-                      create: (_) => performedExercisesProvider,
-                      child: WorkoutExerciseList()),
-                  Align(
-                    alignment: Alignment.bottomCenter,
+          margin: const EdgeInsets.all(15.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                ChangeNotifierProvider(
+                    create: (_) => performedExerciseListProvider,
+                    child: WorkoutExerciseList()),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                      abandonButton(context),
-                      completeButton(context),
-                      addNewExerciseButton(context)
-                    ]),
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          abandonButton(context),
+                          completeButton(context, user),
+                          addNewExerciseButton(context)
+                        ]),
                   ),
-                ]),
-            ),
+                ),
+              ]),
+        ),
       ),
     );
   }
@@ -96,12 +102,12 @@ class _WorkoutState extends State<Workout> {
     );
   }
 
-  FloatingActionButton completeButton(BuildContext context) {
+  FloatingActionButton completeButton(BuildContext context, User? user) {
     return FloatingActionButton(
       heroTag: UniqueKey(),
       child: Icon(Icons.check_outlined),
       tooltip: 'Complete',
-      onPressed: () => completeWorkout(context),
+      onPressed: () => completeWorkout(context, user),
       backgroundColor: Colors.green,
     );
   }
@@ -116,7 +122,7 @@ class _WorkoutState extends State<Workout> {
     );
   }
 
-  Future<String?> completeWorkout(BuildContext context) {
+  Future<String?> completeWorkout(BuildContext context, User? user) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -128,10 +134,20 @@ class _WorkoutState extends State<Workout> {
           ),
           TextButton(
             onPressed: () {
+              widget.performedWorkout.performedExercises =
+                  performedExerciseListProvider.exercises
+                      .map((performedExerciseProvider) =>
+                          performedExerciseProvider.exercise)
+                      .toList();
+              if (user != null) {
+                DatabaseService(userId: user.userId)
+                    .saveWorkout(widget.performedWorkout);
+              }
               Navigator.pop(context);
               Navigator.pop(context);
             },
-            child: const Text('Complete', style: TextStyle(color: Colors.green)),
+            child:
+                const Text('Complete', style: TextStyle(color: Colors.green)),
           ),
         ],
       ),
@@ -175,7 +191,7 @@ class _WorkoutState extends State<Workout> {
 
   void _processSelectedExercises(List<Exercise> exercises) {
     for (Exercise exercise in exercises) {
-      performedExercisesProvider
+      performedExerciseListProvider
           .addExercise(PerformedExercise(exercise: exercise));
       exercise.log();
     }

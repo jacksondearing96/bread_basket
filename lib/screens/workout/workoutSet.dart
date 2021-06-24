@@ -1,5 +1,4 @@
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetTypeDropdown.dart';
 import 'package:bread_basket/shared/constants.dart';

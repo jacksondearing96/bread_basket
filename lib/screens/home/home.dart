@@ -2,7 +2,6 @@ import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
 

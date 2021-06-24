@@ -1,7 +1,5 @@
-import 'package:bread_basket/providers/abbreviateDropdownProvider.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class WorkoutSetType extends StatefulWidget {
   final String name;

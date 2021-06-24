@@ -1,16 +1,12 @@
-import 'dart:async';
-
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/abbreviateDropdownProvider.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetType.dart';
-import 'package:bread_basket/services/workoutSetType.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutSetTypeDropdown extends StatefulWidget {
-  int setIndex;
+  final int setIndex;
 
   WorkoutSetTypeDropdown({required this.setIndex});
 
@@ -23,7 +19,7 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
   Widget build(BuildContext context) {
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
-      PerformedSet set_ =
+      PerformedSet performedSet =
           performedExerciseProvider.exercise.sets[widget.setIndex];
 
       return Container(
@@ -32,7 +28,7 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
           child: ButtonTheme(
             child: DropdownButton<String>(
                 isExpanded: true,
-                value: set_.setType,
+                value: performedSet.setType,
                 selectedItemBuilder: (context) {
                   return _workoutSetTypes().map((workoutSetType) {
                     workoutSetType.setSetNumber(widget.setIndex + 1);
@@ -44,8 +40,8 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
                     .map(_workoutSetTypeToDropdownMenuItem)
                     .toList(),
                 onChanged: (newValue) {
-                  setState(() => set_.setType = newValue ?? set_.setType);
-                  // performedExerciseProvider.updateSet(widget.setIndex, set_);
+                  setState(() => performedSet.setType = newValue ?? performedSet.setType);
+                  // performedExerciseProvider.updateSet(widget.setIndex, performedSet);
                 }),
           ),
         ),

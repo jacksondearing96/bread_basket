@@ -24,8 +24,16 @@ class MyApp extends StatelessWidget {
             return StreamProvider<User?>.value(
               initialData: null,
               value: AuthService().user,
-              child: MaterialApp(
-                home: Wrapper(),
+              child: GestureDetector(
+                onTap: () {
+                  FocusScopeNode currentFocus = FocusScope.of(context);
+                  if (!currentFocus.hasPrimaryFocus) {
+                    currentFocus.unfocus();
+                  }
+                },
+                child: MaterialApp(
+                  home: Wrapper(),
+                ),
               ),
             );
           }

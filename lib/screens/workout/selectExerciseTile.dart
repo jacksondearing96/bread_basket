@@ -21,7 +21,7 @@ class SelectExerciseTile extends StatelessWidget {
               backgroundColor: isSelected
                   ? Constants.accentColor
                   : Colors.grey),
-          title: Text(exercise.name),
+          title: Row(children: [Text(exercise.name),Image.asset('exercise_images/bench_press.png')],),
           subtitle: Text('subtitle goes here'),
           onTap: () => onTap(exercise),
           onLongPress: () => onTap(exercise),

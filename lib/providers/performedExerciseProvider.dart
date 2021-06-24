@@ -3,33 +3,33 @@ import 'package:bread_basket/models/performedSet.dart';
 import 'package:flutter/material.dart';
 
 class PerformedExerciseProvider extends ChangeNotifier {
-  PerformedExercise exercise_;
+  PerformedExercise performedExercise;
 
-  PerformedExerciseProvider({required this.exercise_});
+  PerformedExerciseProvider({required this.performedExercise});
 
-  PerformedExercise get exercise => exercise_;
+  PerformedExercise get exercise => performedExercise;
 
-  void updateExercise(PerformedExercise performedExercise) {
-    exercise_ = performedExercise;
+  void updateExercise(PerformedExercise newPerformedExercise) {
+    performedExercise = newPerformedExercise;
     notifyListeners();
   }
 
   void updateSet(int index, PerformedSet performedSet) {
     print('Updating provider' 's set at index: $index');
     performedSet.log();
-    exercise_.sets[index] = performedSet;
+    performedExercise.sets[index] = performedSet;
     notifyListeners();
   }
 
   void removeSet(int index) {
     print('Removing provider' 's set at index: $index');
-    exercise_.sets.removeAt(index);
+    performedExercise.sets.removeAt(index);
     notifyListeners();
   }
 
   void addSet() {
     print('Adding a set to the provider');
-    exercise_.sets.add(PerformedSet());
+    performedExercise.sets.add(PerformedSet());
     notifyListeners();
   }
 

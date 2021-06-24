@@ -1,16 +1,16 @@
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:bread_basket/models/performedExercise.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutExerciseTile extends StatefulWidget {
   final int exerciseIndex;
-  WorkoutExerciseTile({Key? key, required this.exerciseIndex}) : super(key: key);
+  final Function removeExerciseCallback;
+  WorkoutExerciseTile({Key? key, required this.exerciseIndex, required this.removeExerciseCallback})
+      : super(key: key);
 
   @override
   _WorkoutExerciseTileState createState() => _WorkoutExerciseTileState();
@@ -41,7 +41,6 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
               shrinkWrap: true,
               itemCount: sets.length,
               itemBuilder: (context, index) {
-                final thisSet = sets[index];
                 return Dismissible(
                     direction: DismissDirection.endToStart,
                     key: Key(getRandomString(10)),
@@ -56,9 +55,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                         ),
                       ),
                     ),
-                    onDismissed: (direction) => 
-                      performedExerciseProvider.removeSet(index)
-                    ,
+                    onDismissed: (direction) =>
+                        performedExerciseProvider.removeSet(index),
                     child: ChangeNotifierProvider.value(
                       value: performedExerciseProvider,
                       child: WorkoutSet(key: UniqueKey(), setIndex: index),
@@ -106,7 +104,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   FloatingActionButton _removeExerciseButton() {
     return FloatingActionButton(
       heroTag: UniqueKey(),
-      onPressed: () => _removeExercise(),
+      onPressed: () => widget.removeExerciseCallback(widget.exerciseIndex),
       tooltip: 'Remove exercise',
       child: Icon(Icons.close),
       mini: true,
@@ -122,9 +120,5 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       child: Icon(Icons.add),
       mini: true,
     );
-  }
-
-  void _removeExercise() {
-    // Remove the entire exercise.
   }
 }

@@ -10,7 +10,12 @@ class PerformedExerciseListProvider extends ChangeNotifier {
   void addExercise(PerformedExercise exercise) {
     print('Adding exercise to provider');
     exercise.log();
-    _exercises.add(PerformedExerciseProvider(exercise_: exercise));
+    _exercises.add(PerformedExerciseProvider(performedExercise: exercise));
+    notifyListeners();
+  }
+
+  void removeExercise(int index) {
+    _exercises.removeAt(index);
     notifyListeners();
   }
 }
