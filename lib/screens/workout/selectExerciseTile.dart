@@ -12,20 +12,44 @@ class SelectExerciseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 8.0),
-      child: Card(
-        margin: EdgeInsets.fromLTRB(20.0, 6.0, 20.0, 0.0),
-        child: ListTile(
-          leading: CircleAvatar(
-              radius: 25.0,
-              backgroundColor: isSelected
-                  ? Constants.accentColor
-                  : Colors.grey),
-          title: Row(children: [Text(exercise.name),Image.asset('exercise_images/bench_press.png')],),
-          subtitle: Text('subtitle goes here'),
-          onTap: () => onTap(exercise),
-          onLongPress: () => onTap(exercise),
+      padding: EdgeInsets.only(top: 4.0),
+      child: GestureDetector(
+        child: Card(
+          margin: EdgeInsets.fromLTRB(10.0, 3.0, 10.0, 0.0),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CircleAvatar(
+                    child: isSelected ? Icon(Icons.check) : null,
+                    radius: 25.0,
+                    backgroundColor:
+                        isSelected ? Constants.accentColor : Colors.grey),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                      Text(exercise.name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(fontSize: 18.0)),
+                      Text('subtitle goes here',
+                      style: TextStyle(color: Constants.hintColor)),
+                    ]),
+                  ),
+                ),
+                Container(
+                  height: 90,
+                  width: 135,
+                  child: Image.asset('exercise_images/${exercise.name}.png'),
+                ),
+              ],
+            ),
+          ),
         ),
+        onTap: () => onTap(exercise),
       ),
     );
   }
