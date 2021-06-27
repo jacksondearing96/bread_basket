@@ -1,5 +1,6 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/screens/workout/selectExerciseTile.dart';
+import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class SelectExerciseList extends StatefulWidget {
@@ -21,9 +22,9 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
     return Column(
       children: [
         new Container(
-          color: Theme.of(context).primaryColor,
+          color: Constants.accentColor,
           child: new Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: new Card(
               child: new ListTile(
                 leading: new Icon(Icons.search),

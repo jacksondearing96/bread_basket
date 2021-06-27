@@ -10,7 +10,10 @@ import 'package:provider/provider.dart';
 class WorkoutExerciseTile extends StatefulWidget {
   final int exerciseIndex;
   final Function removeExerciseCallback;
-  WorkoutExerciseTile({Key? key, required this.exerciseIndex, required this.removeExerciseCallback})
+  WorkoutExerciseTile(
+      {Key? key,
+      required this.exerciseIndex,
+      required this.removeExerciseCallback})
       : super(key: key);
 
   @override
@@ -29,11 +32,44 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
           children: <Widget>[
-            ListTile(
-              leading: CircleAvatar(
-                  radius: 25.0, backgroundColor: Constants.accentColor),
-              title: Text(exercise.title),
-              subtitle: Text(exercise.subtitle),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  exercise.equipmentTypeIcon == null ? Container() :
+                  Container(
+                      padding: EdgeInsets.all(4.0),
+                      height: 35,
+                      width: 35,
+                      child: exercise.equipmentTypeIcon),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(exercise.title,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize:
+                                        Constants.selectExerciseFontSize)),
+                            exercise.subtitle != ''
+                                ? Text(exercise.subtitle,
+                                    style:
+                                        TextStyle(color: Constants.hintColor))
+                                : Container(),
+                          ]),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    width: Constants.workoutExerciseImageWidth,
+                    height: Constants.workoutExerciseImageHeight,
+                    child: exercise.image,
+                  ),
+                ],
+              ),
             ),
             _header(),
             ListView.builder(
