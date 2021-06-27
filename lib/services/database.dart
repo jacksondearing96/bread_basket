@@ -14,7 +14,7 @@ class DatabaseService {
 
   List<Exercise> _exerciseListFromQuerySnapshot(QuerySnapshot snapshot) {
     return snapshot.docs
-        .map((doc) => Exercise(id: doc.id, name: doc['name']))
+        .map((doc) => Exercise(id: doc.id, name: doc['name'], tags: doc['tags']))
         .toList();
   }
 

@@ -21,29 +21,32 @@ class SelectExerciseTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CircleAvatar(
-                    child: isSelected ? Icon(Icons.check) : null,
-                    radius: 25.0,
-                    backgroundColor:
-                        isSelected ? Constants.accentColor : Colors.grey),
+                isSelected ? exerciseIsSelectedCircle() :
+                  Container(
+                    padding: EdgeInsets.all(4.0),
+                    height: 35,
+                    width: 35,
+                  child: exercise.equipmentTypeIcon
+                  )
+                   ,
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                      Text(exercise.name,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(fontSize: 18.0)),
-                      Text('subtitle goes here',
-                      style: TextStyle(color: Constants.hintColor)),
-                    ]),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(exercise.title,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(fontSize: Constants.selectExerciseFontSize)),
+                          exercise.subtitle != '' ? Text(exercise.subtitle,
+                              style: TextStyle(color: Constants.hintColor)) : Container(),
+                        ]),
                   ),
                 ),
                 Container(
-                  height: 90,
-                  width: 135,
-                  child: Image.asset('exercise_images/${exercise.name}.png'),
+                  width: Constants.selectExerciseImageWidth,
+                  height: Constants.selectExerciseImageHeight,
+                  child: exercise.image,
                 ),
               ],
             ),
@@ -53,4 +56,13 @@ class SelectExerciseTile extends StatelessWidget {
       ),
     );
   }
+
+  CircleAvatar exerciseIsSelectedCircle() {
+    return CircleAvatar(
+        child: isSelected ? Icon(Icons.check) : null,
+        radius: Constants.exerciseTypeIconWidth,
+        backgroundColor: isSelected ? Constants.accentColor : Colors.grey);
+  }
+
+
 }

@@ -48,4 +48,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - exercise_images/
+    - resources/exercise_images/
+    - resources/icons/

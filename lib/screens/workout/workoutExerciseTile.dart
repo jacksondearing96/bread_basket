@@ -1,3 +1,4 @@
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
@@ -21,7 +22,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   Widget build(BuildContext context) {
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
-      String exerciseName = performedExerciseProvider.exercise.exercise.name;
+      Exercise exercise = performedExerciseProvider.exercise.exercise;
       List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
 
       return Card(
@@ -31,8 +32,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
             ListTile(
               leading: CircleAvatar(
                   radius: 25.0, backgroundColor: Constants.accentColor),
-              title: Text(exerciseName),
-              subtitle: Text('subtitle goes here'),
+              title: Text(exercise.title),
+              subtitle: Text(exercise.subtitle),
             ),
             _header(),
             ListView.builder(

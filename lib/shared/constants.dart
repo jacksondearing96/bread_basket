@@ -31,11 +31,31 @@ class Constants {
     ),
   );
 
+  static const double selectExerciseFontSize = 16.0;
+
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 45.0;
+  static const double exerciseTypeIconWidth = 15.0;
+  static const double selectExerciseImageWidth = 120.0;
+  static const double selectExerciseImageHeight = 80.0;
 
   static const String warmUpCode = 'W';
   static const String dropSetCode = 'D';
   static const String failureCode = 'F';
   static const String normalCode = 'N';
+
+  static const List<String> equipmentTypes = [
+    'dumbbell',
+    'barbell',
+    'cable',
+    'ez_bar',
+    'machine'
+  ];
+  static Map<String, Image> equipmentTypeIcons = {
+    'dumbbell': Image.asset('resources/icons/dumbbell.png'),
+    'barbell': Image.asset('resources/icons/barbell.png'),
+    'cable': Image.asset('resources/icons/cable.png'),
+    'machine': Image.asset('resources/icons/cog.png'),
+    'ez_bar': Image.asset('resources/icons/ez_bar.png')
+  };
 }

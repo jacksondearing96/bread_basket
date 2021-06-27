@@ -21,7 +21,7 @@ class _SelectExerciseState extends State<SelectExercise> {
       appBar: AppBar(
         backgroundColor: Constants.accentColor,
         elevation: 0.0,
-        title: Text('Select exercises'),
+        title: Text('Select exercise(s)'),
         actions: [
           TextButton(
             child: const Text('Cancel'),
