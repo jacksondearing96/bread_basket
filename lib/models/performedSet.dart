@@ -2,7 +2,7 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class PerformedSet {
-  String id = UniqueKey().toString();
+  String id = DateTime.now().millisecondsSinceEpoch.toString();
   String setType = Constants.normalCode;
   int reps = 0;
   double weight = 0.0;

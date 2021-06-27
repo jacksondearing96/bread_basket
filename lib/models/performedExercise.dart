@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class PerformedExercise {
   final Exercise exercise;
-  final String id = UniqueKey().toString();
+  final String id = DateTime.now().millisecondsSinceEpoch.toString();
   List<PerformedSet> sets = [PerformedSet()];
 
   PerformedExercise({required this.exercise});

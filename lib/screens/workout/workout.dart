@@ -14,8 +14,7 @@ import 'package:provider/provider.dart';
 
 class Workout extends StatefulWidget {
   final List<Exercise> exercises;
-  PerformedWorkout performedWorkout =
-      PerformedWorkout(id: UniqueKey().toString());
+  PerformedWorkout performedWorkout = PerformedWorkout();
   Workout({required this.exercises});
 
   @override

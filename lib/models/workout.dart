@@ -1,8 +1,8 @@
 import 'package:bread_basket/models/performedExercise.dart';
 
 class PerformedWorkout {
-  final String id;
-  PerformedWorkout({required this.id});
+  final String id = DateTime.now().millisecondsSinceEpoch.toString();
+  PerformedWorkout();
 
   List<PerformedExercise> performedExercises = [];
   String date = "date";
