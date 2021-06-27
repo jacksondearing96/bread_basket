@@ -22,17 +22,23 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
     return Column(
       children: [
         new Container(
-          color: Constants.accentColor,
+          // decoration: BoxDecoration(
+          //   border: Border(bottom: BorderSide(width: 1.0, color: Constants.textColor)),
+          // ),
           child: new Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
-            child: new Card(
+            child: Ink(
+              color: Colors.transparent, 
               child: new ListTile(
                 leading: new Icon(Icons.search),
                 title: new TextField(
+                  style: TextStyle(color: Constants.textColor),
                   controller: controller,
                   decoration: new InputDecoration(
+                    filled: false,
                     hintStyle: TextStyle(color: Constants.hintColor),
-                      hintText: 'Search', border: InputBorder.none),
+                      hintText: 'Search', 
+                      ),
                   onChanged: onSearchTextChanged,
                 ),
                 trailing: new IconButton(

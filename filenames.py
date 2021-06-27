@@ -3,7 +3,6 @@ import os
 # Let the order
 exercises = {
 
-# Back.
 'assisted_chin_up_(machine)':['5160', 'biceps',  'back'],
 'back_extension':['5122', 'back'],
 'back_extension_(machine)':['5156', 'back'],
@@ -11,7 +10,7 @@ exercises = {
 'bent_over_row_(dumbbell)':['4087', 'back'],
 'bent_over_row_(dumbbell_single_arm)':['5052', 'back'],
 'bent_over_row_(machine)':['3100', 'back'],
-'deadlift_(barbell)':['139', 'legs',  'back'],
+'stiff_leg_deadlift_(barbell)':['2139', 'legs',  'back'],
 'high_standing_row_(cable)':['4071', 'back'],
 'inverted_pull_up_(under_grip)':['5002', 'back'], 
 'lat_pulldown_(cable_close_grip)':['4053', 'back'],
@@ -28,8 +27,8 @@ exercises = {
 'seated_row_(iso-lateral_machine)':['3124', 'back'],
 'seated_row_(machine)':['1143', 'back'],
 'straight_arm_pulldown_(cable)':['3133', 'back'],
+'deadlift_(barbell)':['1'],
 
-# Biceps.
 'bicep_curl_(barbell)':['1125', 'biceps'],
 'bicep_curl_(cable)':['3150', 'biceps'],
 'bicep_curl_(dumbbell)':['1057', 'biceps'],
@@ -47,7 +46,6 @@ exercises = {
 'standing_overhead_curl_(cable)':['5001', 'biceps'], 
 'two_handed_plate_curl':['5102', 'biceps'],
 
-# Chest.
 'assisted_dip_(machine)':['5089', 'triceps',  'chest'],
 'bench_press_(barbell)':['35', 'chest'],
 'bench_press_(close_grip)':['4120', 'chest',  'triceps'],
@@ -73,7 +71,6 @@ exercises = {
 'pull_over_(barbell)':['5012','chest'], 
 'pull_over_(dumbbell)':['3146', 'chest'],
 
-# Shoulders
 'arnold_press_(dumbbell)':['3037', 'shoulders'],
 'bent_over_reverse_fly_(cable)':['5104', 'back',  'shoulders'],
 'bent_over_reverse_fly_(dumbbell)':['5058', 'back',  'shoulders'],
@@ -97,7 +94,6 @@ exercises = {
 'front_raise_(dumbbell_two-handed)':['5011','shoulders'], 
 'upright_row_(barbell)':['2008','shoulders'], 
 
-# Legs.
 'calf_raise_(dumbbell)':['2144', 'legs'],
 'calf_raise_(hack_squat_machine)':['4163','legs'],
 'calf_raise_(leg_press_machine)':['3110', 'legs'],
@@ -119,14 +115,14 @@ exercises = {
 'standing_straight_leg_kickback_(cable)':['5082', 'legs'],
 'step_up_(dumbbell)':['3115', 'legs'],
 'sumo_squat_(barbell)':['3142', 'legs'],
+'hip_thrust':['2203', 'legs'],
+'bulgarian_split_squat':['2204', 'legs'],
 
-# Cardio.
 'exercise_bike':['5090', 'cardio'],
 'running':['5123', 'cardio'],
 'treadmill':['5126', 'cardio'],
 'skipping':['5157', 'cardio'],
 
-# Core.
 'ab_wheel':['6141', 'core'],
 'bench_v_sit_crunch':['6079', 'core'],
 'burpee':['6003', 'core'], 
@@ -166,7 +162,6 @@ exercises = {
 'straight_leg_kickback':['6148', 'legs',  'core'],
 'v_up':['6093', 'core'],
 
-# Triceps
 'bench_dip':['5134', 'triceps'],
 'overhead_tricep_extension_(dumbbell_single_arm)':['3068', 'triceps'],
 'overhead_tricep_extension_(ez_bar)':['4018', 'triceps'],
@@ -175,7 +170,9 @@ exercises = {
 'seated_tricep_pushdown_(machine)':['5033', 'triceps',  'chest'],
 'skull_crusher_(dumbbell)':['5076', 'triceps'],
 'skull_crusher_(ez_bar)':['1084', 'triceps'],
-'tricep_extension_(cable)':['1121', 'triceps'],
+'tricep_extension_(cable_flat_bar)':['2121', 'triceps'],
+'tricep_extension_(cable_v_bar)':['1201', 'triceps'],
+'tricep_extension_(cable_rope)':['1202', 'triceps'],
 'tricep_extension_(cable_single_arm)':['2016', 'triceps'],
 'tricep_extension_(machine)':['4128', 'triceps'],
 'tricep_kickback_(dumbbell)':['2149', 'triceps'],

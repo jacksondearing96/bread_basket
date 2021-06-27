@@ -12,19 +12,13 @@ class Exercise {
 
   Exercise({required this.id, required this.name, required this.tags}) {
     this._title = makeTitle();
-    List<String> tagsToAdd = [
-      'cable',
-      'machine',
-      'dumbbell',
-      'barbell',
-      'cardio',
-      'ez bar'
-    ];
-    for (var tag in tagsToAdd) {
+
+    for (var tag in Constants.equipmentTypes) {
       if (name.contains(tag)) tags.add(tag);
     }
     this._subtitle = makeSubtitle();
-    if (tagsToAdd.contains(this._subtitle.toLowerCase())) this._subtitle = '';
+    if (Constants.equipmentTypes.contains(this._subtitle.toLowerCase()))
+      this._subtitle = '';
 
     this._image = Image.asset('resources/exercise_images/${this.name}.png');
     this._equipmentTypeIcon = findExerciseEquipmentTypeIcon();
@@ -51,11 +45,15 @@ class Exercise {
 
   String makeSubtitle() {
     if (!name.contains('(')) return '';
-    return name
-        .substring(name.indexOf('(') + 1, name.length - 1)
-        .split('_')
-        .map((word) => capitalize(word))
-        .join(' ');
+    List<String> subtitleWords =
+        name.substring(name.indexOf('(') + 1, name.length - 1).split('_');
+    if (subtitleWords.isEmpty) return '';
+
+    if (Constants.equipmentTypes.contains(subtitleWords[0])) {
+      subtitleWords.removeAt(0);
+    }
+
+    return subtitleWords.map((word) => capitalize(word)).join(' ');
   }
 
   String capitalize(String string) {

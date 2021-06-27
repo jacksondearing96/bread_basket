@@ -12,6 +12,7 @@ class Wrapper extends StatelessWidget {
     // Access the user from the provider stream that we wrapped
     // this class in (inside main.dart).
     final user = Provider.of<User?>(context);
+    DatabaseService().uploadExercises();
 
     return user == null
         ? Authenticate()
