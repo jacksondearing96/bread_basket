@@ -29,48 +29,52 @@ class _WorkoutState extends State<Workout> {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    return Scaffold(
-      backgroundColor: Constants.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Constants.accentColor,
-        elevation: 0.0,
-        title: workoutTitleField(),
-        actions: [
-          TextButton(
-            child: const Text('Finish'),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: TextButton.styleFrom(
-              primary: Constants.textColor,
+    return StreamProvider<List<PerformedWorkout>?>.value(
+      initialData: [],
+      value: DatabaseService(userId: user!.userId).pastExercises,
+      child: Scaffold(
+        backgroundColor: Constants.backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Constants.accentColor,
+          elevation: 0.0,
+          title: workoutTitleField(),
+          actions: [
+            TextButton(
+              child: const Text('Finish'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: TextButton.styleFrom(
+                primary: Constants.textColor,
+              ),
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(15.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                ChangeNotifierProvider(
-                    create: (_) => performedExerciseListProvider,
-                    child: WorkoutExerciseList()),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          abandonButton(context),
-                          completeButton(context, user),
-                          addNewExerciseButton(context)
-                        ]),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(15.0),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  ChangeNotifierProvider(
+                      create: (_) => performedExerciseListProvider,
+                      child: WorkoutExerciseList()),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            abandonButton(context),
+                            completeButton(context, user),
+                            addNewExerciseButton(context)
+                          ]),
+                    ),
                   ),
-                ),
-              ]),
+                ]),
+          ),
         ),
       ),
     );

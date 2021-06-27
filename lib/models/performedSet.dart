@@ -9,6 +9,17 @@ class PerformedSet {
 
   PerformedSet();
 
+  static PerformedSet fromJson(Map<String, dynamic> json, String id) {
+    print('Creating a PerformedSet from json, using: ');
+    print(json);
+    PerformedSet performedSet = PerformedSet();
+    performedSet.id = id;
+    performedSet.setType = json['type']!;
+    performedSet.reps = json['reps']! as int;
+    performedSet.weight = json['weight']! as double;
+    return performedSet;
+  }
+
   void log() {
     print(
         "PERFORMED SET >> weight: $weight, reps: ${this.reps.toString()}, type: $setType");

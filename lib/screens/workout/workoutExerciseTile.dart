@@ -1,8 +1,11 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/models/user.dart';
+import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:provider/provider.dart';
@@ -10,6 +13,7 @@ import 'package:provider/provider.dart';
 class WorkoutExerciseTile extends StatefulWidget {
   final int exerciseIndex;
   final Function removeExerciseCallback;
+
   WorkoutExerciseTile(
       {Key? key,
       required this.exerciseIndex,
@@ -23,6 +27,11 @@ class WorkoutExerciseTile extends StatefulWidget {
 class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   @override
   Widget build(BuildContext context) {
+    String str = '';
+    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+    print('is null: ${pastWorkouts == null}');
+    print('${(pastWorkouts ?? []).length} PAST WORKOUTS DETECTED');
+
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
       Exercise exercise = performedExerciseProvider.exercise.exercise;
@@ -32,17 +41,21 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
           children: <Widget>[
+            Text(str),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  exercise.equipmentTypeIcon == null ? Container() :
-                  Container(
-                      padding: EdgeInsets.all(4.0),
-                      height: 30,
-                      width: 30,
-                      child: Opacity(opacity: Constants.equipmentTypeIconOpacity,child: exercise.equipmentTypeIcon)),
+                  exercise.equipmentTypeIcon == null
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.all(4.0),
+                          height: 30,
+                          width: 30,
+                          child: Opacity(
+                              opacity: Constants.equipmentTypeIconOpacity,
+                              child: exercise.equipmentTypeIcon)),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
