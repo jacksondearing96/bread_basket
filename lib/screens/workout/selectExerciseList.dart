@@ -31,6 +31,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                 title: new TextField(
                   controller: controller,
                   decoration: new InputDecoration(
+                    hintStyle: TextStyle(color: Constants.hintColor),
                       hintText: 'Search', border: InputBorder.none),
                   onChanged: onSearchTextChanged,
                 ),

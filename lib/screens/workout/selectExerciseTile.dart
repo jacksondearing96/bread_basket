@@ -21,14 +21,16 @@ class SelectExerciseTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                isSelected ? exerciseIsSelectedCircle() :
-                  Container(
-                    padding: EdgeInsets.all(4.0),
-                    height: 35,
-                    width: 35,
-                  child: exercise.equipmentTypeIcon
-                  )
-                   ,
+                isSelected
+                    ? exerciseIsSelectedCircle()
+                    : Container(
+                        padding: EdgeInsets.all(4.0),
+                        height: 35,
+                        width: 35,
+                        child: Opacity(
+                            opacity: Constants.equipmentTypeIconOpacity,
+                            child: exercise.equipmentTypeIcon),
+                      ),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),
@@ -37,9 +39,12 @@ class SelectExerciseTile extends StatelessWidget {
                         children: [
                           Text(exercise.title,
                               textAlign: TextAlign.left,
-                              style: TextStyle(fontSize: Constants.selectExerciseFontSize)),
-                          exercise.subtitle != '' ? Text(exercise.subtitle,
-                              style: TextStyle(color: Constants.hintColor)) : Container(),
+                              style: TextStyle(
+                                  fontSize: Constants.selectExerciseFontSize)),
+                          exercise.subtitle != ''
+                              ? Text(exercise.subtitle,
+                                  style: TextStyle(color: Constants.hintColor))
+                              : Container(),
                         ]),
                   ),
                 ),
@@ -63,6 +68,4 @@ class SelectExerciseTile extends StatelessWidget {
         radius: Constants.exerciseTypeIconWidth,
         backgroundColor: isSelected ? Constants.accentColor : Colors.grey);
   }
-
-
 }

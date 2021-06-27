@@ -40,9 +40,9 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                   exercise.equipmentTypeIcon == null ? Container() :
                   Container(
                       padding: EdgeInsets.all(4.0),
-                      height: 35,
-                      width: 35,
-                      child: exercise.equipmentTypeIcon),
+                      height: 30,
+                      width: 30,
+                      child: Opacity(opacity: Constants.equipmentTypeIconOpacity,child: exercise.equipmentTypeIcon)),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),

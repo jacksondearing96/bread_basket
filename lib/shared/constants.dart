@@ -38,8 +38,10 @@ class Constants {
   static const double exerciseTypeIconWidth = 15.0;
   static const double selectExerciseImageWidth = 120.0;
   static const double selectExerciseImageHeight = 80.0;
-    static const double workoutExerciseImageWidth = 90.0;
+  static const double workoutExerciseImageWidth = 90.0;
   static const double workoutExerciseImageHeight = 60.0;
+
+  static const double equipmentTypeIconOpacity = 0.4;
 
   static const String warmUpCode = 'W';
   static const String dropSetCode = 'D';
