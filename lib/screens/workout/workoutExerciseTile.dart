@@ -57,6 +57,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       for (var set in mostRecentSetsOfExercise) {
         print('${set.setType}: ${set.reps} x ${set.weight}');
       }
+      print('_');
 
       return Card(
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
@@ -105,20 +106,12 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: 330.0,
-                    minWidth: 330.0,
-                    maxHeight: 150,
-                    minHeight: 0.0,
-                  ),
-                  child: ChangeNotifierProvider.value(
-                    value: performedExerciseProvider,
-                    child: ProgressGraph(
-                        pastWorkouts: pastWorkouts, exerciseId: exercise.id),
-                  )),
-            ),
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                child: ChangeNotifierProvider.value(
+                  value: performedExerciseProvider,
+                  child: ProgressGraph(
+                      pastWorkouts: pastWorkouts, exerciseId: exercise.id),
+                )),
             _header(),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
