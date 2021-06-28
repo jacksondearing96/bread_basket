@@ -27,8 +27,14 @@ class DatabaseService {
     return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
   }
 
-  void saveWorkout(PerformedWorkout workout) {
-    broCollection.doc(userId).update(workout.toJson());
+  Future saveWorkout(PerformedWorkout workout) async {
+    try {
+      return await broCollection.doc(userId).update(workout.toJson());
+    } catch (e) {
+      print('Failed to save workout to firebase');
+      print(e.toString());
+      return null;
+    }
   }
 
   List<PerformedWorkout> _workoutsFromJson(Map<String, Object?> json) {

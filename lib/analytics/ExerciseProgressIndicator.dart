@@ -28,7 +28,7 @@ class ExerciseProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return prevSets.isEmpty ? Container() : Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

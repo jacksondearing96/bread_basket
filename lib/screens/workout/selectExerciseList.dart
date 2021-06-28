@@ -28,21 +28,24 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
           child: new Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: Ink(
-              color: Colors.transparent, 
+              color: Colors.transparent,
               child: new ListTile(
-                leading: new Icon(Icons.search),
+                leading: new Icon(Icons.search, color: Constants.hintColor),
                 title: new TextField(
                   style: TextStyle(color: Constants.textColor),
                   controller: controller,
                   decoration: new InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Constants.hintColor, width: 1.0)),
                     filled: false,
                     hintStyle: TextStyle(color: Constants.hintColor),
-                      hintText: 'Search', 
-                      ),
+                    hintText: 'Search',
+                  ),
                   onChanged: onSearchTextChanged,
                 ),
                 trailing: new IconButton(
-                  icon: new Icon(Icons.cancel),
+                  icon: new Icon(Icons.cancel, color: Constants.hintColor),
                   onPressed: () {
                     controller.clear();
                     onSearchTextChanged('');

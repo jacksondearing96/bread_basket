@@ -68,6 +68,8 @@ class ProgressGraph extends StatelessWidget {
                   ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
             }
             return Container(
+            width: 330.0,
+            height: 150,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(8),
@@ -79,13 +81,16 @@ class ProgressGraph extends StatelessWidget {
                   child: LineChart(
                     LineChartData(
                       lineTouchData: LineTouchData(
-                        getTouchedSpotIndicator:
-                            (LineChartBarData barData, List<int> spotIndexes) {
+                        getTouchedSpotIndicator: (LineChartBarData barData,
+                            List<int> spotIndexes) {
                           return spotIndexes.map((spotIndex) {
                             return TouchedSpotIndicatorData(
-                              FlLine(color: Constants.accentColor, strokeWidth: 2),
+                              FlLine(
+                                  color: Constants.accentColor,
+                                  strokeWidth: 2),
                               FlDotData(
-                                getDotPainter: (spot, percent, barData, index) {
+                                getDotPainter:
+                                    (spot, percent, barData, index) {
                                   return FlDotCirclePainter(
                                       radius: 3,
                                       color: Colors.white,
@@ -165,7 +170,8 @@ class ProgressGraph extends StatelessWidget {
                       borderData: FlBorderData(
                           show: true,
                           border: Border.all(
-                              color: Constants.progressGraphBorderColor, width: 1)),
+                              color: Constants.progressGraphBorderColor,
+                              width: 1)),
                       lineBarsData: [
                         LineChartBarData(
                           spots: bestSets
@@ -183,8 +189,8 @@ class ProgressGraph extends StatelessWidget {
                             getDotPainter: (spot, percent, barData, index) =>
                                 FlDotCirclePainter(
                                     radius: 4.0,
-                                    color:
-                                        Constants.accentColor.withOpacity(0.6)),
+                                    color: Constants.accentColor
+                                        .withOpacity(0.6)),
                           ),
                           belowBarData: BarAreaData(
                             show: true,

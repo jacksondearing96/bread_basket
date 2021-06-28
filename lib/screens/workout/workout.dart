@@ -8,6 +8,7 @@ import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
 import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -25,59 +26,74 @@ class _WorkoutState extends State<Workout> {
   String workoutName = 'New Workout';
   PerformedExerciseListProvider performedExerciseListProvider =
       new PerformedExerciseListProvider();
+  bool isCurrentlySaving = false;
 
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    return StreamProvider<List<PerformedWorkout>?>.value(
-      initialData: [],
-      value: DatabaseService(userId: user!.userId).pastWorkouts,
-      child: Scaffold(
-        backgroundColor: Constants.backgroundColor,
-        appBar: AppBar(
-          backgroundColor: Constants.accentColor,
-          elevation: 0.0,
-          title: workoutTitleField(),
-          actions: [
-            TextButton(
-              child: const Text('Finish'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              style: TextButton.styleFrom(
-                primary: Constants.textColor,
-              ),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(15.0),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  ChangeNotifierProvider(
-                      create: (_) => performedExerciseListProvider,
-                      child: WorkoutExerciseList()),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            abandonButton(context),
-                            completeButton(context, user),
-                            addNewExerciseButton(context)
-                          ]),
+    bool isLoading = false;
+
+    void startLoading() {
+      setState(() => isLoading = true);
+    }
+
+    void endLoading() {
+      setState(() => isLoading = false);
+    }
+
+    return isLoading
+        ? Loading()
+        : StreamProvider<List<PerformedWorkout>?>.value(
+            initialData: [],
+            value: DatabaseService(userId: user!.userId).pastWorkouts,
+            child: Scaffold(
+              backgroundColor: Constants.backgroundColor,
+              appBar: AppBar(
+                backgroundColor: Constants.accentColor,
+                elevation: 0.0,
+                title: workoutTitleField(),
+                actions: [
+                  TextButton(
+                    child: const Text('Finish'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Constants.textColor,
                     ),
                   ),
-                ]),
-          ),
-        ),
-      ),
-    );
+                ],
+              ),
+              body: SingleChildScrollView(
+                child: Container(
+                  margin: const EdgeInsets.all(15.0),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        ChangeNotifierProvider(
+                            create: (_) => performedExerciseListProvider,
+                            child: WorkoutExerciseList()),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  abandonButton(context),
+                                  completeButton(
+                                      context, user, startLoading, endLoading),
+                                  addNewExerciseButton(context)
+                                ]),
+                          ),
+                        ),
+                      ]),
+                ),
+              ),
+            ),
+          );
   }
 
   TextFormField workoutTitleField() {
@@ -105,12 +121,13 @@ class _WorkoutState extends State<Workout> {
     );
   }
 
-  FloatingActionButton completeButton(BuildContext context, User? user) {
+  FloatingActionButton completeButton(BuildContext context, User? user,
+      Function startLoading, Function endLoading) {
     return FloatingActionButton(
       heroTag: UniqueKey(),
       child: Icon(Icons.check_outlined),
       tooltip: 'Complete',
-      onPressed: () => completeWorkout(context, user),
+      onPressed: () => completeWorkout(context, user, startLoading, endLoading),
       backgroundColor: Colors.green,
     );
   }
@@ -125,7 +142,8 @@ class _WorkoutState extends State<Workout> {
     );
   }
 
-  Future<String?> completeWorkout(BuildContext context, User? user) {
+  Future<String?> completeWorkout(BuildContext context, User? user,
+      Function startLoading, Function endLoading) {
     return showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -136,7 +154,8 @@ class _WorkoutState extends State<Workout> {
             child: const Text('Keep working out'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              startLoading();
               widget.performedWorkout.performedExercises =
                   performedExerciseListProvider.exercises
                       .map((performedExerciseProvider) =>
@@ -148,6 +167,7 @@ class _WorkoutState extends State<Workout> {
               }
               Navigator.pop(context);
               Navigator.pop(context);
+              endLoading();
             },
             child:
                 const Text('Complete', style: TextStyle(color: Colors.green)),
