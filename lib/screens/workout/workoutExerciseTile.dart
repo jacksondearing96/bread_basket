@@ -63,7 +63,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -71,8 +71,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                       ? Container()
                       : Container(
                           padding: EdgeInsets.all(4.0),
-                          height: 30,
-                          width: 30,
+                          height: 40,
+                          width: 40,
                           child: Opacity(
                               opacity: Constants.equipmentTypeIconOpacity,
                               child: exercise.equipmentTypeIcon)),
@@ -106,9 +106,13 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: SizedBox(
-                  width: 330.0,
-                  height: 150,
+              child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: 330.0,
+                    minWidth: 330.0,
+                    maxHeight: 150,
+                    minHeight: 0.0,
+                  ),
                   child: ChangeNotifierProvider.value(
                     value: performedExerciseProvider,
                     child: ProgressGraph(

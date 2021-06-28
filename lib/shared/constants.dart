@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const Color backgroundColor = Color.fromARGB(255, 40, 40, 40);
+  static Color backgroundColor = Color.fromARGB(255, 20, 20, 20);
+  static Color lighterBackground =
+      Color.fromARGB(255, 255, 255, 255).withOpacity(0.9);
   static const Color accentColor = Colors.blueAccent;
   static const Color textColor = Colors.white;
   static const Color hintColor = Colors.grey;
@@ -10,6 +12,16 @@ class Constants {
   static const Color dropSetSetTypeColor = Colors.purple;
   static const Color failureSetTypeColor = Colors.red;
   static const Color normalSetTypeColor = Colors.black;
+
+  // Progress graph dark theme.
+  // static const Color progressGraphBackgroundColor = Color(0xff232d37);
+  // static const Color progressGraphGridLineColor = Color(0xff37434d);
+  // static const Color progressGraphBorderColor = Color(0xff37434d);
+
+  // Progress graph light theme.
+  static const Color progressGraphBackgroundColor = Colors.white;
+  static Color progressGraphGridLineColor = Color.fromARGB(255, 244, 244, 244);
+  static const Color progressGraphBorderColor = Color.fromARGB(255, 230,230,230);
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),

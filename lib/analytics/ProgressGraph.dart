@@ -72,7 +72,7 @@ class ProgressGraph extends StatelessWidget {
                   borderRadius: BorderRadius.all(
                     Radius.circular(8),
                   ),
-                  color: Color(0xff232d37)),
+                  color: Constants.progressGraphBackgroundColor),
               child: Padding(
                   padding: const EdgeInsets.only(
                       right: 18.0, left: 12.0, top: 24, bottom: 16),
@@ -83,7 +83,7 @@ class ProgressGraph extends StatelessWidget {
                             (LineChartBarData barData, List<int> spotIndexes) {
                           return spotIndexes.map((spotIndex) {
                             return TouchedSpotIndicatorData(
-                              FlLine(color: Colors.blue, strokeWidth: 2),
+                              FlLine(color: Constants.accentColor, strokeWidth: 2),
                               FlDotData(
                                 getDotPainter: (spot, percent, barData, index) {
                                   return FlDotCirclePainter(
@@ -135,13 +135,13 @@ class ProgressGraph extends StatelessWidget {
                         horizontalInterval: verticalInterval,
                         getDrawingHorizontalLine: (value) {
                           return FlLine(
-                            color: const Color(0xff37434d),
+                            color: Constants.progressGraphGridLineColor,
                             strokeWidth: 1,
                           );
                         },
                         getDrawingVerticalLine: (value) {
                           return FlLine(
-                            color: const Color(0xff37434d),
+                            color: Constants.progressGraphGridLineColor,
                             strokeWidth: 1,
                           );
                         },
@@ -165,7 +165,7 @@ class ProgressGraph extends StatelessWidget {
                       borderData: FlBorderData(
                           show: true,
                           border: Border.all(
-                              color: const Color(0xff37434d), width: 1)),
+                              color: Constants.progressGraphBorderColor, width: 1)),
                       lineBarsData: [
                         LineChartBarData(
                           spots: bestSets
