@@ -33,6 +33,18 @@ class PerformedExerciseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  PerformedSet? bestSet() {
+    PerformedSet? best;
+    double bestWeight = 0;
+    for (var performedSet in performedExercise.sets) {
+      if (performedSet.weight > bestWeight) {
+        best = performedSet;
+        bestWeight = performedSet.weight;
+      }
+    }
+    return best;
+  }
+
   @override
   void dispose() {
     print('DISPOSING OF performedExerciseProvider !!!');

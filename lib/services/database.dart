@@ -38,6 +38,7 @@ class DatabaseService {
       workouts.add(
           PerformedWorkout.fromJson(json[id]! as Map<String, Object?>, id));
     }
+    workouts.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
     return workouts;
   }
 

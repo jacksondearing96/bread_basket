@@ -41,6 +41,8 @@ class Constants {
   static const double selectExerciseImageHeight = 80.0;
   static const double workoutExerciseImageWidth = 90.0;
   static const double workoutExerciseImageHeight = 60.0;
+  static const double progressIndicatorIconWidth = 20.0;
+  static const double progressIndicatorIconHeight = 20.0;
 
   static const double equipmentTypeIconOpacity = 0.4;
 
@@ -63,4 +65,7 @@ class Constants {
     'machine': Image.asset('resources/icons/cog.png'),
     'ez_bar': Image.asset('resources/icons/ez_bar.png')
   };
+
+  static Image weightIcon = Image.asset('resources/icons/weight.png');
+  static Image sigmaIcon = Image.asset('resources/icons/sigma.png');
 }

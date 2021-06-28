@@ -26,6 +26,10 @@ class PerformedSet {
     return str;
   }
 
+  double volume() {
+    return reps * weight;
+  }
+
   void log() {
     print(
         "PERFORMED SET >> weight: $weight, reps: ${this.reps.toString()}, type: $setType");

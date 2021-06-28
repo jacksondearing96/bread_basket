@@ -1,3 +1,5 @@
+import 'package:bread_basket/analytics/ExerciseProgressIndicator.dart';
+import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
@@ -26,11 +28,11 @@ class WorkoutExerciseTile extends StatefulWidget {
 }
 
 class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
-  List<PerformedSet> _findPreviousSets(
+  List<PerformedSet> _findMostRecentSetsOfExercise(
       List<PerformedWorkout>? prevWorkouts, Exercise exercise) {
     if (prevWorkouts == null) return [];
 
-    for (PerformedWorkout prevWorkout in prevWorkouts) {
+    for (PerformedWorkout prevWorkout in prevWorkouts.reversed.toList()) {
       for (PerformedExercise prevExercise in prevWorkout.performedExercises) {
         if (prevExercise.exercise.id == exercise.id) {
           return prevExercise.sets;
@@ -42,18 +44,17 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
 
   @override
   Widget build(BuildContext context) {
-    String str = '';
     final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
-    print('is null: ${pastWorkouts == null}');
-    print('${(pastWorkouts ?? []).length} PAST WORKOUTS DETECTED');
 
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
       Exercise exercise = performedExerciseProvider.exercise.exercise;
       List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
-      List<PerformedSet> prevSets = _findPreviousSets(pastWorkouts, exercise);
-      print('Previous sets for this exercise are: ');
-      for (var set in prevSets) {
+      List<PerformedSet> mostRecentSetsOfExercise =
+          _findMostRecentSetsOfExercise(pastWorkouts, exercise);
+
+      print('Previous best sets for this exercise from all workouts are: ');
+      for (var set in mostRecentSetsOfExercise) {
         print('${set.setType}: ${set.reps} x ${set.weight}');
       }
 
@@ -61,7 +62,6 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
           children: <Widget>[
-            Text(str),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
@@ -104,6 +104,17 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 ],
               ),
             ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
+              child: SizedBox(
+                  width: 330.0,
+                  height: 150,
+                  child: ChangeNotifierProvider.value(
+                    value: performedExerciseProvider,
+                    child: ProgressGraph(
+                        pastWorkouts: pastWorkouts, exerciseId: exercise.id),
+                  )),
+            ),
             _header(),
             ListView.builder(
               physics: NeverScrollableScrollPhysics(),
@@ -129,7 +140,12 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                         performedExerciseProvider.removeSet(index),
                     child: ChangeNotifierProvider.value(
                       value: performedExerciseProvider,
-                      child: WorkoutSet(key: UniqueKey(), setIndex: index, prevSet: prevSets.length > index ? prevSets[index] : null),
+                      child: WorkoutSet(
+                          key: UniqueKey(),
+                          setIndex: index,
+                          prevSet: mostRecentSetsOfExercise.length > index
+                              ? mostRecentSetsOfExercise[index]
+                              : null),
                     ));
               },
             ),
@@ -139,6 +155,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _removeExerciseButton(),
+                  ExerciseProgressIndicator(
+                      prevSets: mostRecentSetsOfExercise, currentSets: sets),
                   _addNewSetButton(performedExerciseProvider.addSet),
                 ],
               ),
