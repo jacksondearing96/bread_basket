@@ -1,4 +1,5 @@
 import 'package:bread_basket/models/exercise.dart';
+import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/models/workout.dart';
@@ -25,6 +26,20 @@ class WorkoutExerciseTile extends StatefulWidget {
 }
 
 class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
+  List<PerformedSet> _findPreviousSets(
+      List<PerformedWorkout>? prevWorkouts, Exercise exercise) {
+    if (prevWorkouts == null) return [];
+
+    for (PerformedWorkout prevWorkout in prevWorkouts) {
+      for (PerformedExercise prevExercise in prevWorkout.performedExercises) {
+        if (prevExercise.exercise.id == exercise.id) {
+          return prevExercise.sets;
+        }
+      }
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     String str = '';
@@ -36,6 +51,11 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         builder: (context, performedExerciseProvider, child) {
       Exercise exercise = performedExerciseProvider.exercise.exercise;
       List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
+      List<PerformedSet> prevSets = _findPreviousSets(pastWorkouts, exercise);
+      print('Previous sets for this exercise are: ');
+      for (var set in prevSets) {
+        print('${set.setType}: ${set.reps} x ${set.weight}');
+      }
 
       return Card(
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
@@ -109,7 +129,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                         performedExerciseProvider.removeSet(index),
                     child: ChangeNotifierProvider.value(
                       value: performedExerciseProvider,
-                      child: WorkoutSet(key: UniqueKey(), setIndex: index),
+                      child: WorkoutSet(key: UniqueKey(), setIndex: index, prevSet: prevSets.length > index ? prevSets[index] : null),
                     ));
               },
             ),
@@ -143,6 +163,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       children: [
         Container(
             width: Constants.workoutSetTypeDropdownWidth, child: Text('Set')),
+        Container(width: Constants.prevSetWidth, child: Text('Prev')),
         Container(width: Constants.workoutSetInputWidth, child: Text('Weight')),
         Container(
             width: Constants.workoutSetInputWidth,

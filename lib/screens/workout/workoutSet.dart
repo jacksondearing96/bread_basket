@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 
 class WorkoutSet extends StatefulWidget {
   int setIndex;
+  PerformedSet? prevSet;
 
-  WorkoutSet({Key? key, required this.setIndex}) : super(key: key);
+  WorkoutSet({Key? key, required this.setIndex, this.prevSet})
+      : super(key: key);
 
   @override
   _WorkoutSetState createState() => _WorkoutSetState();
@@ -38,6 +40,15 @@ class _WorkoutSetState extends State<WorkoutSet> {
                 ChangeNotifierProvider.value(
                   value: performedExerciseProvider,
                   child: WorkoutSetTypeDropdown(setIndex: widget.setIndex),
+                ),
+                Container(
+                  width: Constants.prevSetWidth,
+                  child: widget.prevSet == null
+                      ? Container()
+                      : Text(
+                          '${widget.prevSet!.reps} x ${widget.prevSet!.getWeightString()}kg',
+                          style: TextStyle(color: Constants.hintColor),
+                        ),
                 ),
                 Container(
                   width: Constants.workoutSetInputWidth,
@@ -85,6 +96,8 @@ class _WorkoutSetState extends State<WorkoutSet> {
       );
     });
   }
+
+
 
   void updateSet(Function providerUpdateSet, PerformedSet performedSet) {
     for (var focusNode in [weightFocusNode, repsFocusNode]) {

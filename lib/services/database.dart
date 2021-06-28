@@ -49,7 +49,8 @@ class DatabaseService {
     return json;
   }
 
-  Stream<List<PerformedWorkout>?> get pastExercises {
+  Stream<List<PerformedWorkout>?> get pastWorkouts {
+    print('Fetching past workouts');
     return FirebaseFirestore.instance
         .collection('bros')
         .doc(userId)

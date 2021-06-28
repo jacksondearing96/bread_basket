@@ -31,7 +31,7 @@ class _WorkoutState extends State<Workout> {
 
     return StreamProvider<List<PerformedWorkout>?>.value(
       initialData: [],
-      value: DatabaseService(userId: user!.userId).pastExercises,
+      value: DatabaseService(userId: user!.userId).pastWorkouts,
       child: Scaffold(
         backgroundColor: Constants.backgroundColor,
         appBar: AppBar(

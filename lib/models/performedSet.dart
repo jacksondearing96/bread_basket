@@ -20,6 +20,12 @@ class PerformedSet {
     return performedSet;
   }
 
+  String getWeightString() {
+    String str = weight.toString();
+    str = str.replaceAll('.0', '');
+    return str;
+  }
+
   void log() {
     print(
         "PERFORMED SET >> weight: $weight, reps: ${this.reps.toString()}, type: $setType");

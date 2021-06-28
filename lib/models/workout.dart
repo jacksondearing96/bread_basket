@@ -24,6 +24,7 @@ class PerformedWorkout {
   }
 
   Map<String, Object?> toJson() {
+    // TODO: Separate this work into each class.
     Map<String, dynamic> workoutData = {
       'name': name,
       'exercises': {},
@@ -37,7 +38,7 @@ class PerformedWorkout {
       };
       for (var set in exercise.sets) {
         // Skip empty sets.
-        if (set.weight == 0 && set.reps == 0) continue;
+        if (set.reps == 0) continue;
 
         exerciseData['sets'][set.id] = {
           'type': set.setType,

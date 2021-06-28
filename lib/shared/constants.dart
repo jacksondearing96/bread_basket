@@ -35,6 +35,7 @@ class Constants {
 
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 45.0;
+  static const double prevSetWidth = 80.0;
   static const double exerciseTypeIconWidth = 15.0;
   static const double selectExerciseImageWidth = 120.0;
   static const double selectExerciseImageHeight = 80.0;

@@ -22,14 +22,6 @@ class _WorkoutExerciseListState extends State<WorkoutExerciseList> {
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
 
-    List<PerformedSet> _findLastSetsForExercise(String exerciseId) {
-      // if (pastWorkouts == null) return [];
-      // for (String workoutId in pastWorkouts.keys) {
-
-      // } 
-      return [];
-    }
-
     return Consumer<PerformedExerciseListProvider>(
       builder: (context, performedExerciseListProvider, child) =>
           ListView.builder(
@@ -38,11 +30,6 @@ class _WorkoutExerciseListState extends State<WorkoutExerciseList> {
               shrinkWrap: true,
               itemCount: performedExerciseListProvider.exercises.length,
               itemBuilder: (context, index) {
-                PerformedExercise performedExercise =
-                    performedExerciseListProvider.exercises[index].exercise;
-                List<PerformedSet> lastSets =
-                    _findLastSetsForExercise(performedExercise.exercise.id);
-
                 return Container(
                     child: ChangeNotifierProvider.value(
                   value: performedExerciseListProvider.exercises[index],
