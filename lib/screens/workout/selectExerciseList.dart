@@ -30,11 +30,18 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
             child: Ink(
               color: Colors.transparent,
               child: new ListTile(
-                leading: new Icon(Icons.search, color: Constants.hintColor),
                 title: new TextField(
                   style: TextStyle(color: Constants.textColor),
                   controller: controller,
                   decoration: new InputDecoration(
+                    prefixIcon: Icon(Icons.search, color: Constants.hintColor),
+                    suffixIcon: IconButton(
+                      icon: new Icon(Icons.cancel, color: Constants.hintColor),
+                      onPressed: () {
+                        controller.clear();
+                        onSearchTextChanged('');
+                      },
+                    ),
                     enabledBorder: UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Constants.hintColor, width: 1.0)),
@@ -43,13 +50,6 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                     hintText: 'Search',
                   ),
                   onChanged: onSearchTextChanged,
-                ),
-                trailing: new IconButton(
-                  icon: new Icon(Icons.cancel, color: Constants.hintColor),
-                  onPressed: () {
-                    controller.clear();
-                    onSearchTextChanged('');
-                  },
                 ),
               ),
             ),

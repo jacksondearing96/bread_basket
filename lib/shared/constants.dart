@@ -82,4 +82,5 @@ class Constants {
 
   static Image weightIcon = Image.asset('resources/icons/weight.png');
   static Image sigmaIcon = Image.asset('resources/icons/sigma.png');
+  static Image backgroundImage = Image.asset('resources/icons/background.png');
 }

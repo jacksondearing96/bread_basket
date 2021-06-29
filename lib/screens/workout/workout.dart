@@ -12,6 +12,8 @@ import 'package:bread_basket/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
+import 'package:intl/intl.dart';
 
 class Workout extends StatefulWidget {
   final List<Exercise> exercises;
@@ -39,28 +41,68 @@ class _WorkoutState extends State<Workout> {
   }
 
   void save(User? user) async {
-    if (user != null) {
-      startLoading();
-      widget.performedWorkout.performedExercises = performedExerciseListProvider
-          .exercises
-          .map(
-              (performedExerciseProvider) => performedExerciseProvider.exercise)
-          .toList();
-      if (widget.performedWorkout.performedExercises.isEmpty) {
-        endLoading();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Your workout is empty! Nothing to save.'),
-        ));
-        return;
-      }
-      await DatabaseService(userId: user.userId)
-          .saveWorkout(widget.performedWorkout);
+    if (user == null) return;
+    startLoading();
+    widget.performedWorkout.performedExercises = performedExerciseListProvider
+        .exercises
+        .map((performedExerciseProvider) => performedExerciseProvider.exercise)
+        .toList();
+    if (widget.performedWorkout.performedExercises.isEmpty) {
+      endLoading();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Your workout is empty! Nothing to save.'),
+      ));
+      return;
+    }
+    dynamic saveSuceeded = await DatabaseService(userId: user.userId)
+        .saveWorkout(widget.performedWorkout);
+    if (saveSuceeded) {
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Successfully saved workout.'),
+      ));
+    } else {
+      endLoading();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to save workout.'),
+      ));
     }
   }
 
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
+
+    DateTime selectedDate = DateTime.now();
+    final DateFormat dateFormatter = DateFormat('EEEE d MMMM, y');
+
+    Future<void> _selectDate(BuildContext context) async {
+      final DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: DateTime(2015, 8),
+          lastDate: DateTime(2101));
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+          widget.performedWorkout.dateInMilliseconds =
+              selectedDate.millisecondsSinceEpoch +
+                  (new Random()).nextInt(1000);
+        });
+    }
+
+    Widget _datePicker() {
+      return GestureDetector(
+        onTap: () => _selectDate(context),
+        child: Row(
+          children: [
+            Icon(Icons.calendar_today, color: Constants.accentColor),
+            SizedBox(width: 20),
+            Text(dateFormatter.format(selectedDate.toLocal()),
+                style: TextStyle(fontSize: 16.0, color: Constants.textColor)),
+          ],
+        ),
+      );
+    }
 
     return isLoading
         ? Loading()
@@ -78,8 +120,7 @@ class _WorkoutState extends State<Workout> {
                 title: workoutTitleField(),
                 actions: [
                   TextButton(
-                    child: Icon(Icons.check_circle,
-                        color: Constants.darkIconColor),
+                    child: Icon(Icons.check_circle, color: Colors.white),
                     onPressed: () => completeWorkout(context, user, save),
                     style: TextButton.styleFrom(
                       primary: Constants.textColor,
@@ -94,6 +135,7 @@ class _WorkoutState extends State<Workout> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
+                        _datePicker(),
                         ChangeNotifierProvider(
                             create: (_) => performedExerciseListProvider,
                             child: WorkoutExerciseList()),
@@ -134,6 +176,7 @@ class _WorkoutState extends State<Workout> {
       onPressed: () => _navigateToSelectExercise(context),
       tooltip: 'New exercise',
       child: Icon(Icons.add),
+      backgroundColor: Constants.accentColor,
     );
   }
 

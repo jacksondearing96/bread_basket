@@ -62,12 +62,12 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       decoration:
                           Constants.setInputDecoration.copyWith(hintText: 'kg'),
                       validator: isAValidNumber,
-                      onChanged: (val) {
-                        setState(() => performedSet.weight = double.parse(val));
-                        updateSet(
-                            performedExerciseProvider.updateSet, performedSet);
-                        // performedExerciseProvider.updateSet(
-                        //     widget.setIndex, performedSet);
+                      onChanged: (val) =>
+                          performedSet.weight = double.parse(val),
+                      onEditingComplete: () {
+                        setState(() {});
+                        performedExerciseProvider.updateSet(
+                            widget.setIndex, performedSet);
                       }),
                 ),
                 Container(
@@ -96,8 +96,6 @@ class _WorkoutSetState extends State<WorkoutSet> {
       );
     });
   }
-
-
 
   void updateSet(Function providerUpdateSet, PerformedSet performedSet) {
     for (var focusNode in [weightFocusNode, repsFocusNode]) {

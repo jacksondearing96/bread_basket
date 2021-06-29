@@ -2,6 +2,7 @@ import 'package:bread_basket/models/performedExercise.dart';
 
 class PerformedWorkout {
   String id = DateTime.now().millisecondsSinceEpoch.toString();
+  int dateInMilliseconds = DateTime.now().millisecondsSinceEpoch;
   PerformedWorkout();
 
   List<PerformedExercise> performedExercises = [];
@@ -12,6 +13,7 @@ class PerformedWorkout {
     print(json);
     PerformedWorkout workout = PerformedWorkout();
     workout.name = json['name']! as String;
+    workout.dateInMilliseconds = json['dateInMilliseconds']! as int;
     workout.id = id;
 
     Map<String, Object?> exercisesJson =
@@ -27,6 +29,7 @@ class PerformedWorkout {
     // TODO: Separate this work into each class.
     Map<String, dynamic> workoutData = {
       'name': name,
+      'dateInMilliseconds': dateInMilliseconds,
       'exercises': {},
     };
     for (var exercise in performedExercises) {

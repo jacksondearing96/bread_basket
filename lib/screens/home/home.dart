@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
         elevation: 0.0,
         actions: <Widget>[
           TextButton.icon(
-            icon: Icon(Icons.person, color: Constants.textColor),
+            icon: Icon(Icons.logout, color: Constants.textColor),
             onPressed: () async {
               await _auth.signOut();
             },
@@ -33,44 +33,64 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton.icon(
-              icon: Icon(
-                Icons.fitness_center,
-                color: Constants.textColor,
+            Container(
+              padding: EdgeInsets.fromLTRB(0, 120, 0, 50),
+              height: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.fitness_center,
+                      color: Constants.textColor,
+                    ),
+                    label: Text(
+                      'New workout',
+                      style: TextStyle(color: Constants.textColor),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return Workout(exercises: exercises);
+                      }));
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: Constants.accentColor,
+                      primary: Constants.textColor),
+                  ),
+                  ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.history,
+                      color: Constants.textColor,
+                    ),
+                    label: Text(
+                      'History (coming soon)',
+                      style: TextStyle(
+                        color: Constants.textColor),
+                    ),
+                    onPressed: () => {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: Constants.accentColor,
+                      primary: Constants.textColor),
+                  ),
+                  ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.insights,
+                      color: Constants.textColor,
+                    ),
+                    label: Text(
+                      'Analytics (coming soon)',
+                      style: TextStyle(color: Constants.textColor),
+                    ),
+                    onPressed: () => {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: Constants.accentColor,
+                      primary: Constants.textColor),
+                  ),
+                ],
               ),
-              label: Text(
-                'New workout',
-                style: TextStyle(color: Constants.textColor),
-              ),
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                       return Workout(exercises: exercises);
-                }));
-              },
-              style: TextButton.styleFrom(primary: Constants.textColor),
             ),
-            ElevatedButton.icon(
-              icon: Icon(
-                Icons.history,
-                color: Constants.textColor,
-              ),
-              label: Text(
-                'History (coming soon)',
-                style: TextStyle(color: Constants.textColor),
-              ),
-              onPressed: () => {},
-            ),
-            ElevatedButton.icon(
-              icon: Icon(
-                Icons.insights,
-                color: Constants.textColor,
-              ),
-              label: Text(
-                'Analytics (coming soon)',
-                style: TextStyle(color: Constants.textColor),
-              ),
-              onPressed: () => {},
-            ),
+            Expanded(child: Align(alignment: Alignment.bottomCenter ,child: Constants.backgroundImage)),
           ],
         ),
       ),

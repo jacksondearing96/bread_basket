@@ -37,6 +37,7 @@ class _SelectExerciseState extends State<SelectExercise> {
         onPressed: () => Navigator.pop(context, selectedExercises),
         tooltip: 'New exercise',
         child: Icon(Icons.check),
+        backgroundColor: Constants.accentColor,
       ),
     );
   }

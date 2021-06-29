@@ -1,6 +1,7 @@
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/screens/wrapper.dart';
 import 'package:bread_basket/services/auth.dart';
+import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,10 @@ class MyApp extends StatelessWidget {
                   }
                 },
                 child: MaterialApp(
+                  theme: ThemeData(
+                    accentColor: Constants.accentColor,
+
+                  ),
                   home: Wrapper(),
                 ),
               ),

@@ -27,14 +27,17 @@ class DatabaseService {
     return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
   }
 
-  Future saveWorkout(PerformedWorkout workout) async {
+  Future<bool> saveWorkout(PerformedWorkout workout) async {
     try {
       await Future.delayed(Duration(milliseconds: 1500));
-      return await broCollection.doc(userId).update(workout.toJson());
+      await broCollection
+          .doc(userId)
+          .set(workout.toJson(), SetOptions(merge: true));
+      return true;
     } catch (e) {
       print('Failed to save workout to firebase');
       print(e.toString());
-      return null;
+      return false;
     }
   }
 
@@ -45,7 +48,15 @@ class DatabaseService {
       workouts.add(
           PerformedWorkout.fromJson(json[id]! as Map<String, Object?>, id));
     }
-    workouts.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    workouts.sort((a, b) {
+      // It's possible for two workouts to have the same date and therefore
+      // dateInMilliseconds. Therefore, default to the time at which the 
+      // digital workout was initialised if date is the same.
+      if (a.dateInMilliseconds == b.dateInMilliseconds) {
+        return int.parse(a.id).compareTo(int.parse(b.id));
+      }
+      return a.dateInMilliseconds.compareTo(b.dateInMilliseconds);
+    });
     return workouts;
   }
 

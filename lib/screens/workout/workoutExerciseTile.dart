@@ -53,12 +53,6 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       List<PerformedSet> mostRecentSetsOfExercise =
           _findMostRecentSetsOfExercise(pastWorkouts, exercise);
 
-      print('Previous best sets for this exercise from all workouts are: ');
-      for (var set in mostRecentSetsOfExercise) {
-        print('${set.setType}: ${set.reps} x ${set.weight}');
-      }
-      print('_');
-
       return Card(
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
@@ -152,8 +146,10 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   _removeExerciseButton(),
-                  ExerciseProgressIndicator(
-                      prevSets: mostRecentSetsOfExercise, currentSets: sets),
+                  Flexible(
+                    child: ExerciseProgressIndicator(
+                        prevSets: mostRecentSetsOfExercise, currentSets: sets),
+                  ),
                   _addNewSetButton(performedExerciseProvider.addSet),
                 ],
               ),
