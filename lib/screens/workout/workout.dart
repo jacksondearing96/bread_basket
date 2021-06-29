@@ -76,17 +76,15 @@ class _WorkoutState extends State<Workout> {
     final DateFormat dateFormatter = DateFormat('EEEE d MMMM, y');
 
     Future<void> _selectDate(BuildContext context) async {
-      final DateTime? picked = await showDatePicker(
+      final DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: selectedDate,
-          firstDate: DateTime(2015, 8),
-          lastDate: DateTime(2101));
-      if (picked != null && picked != selectedDate)
+          firstDate: DateTime(2000),
+          lastDate: DateTime.now());
+      if (pickedDate != null)
         setState(() {
-          selectedDate = picked;
           widget.performedWorkout.dateInMilliseconds =
-              selectedDate.millisecondsSinceEpoch +
-                  (new Random()).nextInt(1000);
+              pickedDate.millisecondsSinceEpoch + (new Random()).nextInt(1000);
         });
     }
 
@@ -97,7 +95,10 @@ class _WorkoutState extends State<Workout> {
           children: [
             Icon(Icons.calendar_today, color: Constants.accentColor),
             SizedBox(width: 20),
-            Text(dateFormatter.format(selectedDate.toLocal()),
+            Text(
+                dateFormatter.format(new DateTime.fromMillisecondsSinceEpoch(
+                        widget.performedWorkout.dateInMilliseconds)
+                    .toLocal()),
                 style: TextStyle(fontSize: 16.0, color: Constants.textColor)),
           ],
         ),
