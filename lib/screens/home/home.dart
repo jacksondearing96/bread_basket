@@ -73,20 +73,7 @@ class Home extends StatelessWidget {
                       backgroundColor: Constants.accentColor,
                       primary: Constants.textColor),
                   ),
-                  ElevatedButton.icon(
-                    icon: Icon(
-                      Icons.insights,
-                      color: Constants.textColor,
-                    ),
-                    label: Text(
-                      'Analytics (coming soon)',
-                      style: TextStyle(color: Constants.textColor),
-                    ),
-                    onPressed: () => {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: Constants.accentColor,
-                      primary: Constants.textColor),
-                  ),
+                 
                 ],
               ),
             ),
