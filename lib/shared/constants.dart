@@ -80,6 +80,26 @@ class Constants {
     'ez_bar': Image.asset('resources/icons/ez_bar.png')
   };
 
+  static const List<String> muscleGroups = [
+    'legs',
+    'chest',
+    'triceps',
+    'biceps',
+    'shoulders',
+    'back',
+    'core',
+  ];
+
+  static const List<Color> pieChartColors = [
+    Color(0xff0293ee),
+    Color(0xfff8b250),
+    Color(0xff845bef),
+    Color(0xff13d38e),
+    Colors.red,
+    Colors.cyan,
+    Colors.yellow
+  ];
+
   static Image weightIcon = Image.asset('resources/icons/weight.png');
   static Image sigmaIcon = Image.asset('resources/icons/sigma.png');
   static Image backgroundImage = Image.asset('resources/icons/background.png');

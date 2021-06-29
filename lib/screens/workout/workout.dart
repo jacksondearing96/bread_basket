@@ -107,48 +107,44 @@ class _WorkoutState extends State<Workout> {
 
     return isLoading
         ? Loading()
-        : StreamProvider<List<PerformedWorkout>?>.value(
-            initialData: [],
-            value: DatabaseService(userId: user!.userId).pastWorkouts,
-            child: Scaffold(
-              backgroundColor: Constants.backgroundColor,
-              appBar: AppBar(
-                leading: TextButton(
-                    child: Icon(Icons.delete, color: Constants.darkIconColor),
-                    onPressed: () => confirmAbandonment(context)),
-                backgroundColor: Constants.accentColor,
-                elevation: 0.0,
-                title: workoutTitleField(),
-                actions: [
-                  TextButton(
-                    child: Icon(Icons.check_circle, color: Colors.white),
-                    onPressed: () => completeWorkout(context, user, save),
-                    style: TextButton.styleFrom(
-                      primary: Constants.textColor,
-                    ),
+        : Scaffold(
+            backgroundColor: Constants.backgroundColor,
+            appBar: AppBar(
+              leading: TextButton(
+                  child: Icon(Icons.delete, color: Constants.darkIconColor),
+                  onPressed: () => confirmAbandonment(context)),
+              backgroundColor: Constants.accentColor,
+              elevation: 0.0,
+              title: workoutTitleField(),
+              actions: [
+                TextButton(
+                  child: Icon(Icons.check_circle, color: Colors.white),
+                  onPressed: () => completeWorkout(context, user, save),
+                  style: TextButton.styleFrom(
+                    primary: Constants.textColor,
                   ),
-                ],
-              ),
-              body: SingleChildScrollView(
-                child: Container(
-                  margin: const EdgeInsets.all(15.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        _datePicker(),
-                        ChangeNotifierProvider(
-                            create: (_) => performedExerciseListProvider,
-                            child: WorkoutExerciseList()),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: addNewExerciseButton(context),
-                          ),
-                        ),
-                      ]),
                 ),
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.all(15.0),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      _datePicker(),
+                      ChangeNotifierProvider(
+                          create: (_) => performedExerciseListProvider,
+                          child: WorkoutExerciseList()),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: addNewExerciseButton(context),
+                        ),
+                      ),
+                    ]),
               ),
             ),
           );

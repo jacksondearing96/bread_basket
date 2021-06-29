@@ -1,3 +1,4 @@
+import 'package:bread_basket/analytics/MuscleGroupPieChart.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -33,6 +34,7 @@ class Home extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            MuscleGroupPieChart(),
             Container(
               padding: EdgeInsets.fromLTRB(0, 120, 0, 50),
               height: 400,
@@ -55,8 +57,8 @@ class Home extends StatelessWidget {
                       }));
                     },
                     style: TextButton.styleFrom(
-                      backgroundColor: Constants.accentColor,
-                      primary: Constants.textColor),
+                        backgroundColor: Constants.accentColor,
+                        primary: Constants.textColor),
                   ),
                   ElevatedButton.icon(
                     icon: Icon(
@@ -65,19 +67,20 @@ class Home extends StatelessWidget {
                     ),
                     label: Text(
                       'History (coming soon)',
-                      style: TextStyle(
-                        color: Constants.textColor),
+                      style: TextStyle(color: Constants.textColor),
                     ),
                     onPressed: () => {},
                     style: TextButton.styleFrom(
-                      backgroundColor: Constants.accentColor,
-                      primary: Constants.textColor),
+                        backgroundColor: Constants.accentColor,
+                        primary: Constants.textColor),
                   ),
-                 
                 ],
               ),
             ),
-            Expanded(child: Align(alignment: Alignment.bottomCenter ,child: Constants.backgroundImage)),
+            Expanded(
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Constants.backgroundImage)),
           ],
         ),
       ),
