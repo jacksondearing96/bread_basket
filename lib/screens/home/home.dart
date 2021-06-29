@@ -1,3 +1,4 @@
+import 'package:bread_basket/analytics/HeatmapCalendar.dart';
 import 'package:bread_basket/analytics/MuscleGroupPieChart.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
@@ -31,13 +32,13 @@ class Home extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MuscleGroupPieChart(),
+            HeatmapCalendar(),
             Container(
               padding: EdgeInsets.fromLTRB(0, 120, 0, 50),
-              height: 400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

@@ -38,13 +38,6 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
       }
     }
 
-    String str = '';
-    for (String muscleGroup in muscleGroupToExerciseCount.keys) {
-      str += '$muscleGroup: ${muscleGroupToExerciseCount[muscleGroup]}\n';
-    }
-
-    print(muscleGroupToExerciseCount);
-
     return AspectRatio(
       aspectRatio: 1.3,
       child: Padding(
