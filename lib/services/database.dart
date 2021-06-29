@@ -29,6 +29,7 @@ class DatabaseService {
 
   Future saveWorkout(PerformedWorkout workout) async {
     try {
+      await Future.delayed(Duration(milliseconds: 1500));
       return await broCollection.doc(userId).update(workout.toJson());
     } catch (e) {
       print('Failed to save workout to firebase');

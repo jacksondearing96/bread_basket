@@ -12,6 +12,7 @@ class Constants {
   static const Color dropSetSetTypeColor = Colors.purple;
   static const Color failureSetTypeColor = Colors.red;
   static const Color normalSetTypeColor = Colors.black;
+  static Color darkIconColor = Colors.black.withAlpha(135);
 
   // Progress graph dark theme.
   // static const Color progressGraphBackgroundColor = Color(0xff232d37);
@@ -21,7 +22,8 @@ class Constants {
   // Progress graph light theme.
   static const Color progressGraphBackgroundColor = Colors.white;
   static Color progressGraphGridLineColor = Color.fromARGB(255, 244, 244, 244);
-  static const Color progressGraphBorderColor = Color.fromARGB(255, 230,230,230);
+  static const Color progressGraphBorderColor =
+      Color.fromARGB(255, 230, 230, 230);
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),
