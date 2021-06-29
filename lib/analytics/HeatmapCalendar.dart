@@ -83,7 +83,6 @@ class HeatmapCalendar extends StatelessWidget {
       for (PerformedWorkout workout in pastWorkouts) {
         DateTime date =
             DateTime.fromMillisecondsSinceEpoch(workout.dateInMilliseconds);
-        print('w: ${dateToStringKey(date)}');
         workoutDates.update(dateToStringKey(date), (val) => val + 1,
             ifAbsent: () => 1);
       }
@@ -93,7 +92,6 @@ class HeatmapCalendar extends StatelessWidget {
     Calendar calendar = Calendar();
     DateTime d = DateTime.now().subtract(Duration(days: daysToShow - 1));
     for (var i = 0; i < daysToShow; ++i) {
-      print('d: ${dateToStringKey(d)}');
       calendar.addDay(_puck(workoutDates[dateToStringKey(d)] ?? 0));
       d = d.add(Duration(days: 1));
     }
@@ -125,6 +123,7 @@ class HeatmapCalendar extends StatelessWidget {
               _puck(1),
               _puck(2),
               _puck(3),
+              _puck(4),
               SizedBox(width: 5),
               _text('More'),
             ],
@@ -151,8 +150,11 @@ class HeatmapCalendar extends StatelessWidget {
   }
 
   Color _determinePuckColor(int intensity) {
-    Color color = Color.fromARGB(255, 40, 40, 40);
+    Color color;
     switch (intensity) {
+      case 0:
+        color = Color.fromARGB(255, 40, 40, 40);
+        break;
       case 1:
         color = Colors.green.withAlpha(120);
         break;
@@ -162,6 +164,8 @@ class HeatmapCalendar extends StatelessWidget {
       case 3:
         color = Colors.green.withAlpha(255);
         break;
+      default:
+        color = Color.fromARGB(255, 64, 235, 52);
     }
     return color;
   }

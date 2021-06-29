@@ -27,6 +27,14 @@ class PerformedExercise {
     return performedExercise;
   }
 
+  double totalVolume() {
+    double totalVolume = 0;
+    for (PerformedSet performedSet in sets) {
+      totalVolume += performedSet.volume();
+    }
+    return totalVolume;
+  }
+
   void log() {
     print("PERFORMED EXERCISE >> Exercise ID: " +
         this.exercise.id +
