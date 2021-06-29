@@ -99,10 +99,43 @@ class HeatmapCalendar extends StatelessWidget {
     }
 
     return Container(
-      height: 120,
-      decoration: BoxDecoration(),
-      child: calendar.draw(),
+      margin: EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.black.withAlpha(70),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(children: [
+        Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: _text(
+              'Training frequency (last 100 days)',
+            )),
+        calendar.draw(),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _text(
+                'Less',
+              ),
+              SizedBox(width: 5),
+              _puck(0),
+              _puck(1),
+              _puck(2),
+              _puck(3),
+              SizedBox(width: 5),
+              _text('More'),
+            ],
+          ),
+        ),
+      ]),
     );
+  }
+
+  Text _text(String text) {
+    return Text(text, style: TextStyle(color: Constants.hintColor));
   }
 
   Widget _puck(int intensity) {
@@ -118,16 +151,16 @@ class HeatmapCalendar extends StatelessWidget {
   }
 
   Color _determinePuckColor(int intensity) {
-    Color color = Colors.grey;
+    Color color = Color.fromARGB(255, 40, 40, 40);
     switch (intensity) {
       case 1:
-        color = Colors.green[300]!;
+        color = Colors.green.withAlpha(120);
         break;
       case 2:
-        color = Colors.green[500]!;
+        color = Colors.green.withAlpha(200);
         break;
       case 3:
-        color = Colors.green[700]!;
+        color = Colors.green.withAlpha(255);
         break;
     }
     return color;
