@@ -47,8 +47,8 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
 
     return AspectRatio(
       aspectRatio: 1.3,
-      child: Card(
-        color: Colors.transparent,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           children: <Widget>[
             const SizedBox(
