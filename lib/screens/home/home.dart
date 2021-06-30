@@ -8,6 +8,7 @@ import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/gradientButton.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,34 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final exercises = Provider.of<List<Exercise>>(context);
     final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+
+    Widget _button({text: String, icon: Icon, onTap: Function}) {
+      return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.lightBlueAccent,
+            Colors.greenAccent,
+          ],
+        )),
+        child: ElevatedButton.icon(
+          icon: Icon(
+            icon,
+            color: Constants.textColor,
+          ),
+          label: Text(
+            text,
+            style: TextStyle(color: Constants.textColor),
+          ),
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              primary: Constants.textColor),
+        ),
+      );
+    }
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
@@ -48,39 +77,18 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ElevatedButton.icon(
-                      icon: Icon(
-                        Icons.fitness_center,
-                        color: Constants.textColor,
-                      ),
-                      label: Text(
-                        'New workout',
-                        style: TextStyle(color: Constants.textColor),
-                      ),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return Workout(exercises: exercises);
-                        }));
-                      },
-                      style: TextButton.styleFrom(
-                          backgroundColor: Constants.accentColor,
-                          primary: Constants.textColor),
+                    GradientButton(
+                      text: 'New workout',
+                      iconData: Icons.fitness_center,
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  Workout(exercises: exercises))),
                     ),
-                    ElevatedButton.icon(
-                      icon: Icon(
-                        Icons.history,
-                        color: Constants.textColor,
-                      ),
-                      label: Text(
-                        'History (coming soon)',
-                        style: TextStyle(color: Constants.textColor),
-                      ),
-                      onPressed: () => {},
-                      style: TextButton.styleFrom(
-                          backgroundColor: Constants.accentColor,
-                          primary: Constants.textColor),
-                    ),
+                    SizedBox(height: 15),
+                    GradientButton(
+                        text: 'History (coming soon)', iconData: Icons.history),
                   ],
                 ),
               ),
@@ -123,8 +131,7 @@ class Home extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(children: [
-                  Text('Squat',
-                      style: TextStyle(color: Constants.hintColor)),
+                  Text('Squat', style: TextStyle(color: Constants.hintColor)),
                   ChangeNotifierProvider.value(
                       value: PerformedExerciseProvider(
                           performedExercise: PerformedExercise(
