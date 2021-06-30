@@ -78,7 +78,15 @@ class Exercise {
     return '';
   }
 
-  bool isSearchHit(String query, [List<String>? tagQueries]) {
+  bool isSearchHit(String query, Set<String> tagQueries) {
+    // Check that it is compliant with the tag queries first.
+    if (tagQueries.isNotEmpty) {
+      bool meetsTagRequirement = false;
+      for (String tag in tagQueries) {
+        if (!tags.contains(tag)) return false;
+      }
+    }
+
     // Hit full query.
     query = query.toLowerCase();
     if (name.contains(query)) return true;
@@ -88,19 +96,12 @@ class Exercise {
       // Hit all query words.
       bool hitAllQueryWords = true;
       for (String word in queryWords) {
-        if (!isSearchHit(word)) {
+        if (!isSearchHit(word, tagQueries)) {
           hitAllQueryWords = false;
           break;
         }
       }
       if (hitAllQueryWords) return true;
-    }
-
-    // Hit a tag.
-    if (tags.contains(query)) return true;
-    if (tagQueries == null) return false;
-    for (String tagQuery in tagQueries) {
-      if (tags.contains(tagQuery.toLowerCase())) return true;
     }
 
     return false;

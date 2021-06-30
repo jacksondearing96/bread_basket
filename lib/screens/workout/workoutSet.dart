@@ -53,6 +53,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                 Container(
                   width: Constants.workoutSetInputWidth,
                   child: TextFormField(
+                      style: TextStyle(color: Constants.textColor),
                       focusNode: weightFocusNode,
                       initialValue: performedSet.weight == 0.0
                           ? ''
@@ -60,7 +61,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       decoration:
-                          Constants.setInputDecoration.copyWith(hintText: 'kg'),
+                          Constants.setInputDecoration.copyWith(hintText: ''),
                       validator: isAValidNumber,
                       onChanged: (val) =>
                           performedSet.weight = double.parse(val),
@@ -73,6 +74,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                 Container(
                   width: Constants.workoutSetInputWidth,
                   child: TextFormField(
+                    style: TextStyle(color: Constants.textColor),
                     focusNode: repsFocusNode,
                     initialValue: performedSet.reps == 0
                         ? ''
@@ -80,7 +82,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     keyboardType: TextInputType.number,
                     textAlign: TextAlign.center,
                     decoration:
-                        Constants.setInputDecoration.copyWith(hintText: 'reps'),
+                        Constants.setInputDecoration.copyWith(hintText: ''),
                     validator: isAValidInteger,
                     onChanged: (val) {
                       setState(() => performedSet.reps = int.parse(val));

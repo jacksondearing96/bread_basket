@@ -51,10 +51,8 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
-      appBar: AppBar(
+      appBar: Constants.gradientAppBar(
         title: Text('Bread Basket'),
-        backgroundColor: Constants.accentColor,
-        elevation: 0.0,
         actions: <Widget>[
           TextButton.icon(
             icon: Icon(Icons.logout, color: Constants.textColor),

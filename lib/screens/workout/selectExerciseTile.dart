@@ -1,4 +1,5 @@
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/radiantGradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 
@@ -15,7 +16,7 @@ class SelectExerciseTile extends StatelessWidget {
       padding: EdgeInsets.only(top: 4.0),
       child: GestureDetector(
         child: Card(
-          color: Constants.darkSecondaryBackground,
+          color: Colors.black.withAlpha(70),
           margin: EdgeInsets.fromLTRB(10.0, 3.0, 10.0, 0.0),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -27,12 +28,11 @@ class SelectExerciseTile extends StatelessWidget {
                     : exercise.equipmentTypeIconLocation == ''
                         ? Container()
                         : Container(
-                            padding: EdgeInsets.all(4.0),
-                            height: 35,
-                            width: 35,
+                            height: Constants.exerciseTypeIconWidth,
+                            width: Constants.exerciseTypeIconWidth,
                             child: ImageIcon(
                               AssetImage(exercise.equipmentTypeIconLocation),
-                              color: Constants.hintColor,
+                              color: Colors.lightBlueAccent.withAlpha(230),
                             ),
                           ),
                 // child: exercise.equipmentTypeIcon,
@@ -68,10 +68,14 @@ class SelectExerciseTile extends StatelessWidget {
     );
   }
 
-  CircleAvatar exerciseIsSelectedCircle() {
-    return CircleAvatar(
-        child: isSelected ? Icon(Icons.check) : null,
-        radius: Constants.exerciseTypeIconWidth,
-        backgroundColor: isSelected ? Constants.accentColor : Colors.grey);
+  Widget exerciseIsSelectedCircle() {
+    return RadiantGradientMask(
+      child: CircleAvatar(
+          child: isSelected
+              ? Icon(Icons.check, color: Constants.darkIconColor)
+              : null,
+          radius: Constants.exerciseTypeIconWidth / 2,
+          backgroundColor: isSelected ? Colors.white : Colors.grey),
+    );
   }
 }

@@ -8,7 +8,9 @@ import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
 import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
 import 'package:bread_basket/shared/loading.dart';
+import 'package:bread_basket/shared/radiantGradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -93,13 +95,14 @@ class _WorkoutState extends State<Workout> {
         onTap: () => _selectDate(context),
         child: Row(
           children: [
-            Icon(Icons.calendar_today, color: Constants.accentColor),
+            RadiantGradientMask(
+                child: Icon(Icons.calendar_today, color: Colors.white)),
             SizedBox(width: 20),
             Text(
                 dateFormatter.format(new DateTime.fromMillisecondsSinceEpoch(
                         widget.performedWorkout.dateInMilliseconds)
                     .toLocal()),
-                style: TextStyle(fontSize: 16.0, color: Constants.textColor)),
+                style: TextStyle(fontSize: 16.0, color: Constants.hintColor)),
           ],
         ),
       );
@@ -109,20 +112,19 @@ class _WorkoutState extends State<Workout> {
         ? Loading()
         : Scaffold(
             backgroundColor: Constants.backgroundColor,
-            appBar: AppBar(
+            appBar: Constants.gradientAppBar(
               leading: TextButton(
                   child: Icon(Icons.delete, color: Constants.darkIconColor),
                   onPressed: () => confirmAbandonment(context)),
-              backgroundColor: Constants.accentColor,
-              elevation: 0.0,
-              title: workoutTitleField(),
+              title: Text(workoutName),
               actions: [
                 TextButton(
-                  child: Icon(Icons.check_circle, color: Colors.white),
+                  child: Row(children: [
+                    Text('Finish', style: TextStyle(color: Colors.white)),
+                    SizedBox(width: 10),
+                    Icon(Icons.check_circle, color: Constants.textColor),
+                  ]),
                   onPressed: () => completeWorkout(context, user, save),
-                  style: TextButton.styleFrom(
-                    primary: Constants.textColor,
-                  ),
                 ),
               ],
             ),
@@ -133,7 +135,9 @@ class _WorkoutState extends State<Workout> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
+                      workoutTitleField(),
                       _datePicker(),
+                      SizedBox(height: 20),
                       ChangeNotifierProvider(
                           create: (_) => performedExerciseListProvider,
                           child: WorkoutExerciseList()),
@@ -151,29 +155,38 @@ class _WorkoutState extends State<Workout> {
   }
 
   Widget workoutTitleField() {
-    return TextFormField(
-      style: TextStyle(
-          color: Constants.textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 18.0),
-      decoration: InputDecoration(
-          prefixIcon: Icon(Icons.create_rounded),
-          hintStyle: TextStyle(color: Constants.textColor),
-          hintText: workoutName,
-          border: InputBorder.none),
-      onChanged: (val) {
-        setState(() => workoutName = val.trim());
-      },
+    return Align(
+      alignment: Alignment.topLeft,
+      child: SizedBox(
+        width: 200,
+        height: 50,
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          RadiantGradientMask(
+              child: Icon(Icons.create_rounded, color: Colors.white)),
+          SizedBox(width: 20),
+          Expanded(
+            child: TextFormField(
+              style: TextStyle(
+                color: Constants.hintColor,
+              ),
+              decoration: InputDecoration(
+                  hintStyle: TextStyle(color: Constants.hintColor),
+                  hintText: workoutName,
+                  border: InputBorder.none),
+              onChanged: (val) => workoutName = val.trim(),
+              onEditingComplete: () => setState(() {}),
+            ),
+          ),
+        ]),
+      ),
     );
   }
 
-  FloatingActionButton addNewExerciseButton(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: UniqueKey(),
+  Widget addNewExerciseButton(BuildContext context) {
+    return GradientFloatingActionButton(
       onPressed: () => _navigateToSelectExercise(context),
       tooltip: 'New exercise',
-      child: Icon(Icons.add),
-      backgroundColor: Constants.accentColor,
+      iconData: Icons.add,
     );
   }
 

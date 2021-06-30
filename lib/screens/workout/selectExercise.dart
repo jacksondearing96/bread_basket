@@ -1,6 +1,7 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/screens/workout/selectExerciseList.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 
 class SelectExercise extends StatefulWidget {
@@ -18,26 +19,14 @@ class _SelectExerciseState extends State<SelectExercise> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Constants.accentColor,
-        elevation: 0.0,
-        title: Text('Select exercise(s)'),
-        actions: [
-          TextButton(
-            child: const Text('Cancel'),
-            onPressed: () => Navigator.pop(context, 'EXERCISE SELECTED'),
-            style: TextButton.styleFrom(
-              primary: Constants.textColor,
-            ),
-          ),
-        ],
-      ),
-      body: SelectExerciseList(exercises: widget.exercises, selectedExercises: selectedExercises),
-      floatingActionButton: FloatingActionButton(
+      body: SafeArea(
+          child: SelectExerciseList(
+              exercises: widget.exercises,
+              selectedExercises: selectedExercises)),
+      floatingActionButton: GradientFloatingActionButton(
         onPressed: () => Navigator.pop(context, selectedExercises),
         tooltip: 'New exercise',
-        child: Icon(Icons.check),
-        backgroundColor: Constants.accentColor,
+        iconData: Icons.check,
       ),
     );
   }

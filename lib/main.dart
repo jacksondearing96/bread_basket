@@ -41,7 +41,8 @@ class MyApp extends StatelessWidget {
                     value: DatabaseService(userId: user!.userId).pastWorkouts,
                     child: MaterialApp(
                       theme: ThemeData(
-                        accentColor: Constants.accentColor,
+                        textTheme: TextTheme(
+                        ),
                       ),
                       home: Wrapper(),
                     ),

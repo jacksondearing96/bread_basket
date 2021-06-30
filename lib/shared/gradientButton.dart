@@ -18,9 +18,7 @@ class GradientButton extends StatelessWidget {
     this.iconData,
     this.onPressed,
   }) {
-    this.gradient = LinearGradient(
-      colors: <Color>[Colors.lightBlueAccent, Colors.greenAccent],
-    );
+    this.gradient = Constants.themeGradient;
   }
 
   @override
@@ -33,7 +31,7 @@ class GradientButton extends StatelessWidget {
           gradient: gradient,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey[500]!,
+              color: Colors.black.withAlpha(170),
               offset: Offset(0.0, 1.5),
               blurRadius: 1.5,
             ),
@@ -45,14 +43,10 @@ class GradientButton extends StatelessWidget {
             child: Center(
               child:
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                iconData == null
-                    ? Container()
-                    : Icon(iconData, color: color),
+                iconData == null ? Container() : Icon(iconData, color: color),
                 SizedBox(width: 10),
                 Text(text,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: color))
+                    style: TextStyle(fontWeight: FontWeight.bold, color: color))
               ]),
             )),
       ),

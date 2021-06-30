@@ -11,10 +11,18 @@ class Constants {
   static const Color warmUpSetTypeColor = Colors.orange;
   static const Color dropSetSetTypeColor = Colors.purple;
   static const Color failureSetTypeColor = Colors.red;
-  static const Color normalSetTypeColor = Colors.black;
-  static Color darkIconColor = Colors.black.withAlpha(135);
-  static Color darkSecondaryBackground = Color.fromARGB(255, 66, 66, 66).withAlpha(120);
+  static const Color normalSetTypeColor = hintColor;
+  static Color darkIconColor = Colors.black.withAlpha(140);
+  static Color darkSecondaryBackground =
+      Color.fromARGB(255, 66, 66, 66).withAlpha(120);
+  static Color floatingActionButtonColor = Colors.white;
 
+  static Gradient themeGradient = LinearGradient(
+    colors: <Color>[
+      Colors.lightBlueAccent.withOpacity(0.9),
+      Colors.greenAccent.withOpacity(0.9)
+    ],
+  );
   // Progress graph dark theme.
   // static const Color progressGraphBackgroundColor = Color(0xff232d37);
   // static const Color progressGraphGridLineColor = Color(0xff37434d);
@@ -23,8 +31,7 @@ class Constants {
   // Progress graph light theme.
   static const Color progressGraphBackgroundColor = Colors.transparent;
   static Color progressGraphGridLineColor = Color.fromARGB(200, 45, 45, 45);
-  static const Color progressGraphBorderColor =
-      Color.fromARGB(200, 40, 40, 40);
+  static const Color progressGraphBorderColor = Color.fromARGB(200, 40, 40, 40);
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),
@@ -40,7 +47,7 @@ class Constants {
     hintStyle: TextStyle(color: hintColor),
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
-        color: textColor,
+        color: Colors.greenAccent,
         width: 1.0,
       ),
     ),
@@ -51,7 +58,7 @@ class Constants {
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 45.0;
   static const double prevSetWidth = 80.0;
-  static const double exerciseTypeIconWidth = 15.0;
+  static const double exerciseTypeIconWidth = 32.0;
   static const double selectExerciseImageWidth = 120.0;
   static const double selectExerciseImageHeight = 80.0;
   static const double workoutExerciseImageWidth = 90.0;
@@ -104,4 +111,22 @@ class Constants {
   static Image weightIcon = Image.asset('resources/icons/weight.png');
   static Image sigmaIcon = Image.asset('resources/icons/sigma.png');
   static Image backgroundImage = Image.asset('resources/icons/background.png');
+
+  static AppBar gradientAppBar({title, actions, leading}) {
+    return AppBar(
+      leading: leading ?? null,
+      title: title ?? Container(),
+      flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+            Colors.greenAccent,
+            Colors.lightBlueAccent,
+          ]))),
+      elevation: 0.0,
+      actions: actions ?? [],
+    );
+  }
 }

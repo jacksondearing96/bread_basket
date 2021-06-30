@@ -47,7 +47,9 @@ class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
     return AspectRatio(
       aspectRatio: 1.7,
       child: Container(
-        decoration: BoxDecoration(color: 
+        decoration: BoxDecoration(
+         borderRadius: BorderRadius.circular(8), 
+          color: 
           Colors.black.withAlpha(70)),
         padding: EdgeInsets.all(10),
         margin: EdgeInsets.all(20),

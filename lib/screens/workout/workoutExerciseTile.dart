@@ -73,7 +73,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                             opacity: Constants.equipmentTypeIconOpacity,
                             child: ImageIcon(
                               AssetImage(exercise.equipmentTypeIconLocation),
-                              color: Constants.hintColor,
+                              color: Constants.textColor,
                             ),
                           )),
                   Expanded(
@@ -85,6 +85,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                             Text(exercise.title,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
+                                  color: Constants.textColor,
                                     fontSize:
                                         Constants.selectExerciseFontSize)),
                             exercise.subtitle != ''
@@ -177,14 +178,20 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Container(
-            width: Constants.workoutSetTypeDropdownWidth, child: Text('Set')),
-        Container(width: Constants.prevSetWidth, child: Text('Prev')),
-        Container(width: Constants.workoutSetInputWidth, child: Text('Weight')),
+            width: Constants.workoutSetTypeDropdownWidth, child: _text('Set')),
+        Container(width: Constants.prevSetWidth, child: _text('Prev')),
+        Container(width: Constants.workoutSetInputWidth, child: _text('Weight')),
         Container(
             width: Constants.workoutSetInputWidth,
-            child: Text('Reps', textAlign: TextAlign.center)),
+            child: _text('Reps')),
       ],
     );
+  }
+
+  Text _text(String text) {
+    return Text(text,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: Constants.hintColor));
   }
 
   FloatingActionButton _removeExerciseButton() {
