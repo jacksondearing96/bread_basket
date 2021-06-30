@@ -52,5 +52,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - resources/exercise_images/
+    - resources/exercise_images_transparent_background/
     - resources/icons/

@@ -17,6 +17,7 @@ class MuscleGroupPieChart extends StatefulWidget {
 class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
   Map<String, int> muscleGroupToExerciseCount = {};
   int touchedIndex = -1;
+  int totalExerciseCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
     if (pastWorkouts != null) {
       for (PerformedWorkout workout in pastWorkouts) {
         for (PerformedExercise exercise in workout.performedExercises) {
+          ++totalExerciseCount;
           for (String muscleGroup in Constants.muscleGroups) {
             if (exercise.exercise.tags.contains(muscleGroup)) {
               muscleGroupToExerciseCount.update(
@@ -38,52 +40,52 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
       }
     }
 
-    return AspectRatio(
-      aspectRatio: 1.3,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          children: <Widget>[
-            const SizedBox(
-              height: 18,
-            ),
-            Expanded(
-              child: AspectRatio(
-                aspectRatio: 1,
-                child: PieChart(
-                  PieChartData(
-                      pieTouchData:
-                          PieTouchData(touchCallback: (pieTouchResponse) {
-                        setState(() {
-                          final desiredTouch = pieTouchResponse.touchInput
-                                  is! PointerExitEvent &&
-                              pieTouchResponse.touchInput is! PointerUpEvent;
-                          if (desiredTouch &&
-                              pieTouchResponse.touchedSection != null) {
-                            touchedIndex = pieTouchResponse
-                                .touchedSection!.touchedSectionIndex;
-                          } else {
-                            touchedIndex = -1;
-                          }
-                        });
-                      }),
-                      borderData: FlBorderData(
-                        show: false,
-                      ),
-                      sectionsSpace: 0,
-                      centerSpaceRadius: 40,
-                      sections: showingSections()),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(
+        children: [
+          Text('Muscle group relative distribution',
+              style: TextStyle(color: Constants.hintColor)),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: PieChart(
+                    PieChartData(
+                        pieTouchData:
+                            PieTouchData(touchCallback: (pieTouchResponse) {
+                          setState(() {
+                            final desiredTouch = pieTouchResponse.touchInput
+                                    is! PointerExitEvent &&
+                                pieTouchResponse.touchInput is! PointerUpEvent;
+                            if (desiredTouch &&
+                                pieTouchResponse.touchedSection != null) {
+                              touchedIndex = pieTouchResponse
+                                  .touchedSection!.touchedSectionIndex;
+                            } else {
+                              touchedIndex = -1;
+                            }
+                          });
+                        }),
+                        borderData: FlBorderData(
+                          show: false,
+                        ),
+                        sectionsSpace: 0,
+                        centerSpaceRadius: 40,
+                        sections: showingSections()),
+                  ),
                 ),
               ),
-            ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: getPieChartLabels(),
-            ),
-          ],
-        ),
+              Column(
+                // mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: getPieChartLabels(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -91,9 +93,17 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
   List<Widget> getPieChartLabels() {
     List<Widget> labels = [];
     int index = 0;
+    List<Color> colors = []..addAll(Constants.pieChartColors);
     for (String muscleGroup in Constants.muscleGroups) {
+      final exerciseCount = muscleGroupToExerciseCount.containsKey(muscleGroup)
+          ? muscleGroupToExerciseCount[muscleGroup]!.toDouble()
+          : 0.0;
+      Color color = Colors.grey;
+      if (exerciseCount > 0) {
+        color = colors.removeAt(0);
+      }
       labels.add(Indicator(
-          color: Constants.pieChartColors[index],
+          color: color,
           text: muscleGroup,
           isSquare: true));
       labels.add(SizedBox(height: 4.0));
@@ -103,17 +113,26 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
   }
 
   List<PieChartSectionData> showingSections() {
+    List<Color> colors = []..addAll(Constants.pieChartColors);
+    print('COLORS: $colors');
     return List.generate(Constants.muscleGroups.length, (i) {
       final muscleGroup = Constants.muscleGroups[i];
       print('Generating pie chart section data for muscle group: $muscleGroup');
       final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 20.0 : 12.0;
-      final radius = isTouched ? 60.0 : 50.0;
+      final exerciseCount = muscleGroupToExerciseCount.containsKey(muscleGroup)
+          ? muscleGroupToExerciseCount[muscleGroup]!.toDouble()
+          : 0.0;
+      // final proportionOfTotalExercises =
+      //     (totalExerciseCount == 0) ? 0.0 : exerciseCount / totalExerciseCount;
+      final fontSize = isTouched ? 18.0 : 12.0;
+      final radius = isTouched ? 70.0 : 50.0;
+      Color color = Colors.grey;
+      if (exerciseCount > 0) {
+        color = colors.removeAt(0);
+      }
       return PieChartSectionData(
-        color: Constants.pieChartColors[i],
-        value: 
-        muscleGroupToExerciseCount.containsKey(muscleGroup) ?
-        muscleGroupToExerciseCount[muscleGroup]!.toDouble() : 0,
+        color: color,
+        value: exerciseCount,
         title: muscleGroup,
         radius: radius,
         titleStyle: TextStyle(

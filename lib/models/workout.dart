@@ -55,6 +55,14 @@ class PerformedWorkout {
     return {id: workoutData};
   }
 
+  double totalVolume() {
+    double totalVolume = 0;
+    for (PerformedExercise exercise in performedExercises) {
+      totalVolume += exercise.totalVolume();
+    }
+    return totalVolume;
+  }
+
   void log(String message) {
     print(message);
     print('WORKOUT[$id]: $name');

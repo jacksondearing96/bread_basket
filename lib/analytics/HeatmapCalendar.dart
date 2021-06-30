@@ -123,7 +123,6 @@ class HeatmapCalendar extends StatelessWidget {
               _puck(1),
               _puck(2),
               _puck(3),
-              _puck(4),
               SizedBox(width: 5),
               _text('More'),
             ],
@@ -156,16 +155,13 @@ class HeatmapCalendar extends StatelessWidget {
         color = Color.fromARGB(255, 40, 40, 40);
         break;
       case 1:
-        color = Colors.green.withAlpha(120);
+        color = Colors.lightBlueAccent[100]!.withAlpha(200);
         break;
       case 2:
-        color = Colors.green.withAlpha(200);
-        break;
-      case 3:
-        color = Colors.green.withAlpha(255);
+        color = Colors.lightBlueAccent[400]!;
         break;
       default:
-        color = Color.fromARGB(255, 64, 235, 52);
+        color = Colors.greenAccent[400]!;
     }
     return color;
   }

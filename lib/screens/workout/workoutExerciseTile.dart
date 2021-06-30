@@ -54,6 +54,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
           _findMostRecentSetsOfExercise(pastWorkouts, exercise);
 
       return Card(
+        color: Colors.transparent,
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
           children: <Widget>[
@@ -62,15 +63,19 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  exercise.equipmentTypeIcon == null
+                  exercise.equipmentTypeIconLocation == ''
                       ? Container()
                       : Container(
                           padding: EdgeInsets.all(4.0),
                           height: 40,
                           width: 40,
                           child: Opacity(
-                              opacity: Constants.equipmentTypeIconOpacity,
-                              child: exercise.equipmentTypeIcon)),
+                            opacity: Constants.equipmentTypeIconOpacity,
+                            child: ImageIcon(
+                              AssetImage(exercise.equipmentTypeIconLocation),
+                              color: Constants.hintColor,
+                            ),
+                          )),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
@@ -103,8 +108,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                 child: ChangeNotifierProvider.value(
                   value: performedExerciseProvider,
-                  child: ProgressGraph(
-                      pastWorkouts: pastWorkouts, exerciseId: exercise.id),
+                  child: ProgressGraph(exerciseId: exercise.id),
                 )),
             _header(),
             ListView.builder(

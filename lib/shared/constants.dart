@@ -13,6 +13,7 @@ class Constants {
   static const Color failureSetTypeColor = Colors.red;
   static const Color normalSetTypeColor = Colors.black;
   static Color darkIconColor = Colors.black.withAlpha(135);
+  static Color darkSecondaryBackground = Color.fromARGB(255, 66, 66, 66).withAlpha(120);
 
   // Progress graph dark theme.
   // static const Color progressGraphBackgroundColor = Color(0xff232d37);
@@ -20,10 +21,10 @@ class Constants {
   // static const Color progressGraphBorderColor = Color(0xff37434d);
 
   // Progress graph light theme.
-  static const Color progressGraphBackgroundColor = Colors.white;
-  static Color progressGraphGridLineColor = Color.fromARGB(255, 244, 244, 244);
+  static const Color progressGraphBackgroundColor = Colors.transparent;
+  static Color progressGraphGridLineColor = Color.fromARGB(200, 45, 45, 45);
   static const Color progressGraphBorderColor =
-      Color.fromARGB(255, 230, 230, 230);
+      Color.fromARGB(200, 40, 40, 40);
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),
@@ -72,12 +73,12 @@ class Constants {
     'ez_bar',
     'machine'
   ];
-  static Map<String, Image> equipmentTypeIcons = {
-    'dumbbell': Image.asset('resources/icons/dumbbell.png'),
-    'barbell': Image.asset('resources/icons/barbell.png'),
-    'cable': Image.asset('resources/icons/cable.png'),
-    'machine': Image.asset('resources/icons/cog.png'),
-    'ez_bar': Image.asset('resources/icons/ez_bar.png')
+  static Map<String, String> equipmentTypeIcons = {
+    'dumbbell': 'resources/icons/dumbbell.png',
+    'barbell': 'resources/icons/barbell.png',
+    'cable': 'resources/icons/cable.png',
+    'machine': 'resources/icons/cog.png',
+    'ez_bar': 'resources/icons/ez_bar.png'
   };
 
   static const List<String> muscleGroups = [
@@ -90,14 +91,14 @@ class Constants {
     'core',
   ];
 
-  static const List<Color> pieChartColors = [
-    Color(0xff0293ee),
-    Color(0xfff8b250),
-    Color(0xff845bef),
-    Color(0xff13d38e),
-    Colors.red,
-    Colors.cyan,
-    Colors.yellow
+  static List<Color> pieChartColors = [
+    Colors.lightBlueAccent,
+    Colors.greenAccent,
+    Colors.purpleAccent[100]!,
+    Colors.lightBlueAccent[700]!,
+    Colors.greenAccent[400]!,
+    Colors.blueAccent,
+    Colors.greenAccent[100]!,
   ];
 
   static Image weightIcon = Image.asset('resources/icons/weight.png');

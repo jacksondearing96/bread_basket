@@ -15,6 +15,7 @@ class SelectExerciseTile extends StatelessWidget {
       padding: EdgeInsets.only(top: 4.0),
       child: GestureDetector(
         child: Card(
+          color: Constants.darkSecondaryBackground,
           margin: EdgeInsets.fromLTRB(10.0, 3.0, 10.0, 0.0),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -23,14 +24,18 @@ class SelectExerciseTile extends StatelessWidget {
               children: [
                 isSelected
                     ? exerciseIsSelectedCircle()
-                    : Container(
-                        padding: EdgeInsets.all(4.0),
-                        height: 35,
-                        width: 35,
-                        child: Opacity(
-                            opacity: Constants.equipmentTypeIconOpacity,
-                            child: exercise.equipmentTypeIcon),
-                      ),
+                    : exercise.equipmentTypeIconLocation == ''
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.all(4.0),
+                            height: 35,
+                            width: 35,
+                            child: ImageIcon(
+                              AssetImage(exercise.equipmentTypeIconLocation),
+                              color: Constants.hintColor,
+                            ),
+                          ),
+                // child: exercise.equipmentTypeIcon,
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),
@@ -40,6 +45,7 @@ class SelectExerciseTile extends StatelessWidget {
                           Text(exercise.title,
                               textAlign: TextAlign.left,
                               style: TextStyle(
+                                  color: Constants.textColor,
                                   fontSize: Constants.selectExerciseFontSize)),
                           exercise.subtitle != ''
                               ? Text(exercise.subtitle,

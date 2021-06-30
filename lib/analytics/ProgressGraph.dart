@@ -7,47 +7,55 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProgressGraph extends StatelessWidget {
-  final List<PerformedWorkout>? pastWorkouts;
+class ProgressGraph extends StatefulWidget {
   final String exerciseId;
-  late final List<PerformedSet> bestSets;
-  double bestPastWeight = 0;
-  double worstPastWeight = 0;
-  double verticalInterval = 0;
-  ProgressGraph({required this.pastWorkouts, required this.exerciseId}) {
+
+  ProgressGraph({required this.exerciseId});
+
+  @override
+  _ProgressGraphState createState() => _ProgressGraphState();
+}
+
+class _ProgressGraphState extends State<ProgressGraph> {
+  @override
+  Widget build(BuildContext context) {
+    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+
+    List<PerformedSet> bestSets;
+    double bestPastWeight = 0;
+    double worstPastWeight = 0;
+    double verticalInterval = 0;
+
+    List<PerformedSet> fetchBestPastSets() {
+      List<PerformedSet> bestSetsList = [];
+      if (pastWorkouts == null) return [];
+      for (PerformedWorkout workout in pastWorkouts) {
+        for (PerformedExercise exercise in workout.performedExercises) {
+          if (exercise.exercise.id != widget.exerciseId) continue;
+          PerformedSet? maxWeightSet;
+          double maxWeight = 0;
+          for (PerformedSet performedSet in exercise.sets) {
+            // Update the local best weight for this workout.
+            if (performedSet.weight > maxWeight) {
+              maxWeightSet = performedSet;
+              maxWeight = performedSet.weight;
+            }
+
+            // Update our overall best/worst weights.
+            if (maxWeight > bestPastWeight) bestPastWeight = maxWeight;
+            if (performedSet.weight < worstPastWeight)
+              worstPastWeight = performedSet.weight;
+          }
+          if (maxWeightSet != null) bestSetsList.add(maxWeightSet);
+        }
+      }
+      return bestSetsList;
+    }
+
     bestSets = fetchBestPastSets();
     verticalInterval =
         ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
-  }
 
-  List<PerformedSet> fetchBestPastSets() {
-    List<PerformedSet> bestSetsList = [];
-    if (pastWorkouts == null) return [];
-    for (PerformedWorkout workout in pastWorkouts!) {
-      for (PerformedExercise exercise in workout.performedExercises) {
-        if (exercise.exercise.id != exerciseId) continue;
-        PerformedSet? maxWeightSet;
-        double maxWeight = 0;
-        for (PerformedSet performedSet in exercise.sets) {
-          // Update the local best weight for this workout.
-          if (performedSet.weight > maxWeight) {
-            maxWeightSet = performedSet;
-            maxWeight = performedSet.weight;
-          }
-
-          // Update our overall best/worst weights.
-          if (maxWeight > bestPastWeight) bestPastWeight = maxWeight;
-          if (performedSet.weight < worstPastWeight)
-            worstPastWeight = performedSet.weight;
-        }
-        if (maxWeightSet != null) bestSetsList.add(maxWeightSet);
-      }
-    }
-    return bestSetsList;
-  }
-
-  @override
-  Widget build(BuildContext context) {
     List<Color> gradientColors = [
       const Color(0xff23b6e6),
       const Color(0xff02d39a),
@@ -68,8 +76,8 @@ class ProgressGraph extends StatelessWidget {
                   ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
             }
             return Container(
-            width: 330.0,
-            height: 150,
+              width: 330.0,
+              height: 150,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
                     Radius.circular(8),
@@ -81,28 +89,26 @@ class ProgressGraph extends StatelessWidget {
                   child: LineChart(
                     LineChartData(
                       lineTouchData: LineTouchData(
-                        getTouchedSpotIndicator: (LineChartBarData barData,
-                            List<int> spotIndexes) {
+                        getTouchedSpotIndicator:
+                            (LineChartBarData barData, List<int> spotIndexes) {
                           return spotIndexes.map((spotIndex) {
                             return TouchedSpotIndicatorData(
                               FlLine(
-                                  color: Constants.accentColor,
-                                  strokeWidth: 2),
+                                  color: Colors.lightBlueAccent, strokeWidth: 2),
                               FlDotData(
-                                getDotPainter:
-                                    (spot, percent, barData, index) {
+                                getDotPainter: (spot, percent, barData, index) {
                                   return FlDotCirclePainter(
                                       radius: 3,
                                       color: Colors.white,
                                       strokeWidth: 2,
-                                      strokeColor: Constants.accentColor);
+                                      strokeColor: Colors.lightBlueAccent);
                                 },
                               ),
                             );
                           }).toList();
                         },
                         touchTooltipData: LineTouchTooltipData(
-                            tooltipBgColor: Constants.accentColor,
+                            tooltipBgColor: Colors.lightBlueAccent,
                             getTooltipItems:
                                 (List<LineBarSpot> touchedBarSpots) {
                               return touchedBarSpots.map((barSpot) {
@@ -189,8 +195,8 @@ class ProgressGraph extends StatelessWidget {
                             getDotPainter: (spot, percent, barData, index) =>
                                 FlDotCirclePainter(
                                     radius: 4.0,
-                                    color: Constants.accentColor
-                                        .withOpacity(0.6)),
+                                    color:
+                                        Constants.accentColor.withOpacity(0.6)),
                           ),
                           belowBarData: BarAreaData(
                             show: true,

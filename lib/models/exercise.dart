@@ -8,7 +8,9 @@ class Exercise {
   String _subtitle = '';
   List<dynamic> tags = [];
   late Image _image;
+  String _imageLocation = '';
   Image? _equipmentTypeIcon;
+  String _equipmentTypeIconLocation = '';
 
   Exercise({required this.id, required this.name, required this.tags}) {
     this._title = makeTitle();
@@ -20,14 +22,18 @@ class Exercise {
     if (Constants.equipmentTypes.contains(this._subtitle.toLowerCase()))
       this._subtitle = '';
 
-    this._image = Image.asset('resources/exercise_images/${this.name}.png');
-    this._equipmentTypeIcon = findExerciseEquipmentTypeIcon();
+    this._imageLocation =
+        'resources/exercise_images_transparent_background/${this.name}.png';
+    this._image = Image.asset(this._imageLocation);
+    this._equipmentTypeIconLocation = findExerciseEquipmentTypeIcon();
   }
 
   Image? get equipmentTypeIcon => _equipmentTypeIcon;
   String get title => _title;
   String get subtitle => _subtitle;
   Image get image => _image;
+  String get imageLocation => _imageLocation;
+  String get equipmentTypeIconLocation => _equipmentTypeIconLocation;
 
   bool equals(Exercise other) {
     return this.name == other.name;
@@ -64,11 +70,12 @@ class Exercise {
     return string[0].toUpperCase() + string.substring(1);
   }
 
-  Image? findExerciseEquipmentTypeIcon() {
+  String findExerciseEquipmentTypeIcon() {
     for (String equipmentType in Constants.equipmentTypes) {
       if (tags.contains(equipmentType))
-        return Constants.equipmentTypeIcons[equipmentType];
+        return Constants.equipmentTypeIcons[equipmentType]!;
     }
+    return '';
   }
 
   bool isSearchHit(String query, [List<String>? tagQueries]) {

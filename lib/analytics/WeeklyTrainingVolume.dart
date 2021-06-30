@@ -55,10 +55,10 @@ class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
           padding: EdgeInsets.all(10),
           child: Column(
             children: [ 
-              Text('Training volumes (total kgs)',
+              Text('Weekly training volumes (total kgs)',
               style: TextStyle(color: Constants.hintColor)), 
               SizedBox(
-                height: 130,
+                height: 110,
                 child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,

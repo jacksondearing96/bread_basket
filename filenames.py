@@ -1,6 +1,7 @@
 import os
 
 # Let the order
+# Next id = 209
 exercises = {
 
 'assisted_chin_up_(machine)':['5160', 'biceps',  'back'],
@@ -26,6 +27,7 @@ exercises = {
 'row_(cable_single_arm)':['3044', 'back'],
 'seated_row_(iso-lateral_machine)':['3124', 'back'],
 'seated_row_(machine)':['1143', 'back'],
+'seated_row_(cable)':['1208', 'back'],
 'straight_arm_pulldown_(cable)':['3133', 'back'],
 'deadlift_(barbell)':['1'],
 
@@ -54,7 +56,6 @@ exercises = {
 'cable_fly_(cable_high_to_low)':['2042', 'chest'],
 'cable_fly_(cable_low_to_high)':['2116', 'chest'],
 'chest_dip':['3101', 'chest'],
-'chest_fly_(cable)':['2030', 'chest'],
 'chest_fly_(dumbbell)':['1113', 'chest'],
 'chest_fly_(machine)':['2054', 'chest'],
 'chest_press_(dumbbell)':['1112', 'chest'],
