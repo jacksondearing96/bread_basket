@@ -38,14 +38,14 @@ class MyApp extends StatelessWidget {
                   final user = Provider.of<User?>(context);
                   return StreamProvider<List<PerformedWorkout>?>.value(
                     initialData: [],
-                    value: DatabaseService(userId: user!.userId).pastWorkouts,
+                    value: DatabaseService(userId: user == null ? null : user.userId).pastWorkouts,
                     child: MaterialApp(
                       theme: ThemeData(
                         textTheme: TextTheme(
                         ),
                       ),
                       home: Wrapper(),
-                    ),
+                     ),
                   );
                 }),
               ),

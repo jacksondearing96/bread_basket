@@ -1,6 +1,7 @@
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/loading.dart';
+import 'package:bread_basket/shared/radiantGradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -27,22 +28,8 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
       backgroundColor: Constants.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: Constants.accentColor,
-        elevation: 0.0,
-        title: Text('Sign in to Bread Basket'),
-        actions: [
-          TextButton.icon(
-            icon: Icon(Icons.person),
-            label: Text('Register'),
-            onPressed: () {
-              widget.toggleView();
-            },
-            style: TextButton.styleFrom(
-              primary: Constants.textColor,
-            ),
-          ),
-        ],
+      appBar: Constants.gradientAppBar(
+        title: Text('Sign in to GymStats'),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -76,25 +63,46 @@ class _SignInState extends State<SignIn> {
                     setState(() => password = val.trim());
                   }),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                child: Text(
-                  'Sign in',
-                  style: TextStyle(color: Constants.textColor),
-                ),
-                onPressed: () async {
-                  FormState? state = _formKey.currentState;
-                  if (state != null && state.validate()) {
-                    setState(() => loading = true);
-                    dynamic user =
-                        await _auth.signInWithEmailAndPassword(email, password);
-                    if (user == null) {
-                      setState(() {
-                        error = 'Could not sign in user';
-                        loading = false;
-                      });
+              RadiantGradientMask(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+
+                  child: Text(
+                    'Sign in',
+                    style: TextStyle(color: Constants.darkIconColor),
+                  ),
+                  onPressed: () async {
+                    FormState? state = _formKey.currentState;
+                    if (state != null && state.validate()) {
+                      setState(() => loading = true);
+                      dynamic user =
+                          await _auth.signInWithEmailAndPassword(email, password);
+                      if (user == null) {
+                        setState(() {
+                          error = 'Could not sign in user';
+                          loading = false;
+                        });
+                      }
                     }
-                  }
-                },
+                  },
+                ),
+              ),
+              RadiantGradientMask(
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+
+                  child: Text(
+                    'Register',
+                    style: TextStyle(color: Constants.darkIconColor),
+                  ),
+                  onPressed: () =>              widget.toggleView()
+  
+                  ,
+                ),
               ),
               SizedBox(height: 12.0),
               Text(error,

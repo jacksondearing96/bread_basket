@@ -1,6 +1,7 @@
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/loading.dart';
+import 'package:bread_basket/shared/radiantGradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -30,19 +31,19 @@ class _RegisterState extends State<Register> {
         ? Loading()
         : Scaffold(
             backgroundColor: Constants.backgroundColor,
-            appBar: AppBar(
-              backgroundColor: Constants.accentColor,
-              elevation: 0.0,
-              title: Text('Sign up to Bread Basket'),
+            appBar: Constants.gradientAppBar(
+              title: Text('Sign up to GymStats'),
               actions: [
-                TextButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('Sign in'),
-                  onPressed: () {
-                    widget.toggleView();
-                  },
-                  style: TextButton.styleFrom(
-                    primary: Constants.textColor,
+                RadiantGradientMask(
+                  child: TextButton.icon(
+                    icon: Icon(Icons.person, color: Colors.white),
+                    label: Text('Sign in'),
+                    onPressed: () {
+                      widget.toggleView();
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Constants.textColor,
+                    ),
                   ),
                 ),
               ],
