@@ -41,7 +41,7 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
     }
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         children: [
           Text('Muscle group relative distribution',
@@ -98,14 +98,18 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
       final exerciseCount = muscleGroupToExerciseCount.containsKey(muscleGroup)
           ? muscleGroupToExerciseCount[muscleGroup]!.toDouble()
           : 0.0;
+      final proportionOfTotalExercises =
+          (totalExerciseCount == 0) ? 0.0 : exerciseCount / totalExerciseCount;
       Color color = Colors.grey;
       if (exerciseCount > 0) {
         color = colors.removeAt(0);
       }
       labels.add(Indicator(
-          color: color,
-          text: muscleGroup,
-          isSquare: true));
+        color: color,
+        text: muscleGroup,
+        proportion: proportionOfTotalExercises,
+        isSquare: false,
+      ));
       labels.add(SizedBox(height: 4.0));
       ++index;
     }
@@ -123,7 +127,7 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
       // final proportionOfTotalExercises =
       //     (totalExerciseCount == 0) ? 0.0 : exerciseCount / totalExerciseCount;
       final fontSize = isTouched ? 18.0 : 12.0;
-      final radius = isTouched ? 70.0 : 50.0;
+      final radius = isTouched ? 90.0 : 70.0;
       Color color = Colors.grey;
       if (exerciseCount > 0) {
         color = colors.removeAt(0);
