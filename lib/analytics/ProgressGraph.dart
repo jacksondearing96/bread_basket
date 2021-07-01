@@ -81,7 +81,6 @@ class _ProgressGraphState extends State<ProgressGraph> {
                   ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
             }
             return Container(
-              width: 330.0,
               height: 150,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(
@@ -89,8 +88,8 @@ class _ProgressGraphState extends State<ProgressGraph> {
                   ),
                   color: Constants.progressGraphBackgroundColor),
               child: Padding(
-                  padding: const EdgeInsets.only(
-                      right: 18.0, left: 12.0, top: 24, bottom: 16),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 16),
                   child: LineChart(
                     LineChartData(
                       lineTouchData: LineTouchData(

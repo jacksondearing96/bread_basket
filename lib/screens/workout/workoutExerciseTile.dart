@@ -56,96 +56,94 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
 
       return Card(
         color: Colors.transparent,
-        margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                exercise.equipmentTypeIconLocation == ''
-                    ? Container()
-                    : Container(
-                        margin: EdgeInsets.only(left: 20),
-                        padding: EdgeInsets.all(4.0),
-                        height: 40,
-                        width: 40,
-                        child: Opacity(
-                          opacity: Constants.equipmentTypeIconOpacity,
-                          child: ImageIcon(
-                            AssetImage(exercise.equipmentTypeIconLocation),
-                            color: Constants.textColor,
-                          ),
-                        )),
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(exercise.title,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Constants.textColor,
-                                  fontSize: Constants.selectExerciseFontSize)),
-                          exercise.subtitle != ''
-                              ? Text(exercise.subtitle,
-                                  style: TextStyle(color: Constants.hintColor))
-                              : Container(),
-                        ]),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(15, 5, 15, 15),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  exercise.equipmentTypeIconLocation == ''
+                      ? Container()
+                      : Container(
+                          padding: EdgeInsets.all(4.0),
+                          height: 40,
+                          width: 40,
+                          child: Opacity(
+                            opacity: Constants.equipmentTypeIconOpacity,
+                            child: ImageIcon(
+                              AssetImage(exercise.equipmentTypeIconLocation),
+                              color: Constants.textColor,
+                            ),
+                          )),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(exercise.title,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Constants.textColor,
+                                    fontSize: Constants.selectExerciseFontSize)),
+                            exercise.subtitle != ''
+                                ? Text(exercise.subtitle,
+                                    style: TextStyle(color: Constants.hintColor))
+                                : Container(),
+                          ]),
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(5.0),
-                  width: Constants.workoutExerciseImageWidth,
-                  height: Constants.workoutExerciseImageHeight,
-                  child: exercise.image,
-                ),
-                _removeExerciseButton(),
-              ],
-            ),
-            Padding(
-                padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                child: ChangeNotifierProvider.value(
-                  value: performedExerciseProvider,
-                  child: ProgressGraph(exerciseId: exercise.id),
-                )),
-            _header(),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: sets.length,
-              itemBuilder: (context, index) {
-                return Dismissible(
-                    direction: DismissDirection.endToStart,
-                    key: Key(getRandomString(10)),
-                    background: Container(
-                      alignment: AlignmentDirectional.centerEnd,
-                      color: Colors.red,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
-                        child: Icon(
-                          Icons.delete,
-                          color: Colors.white,
+                  Container(
+                    padding: EdgeInsets.all(5.0),
+                    width: Constants.workoutExerciseImageWidth,
+                    height: Constants.workoutExerciseImageHeight,
+                    child: exercise.image,
+                  ),
+                  _removeExerciseButton(),
+                ],
+              ),
+              ChangeNotifierProvider.value(
+                value: performedExerciseProvider,
+                child: ProgressGraph(exerciseId: exercise.id),
+              ),
+              SizedBox(height: 15),
+              _header(),
+              ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: sets.length,
+                itemBuilder: (context, index) {
+                  return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      key: Key(getRandomString(10)),
+                      background: Container(
+                        alignment: AlignmentDirectional.centerEnd,
+                        color: Colors.red,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
-                    ),
-                    onDismissed: (direction) =>
-                        performedExerciseProvider.removeSet(index),
-                    child: ChangeNotifierProvider.value(
-                      value: performedExerciseProvider,
-                      child: WorkoutSet(
-                          key: UniqueKey(),
-                          setIndex: index,
-                          prevSet: mostRecentSetsOfExercise.length > index
-                              ? mostRecentSetsOfExercise[index]
-                              : null),
-                    ));
-              },
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Row(
+                      onDismissed: (direction) =>
+                          performedExerciseProvider.removeSet(index),
+                      child: ChangeNotifierProvider.value(
+                        value: performedExerciseProvider,
+                        child: WorkoutSet(
+                            key: UniqueKey(),
+                            setIndex: index,
+                            prevSet: mostRecentSetsOfExercise.length > index
+                                ? mostRecentSetsOfExercise[index]
+                                : null),
+                      ));
+                },
+              ),
+              SizedBox(height: 10),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Flexible(
@@ -155,8 +153,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                   _addNewSetButton(performedExerciseProvider.addSet),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     });
@@ -191,8 +189,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   }
 
   Widget _removeExerciseButton() {
-    return TextButton(
-      onPressed: () => widget.removeExerciseCallback(widget.exerciseIndex),
+    return GestureDetector(
+      onTap: () => widget.removeExerciseCallback(widget.exerciseIndex),
       child: Icon(Icons.close, color: Colors.red),
     );
   }
