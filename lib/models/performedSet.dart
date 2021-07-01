@@ -28,6 +28,19 @@ class PerformedSet {
     return reps * weight;
   }
 
+  Widget styledTypeCode() {
+    if (setType == Constants.normalCode) return Container();
+
+    Color color = Constants.failureSetTypeColor;
+    if (setType == Constants.warmUpCode) {
+      color = Constants.warmUpSetTypeColor;
+    } else if (setType == Constants.dropSetCode) {
+      color = Constants.dropSetSetTypeColor;
+    }
+
+    return Container(padding: EdgeInsets.fromLTRB(0,0,5,0), child: Text(setType, style: TextStyle(color: color)));
+  }
+
   void log() {
     print(
         "PERFORMED SET >> weight: $weight, reps: ${this.reps.toString()}, type: $setType");

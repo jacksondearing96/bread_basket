@@ -45,6 +45,12 @@ class Constants {
 
   static const InputDecoration setInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.lightBlueAccent,
+        width: 1.0,
+      ),
+    ),
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
         color: Colors.greenAccent,
@@ -67,6 +73,8 @@ class Constants {
   static const double progressIndicatorIconHeight = 20.0;
 
   static const double equipmentTypeIconOpacity = 0.4;
+
+  static const int progressGraphDataPointLimit = 20;
 
   static const String warmUpCode = 'W';
   static const String dropSetCode = 'D';

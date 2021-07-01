@@ -35,6 +35,10 @@ class _ProgressGraphState extends State<ProgressGraph> {
           PerformedSet? maxWeightSet;
           double maxWeight = 0;
           for (PerformedSet performedSet in exercise.sets) {
+            // Don't count warm up sets or drop sets.
+            if (performedSet.setType == Constants.warmUpCode ||
+                performedSet.setType == Constants.dropSetCode) continue;
+
             // Update the local best weight for this workout.
             if (performedSet.weight > maxWeight) {
               maxWeightSet = performedSet;
@@ -48,6 +52,7 @@ class _ProgressGraphState extends State<ProgressGraph> {
           }
           if (maxWeightSet != null) bestSetsList.add(maxWeightSet);
         }
+        if (bestSetsList.length >= Constants.progressGraphDataPointLimit) break;
       }
       return bestSetsList;
     }
@@ -94,7 +99,8 @@ class _ProgressGraphState extends State<ProgressGraph> {
                           return spotIndexes.map((spotIndex) {
                             return TouchedSpotIndicatorData(
                               FlLine(
-                                  color: Colors.lightBlueAccent, strokeWidth: 2),
+                                  color: Colors.lightBlueAccent,
+                                  strokeWidth: 2),
                               FlDotData(
                                 getDotPainter: (spot, percent, barData, index) {
                                   return FlDotCirclePainter(
