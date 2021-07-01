@@ -6,12 +6,14 @@ class GradientFloatingActionButton extends StatelessWidget {
   VoidCallback onPressed;
   IconData iconData;
   String tooltip;
+  bool mini;
 
   GradientFloatingActionButton(
       {Key? key,
       required this.onPressed,
       required this.iconData,
-      required this.tooltip})
+      required this.tooltip,
+      this.mini = false})
       : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class GradientFloatingActionButton extends StatelessWidget {
         tooltip: tooltip,
         child: Icon(iconData, color: Constants.darkIconColor),
         backgroundColor: Constants.floatingActionButtonColor,
+        mini: mini
       ),
     );
   }

@@ -29,22 +29,25 @@ class WorkoutSetType extends StatefulWidget {
 class _WorkoutSetTypeState extends State<WorkoutSetType> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        !widget._abbreviate
-            ? Container()
-            : Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                child: Text(
-                    widget.code == Constants.normalCode
-                        ? widget.setNumber.toString()
-                        : widget.code,
-                    style: TextStyle(color: widget.color)),
-              ),
-        widget._abbreviate
-            ? Container()
-            : Text(widget.name, style: TextStyle(color: widget.color)),
-      ],
+    return Container(
+      // decoration: BoxDecoration(color: Constants.darkSecondaryBackground),
+      child: Row(
+        children: [
+          !widget._abbreviate
+              ? Container()
+              : Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.0),
+                  child: Text(
+                      widget.code == Constants.normalCode
+                          ? widget.setNumber.toString()
+                          : widget.code,
+                      style: TextStyle(color: widget.color)),
+                ),
+          widget._abbreviate
+              ? Container()
+              : Text(widget.name, style: TextStyle(color: widget.color)),
+        ],
+      ),
     );
   }
 }

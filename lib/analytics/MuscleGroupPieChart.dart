@@ -114,10 +114,8 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
 
   List<PieChartSectionData> showingSections() {
     List<Color> colors = []..addAll(Constants.pieChartColors);
-    print('COLORS: $colors');
     return List.generate(Constants.muscleGroups.length, (i) {
       final muscleGroup = Constants.muscleGroups[i];
-      print('Generating pie chart section data for muscle group: $muscleGroup');
       final isTouched = i == touchedIndex;
       final exerciseCount = muscleGroupToExerciseCount.containsKey(muscleGroup)
           ? muscleGroupToExerciseCount[muscleGroup]!.toDouble()

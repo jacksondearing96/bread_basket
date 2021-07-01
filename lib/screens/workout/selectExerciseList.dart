@@ -24,8 +24,6 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
   Widget build(BuildContext context) {
     onSearchTextChanged(String query) async {
       setState(() {
-        print('ON TEXT CHANGED');
-        print(selectedChips);
         _searchResult.clear();
         if (query.isEmpty && selectedChips.isEmpty) {
           setState(() {});

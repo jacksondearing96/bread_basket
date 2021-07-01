@@ -43,14 +43,15 @@ class DatabaseService {
 
   List<PerformedWorkout> _workoutsFromJson(Map<String, Object?> json) {
     List<PerformedWorkout> workouts = [];
-    print('Extracting from ${json.keys.length} workouts...');
     for (var id in json.keys) {
       workouts.add(
           PerformedWorkout.fromJson(json[id]! as Map<String, Object?>, id));
+      // print(json[id]);
+      // workouts.last.log('');
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
-      // dateInMilliseconds. Therefore, default to the time at which the 
+      // dateInMilliseconds. Therefore, default to the time at which the
       // digital workout was initialised if date is the same.
       if (a.dateInMilliseconds == b.dateInMilliseconds) {
         return int.parse(a.id).compareTo(int.parse(b.id));
@@ -69,7 +70,6 @@ class DatabaseService {
   }
 
   Stream<List<PerformedWorkout>?> get pastWorkouts {
-    print('Fetching past workouts');
     return FirebaseFirestore.instance
         .collection('bros')
         .doc(userId)

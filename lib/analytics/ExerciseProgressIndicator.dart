@@ -25,9 +25,7 @@ class ExerciseProgressIndicator extends StatelessWidget {
     double prevMetric = metric(prevSets);
     if (prevMetric == 0) return 0;
     double progressRatio = metric(currentSets) / metric(prevSets);
-    print('Progress ratio: $progressRatio');
     int rounded = ((progressRatio - 1) * 100).round();
-    print(rounded);
     return rounded;
   }
 
@@ -36,7 +34,7 @@ class ExerciseProgressIndicator extends StatelessWidget {
     return prevSets.isEmpty
         ? Container()
         : Container(
-            height: 100.0,
+            height: 55.0,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -49,33 +47,37 @@ class ExerciseProgressIndicator extends StatelessWidget {
           );
   }
 
-  Widget _progressIndicatorTile(int progress, Image icon) {
+  Widget _progressIndicatorTile(int progress, String iconLocation) {
     bool improvement = progress >= 0;
     progress = progress.abs();
     return Container(
-        margin: EdgeInsets.all(3.0),
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: improvement
-              ? Colors.green.withOpacity(0.25)
-              : Colors.red.withOpacity(0.25),
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            SizedBox(
-                width: Constants.progressIndicatorIconWidth,
-                height: Constants.progressIndicatorIconHeight,
-                child: icon),
-            Icon(improvement ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-            color: improvement ? Colors.green : Colors.red),
-            Text(
-              "$progress%",
-              style: TextStyle(color: Constants.hintColor),
+      margin: EdgeInsets.all(3.0),
+      padding: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: improvement
+            ? Colors.green.withOpacity(0.25)
+            : Colors.red.withOpacity(0.25),
+        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Container(
+            width: Constants.progressIndicatorIconWidth,
+            height: Constants.progressIndicatorIconHeight,
+            child: ImageIcon(
+              AssetImage(iconLocation),
+              color: Constants.textColor,
             ),
-          ],
-        ),
-        );
+          ),
+          Icon(improvement ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              color: improvement ? Colors.green : Colors.red),
+          Text(
+            "$progress%",
+            style: TextStyle(color: Constants.hintColor),
+          ),
+        ],
+      ),
+    );
   }
 }

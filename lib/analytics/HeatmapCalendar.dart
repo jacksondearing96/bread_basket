@@ -152,7 +152,7 @@ class HeatmapCalendar extends StatelessWidget {
     Color color;
     switch (intensity) {
       case 0:
-        color = Color.fromARGB(255, 40, 40, 40);
+        color = Color.fromARGB(255, 30, 30, 30);
         break;
       case 1:
         color = Colors.lightBlueAccent[100]!.withAlpha(200);

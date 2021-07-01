@@ -3,7 +3,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/screens/wrapper.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/database.dart';
-import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
           }
 
           // Replace this with loading animation.
-          return Text('Loading', textDirection: TextDirection.ltr);
+          return Loading();
         });
   }
 }

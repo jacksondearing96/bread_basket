@@ -8,6 +8,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -58,52 +59,49 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         margin: EdgeInsets.fromLTRB(0, 6.0, 0, 0.0),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  exercise.equipmentTypeIconLocation == ''
-                      ? Container()
-                      : Container(
-                          padding: EdgeInsets.all(4.0),
-                          height: 40,
-                          width: 40,
-                          child: Opacity(
-                            opacity: Constants.equipmentTypeIconOpacity,
-                            child: ImageIcon(
-                              AssetImage(exercise.equipmentTypeIconLocation),
-                              color: Constants.textColor,
-                            ),
-                          )),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(exercise.title,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                exercise.equipmentTypeIconLocation == ''
+                    ? Container()
+                    : Container(
+                        margin: EdgeInsets.only(left: 20),
+                        padding: EdgeInsets.all(4.0),
+                        height: 40,
+                        width: 40,
+                        child: Opacity(
+                          opacity: Constants.equipmentTypeIconOpacity,
+                          child: ImageIcon(
+                            AssetImage(exercise.equipmentTypeIconLocation),
+                            color: Constants.textColor,
+                          ),
+                        )),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(exercise.title,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
                                   color: Constants.textColor,
-                                    fontSize:
-                                        Constants.selectExerciseFontSize)),
-                            exercise.subtitle != ''
-                                ? Text(exercise.subtitle,
-                                    style:
-                                        TextStyle(color: Constants.hintColor))
-                                : Container(),
-                          ]),
-                    ),
+                                  fontSize: Constants.selectExerciseFontSize)),
+                          exercise.subtitle != ''
+                              ? Text(exercise.subtitle,
+                                  style: TextStyle(color: Constants.hintColor))
+                              : Container(),
+                        ]),
                   ),
-                  Container(
-                    padding: EdgeInsets.all(5.0),
-                    width: Constants.workoutExerciseImageWidth,
-                    height: Constants.workoutExerciseImageHeight,
-                    child: exercise.image,
-                  ),
-                ],
-              ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5.0),
+                  width: Constants.workoutExerciseImageWidth,
+                  height: Constants.workoutExerciseImageHeight,
+                  child: exercise.image,
+                ),
+                _removeExerciseButton(),
+              ],
             ),
             Padding(
                 padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -146,11 +144,10 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
               },
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  _removeExerciseButton(),
                   Flexible(
                     child: ExerciseProgressIndicator(
                         prevSets: mostRecentSetsOfExercise, currentSets: sets),
@@ -180,10 +177,9 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         Container(
             width: Constants.workoutSetTypeDropdownWidth, child: _text('Set')),
         Container(width: Constants.prevSetWidth, child: _text('Prev')),
-        Container(width: Constants.workoutSetInputWidth, child: _text('Weight')),
         Container(
-            width: Constants.workoutSetInputWidth,
-            child: _text('Reps')),
+            width: Constants.workoutSetInputWidth, child: _text('Weight')),
+        Container(width: Constants.workoutSetInputWidth, child: _text('Reps')),
       ],
     );
   }
@@ -194,24 +190,15 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         style: TextStyle(color: Constants.hintColor));
   }
 
-  FloatingActionButton _removeExerciseButton() {
-    return FloatingActionButton(
-      heroTag: UniqueKey(),
+  Widget _removeExerciseButton() {
+    return TextButton(
       onPressed: () => widget.removeExerciseCallback(widget.exerciseIndex),
-      tooltip: 'Remove exercise',
-      child: Icon(Icons.close),
-      mini: true,
-      backgroundColor: Colors.red,
+      child: Icon(Icons.close, color: Colors.red),
     );
   }
 
-  FloatingActionButton _addNewSetButton(Function addSet) {
-    return FloatingActionButton(
-      heroTag: UniqueKey(),
-      onPressed: () => addSet(),
-      tooltip: 'Add set',
-      child: Icon(Icons.add),
-      mini: true,
-    );
+  Widget _addNewSetButton(VoidCallback addSet) {
+    return GradientFloatingActionButton(
+        onPressed: addSet, iconData: Icons.add, tooltip: 'Add set', mini: true);
   }
 }

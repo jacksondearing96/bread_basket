@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseListProvider.dart';
@@ -34,7 +35,6 @@ class _WorkoutState extends State<Workout> {
   bool isLoading = false;
 
   void startLoading() {
-    print('Starting to load..');
     setState(() => isLoading = true);
   }
 
@@ -141,13 +141,7 @@ class _WorkoutState extends State<Workout> {
                       ChangeNotifierProvider(
                           create: (_) => performedExerciseListProvider,
                           child: WorkoutExerciseList()),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                          child: addNewExerciseButton(context),
-                        ),
-                      ),
+                          Container(margin: EdgeInsets.all(10), child: addNewExerciseButton(context)),
                     ]),
               ),
             ),
@@ -251,9 +245,12 @@ class _WorkoutState extends State<Workout> {
 
   void _processSelectedExercises(List<Exercise> exercises) {
     for (Exercise exercise in exercises) {
+      PerformedExercise performedExercise =
+          PerformedExercise(exercise: exercise);
+      // Start it off with 1 empty set.
+      performedExercise.sets.add(PerformedSet());
       performedExerciseListProvider
-          .addExercise(PerformedExercise(exercise: exercise));
-      exercise.log();
+          .addExercise(performedExercise);
     }
   }
 }

@@ -26,7 +26,6 @@ class _WorkoutSetState extends State<WorkoutSet> {
   Widget build(BuildContext context) {
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
-      performedExerciseProvider.exercise.log();
       PerformedSet performedSet =
           performedExerciseProvider.exercise.sets[widget.setIndex];
 

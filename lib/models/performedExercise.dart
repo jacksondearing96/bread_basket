@@ -4,7 +4,7 @@ import 'package:bread_basket/models/performedSet.dart';
 class PerformedExercise {
   final Exercise exercise;
   String id = DateTime.now().millisecondsSinceEpoch.toString();
-  List<PerformedSet> sets = [PerformedSet()];
+  List<PerformedSet> sets = [];
 
   PerformedExercise({required this.exercise});
 
@@ -36,11 +36,8 @@ class PerformedExercise {
   }
 
   void log() {
-    print("PERFORMED EXERCISE >> Exercise ID: " +
-        this.exercise.id +
-        ", name: " +
-        this.exercise.name +
-        ", sets: " +
-        this.sets.length.toString());
+    print("PERFORMED EXERCISE >>");
+    exercise.log(); 
+    for (PerformedSet s in sets) s.log();
   }
 }

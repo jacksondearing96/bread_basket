@@ -8,8 +8,6 @@ class PerformedExerciseListProvider extends ChangeNotifier {
   List<PerformedExerciseProvider> get exercises => _exercises;
 
   void addExercise(PerformedExercise exercise) {
-    print('Adding exercise to provider');
-    exercise.log();
     _exercises.add(PerformedExerciseProvider(performedExercise: exercise));
     notifyListeners();
   }

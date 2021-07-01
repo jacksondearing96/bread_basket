@@ -15,20 +15,16 @@ class PerformedExerciseProvider extends ChangeNotifier {
   }
 
   void updateSet(int index, PerformedSet performedSet) {
-    print('Updating provider' 's set at index: $index');
-    performedSet.log();
     performedExercise.sets[index] = performedSet;
     notifyListeners();
   }
 
   void removeSet(int index) {
-    print('Removing provider' 's set at index: $index');
     performedExercise.sets.removeAt(index);
     notifyListeners();
   }
 
   void addSet() {
-    print('Adding a set to the provider');
     performedExercise.sets.add(PerformedSet());
     notifyListeners();
   }
@@ -47,7 +43,6 @@ class PerformedExerciseProvider extends ChangeNotifier {
 
   @override
   void dispose() {
-    print('DISPOSING OF performedExerciseProvider !!!');
     super.dispose();
   }
 }

@@ -9,8 +9,6 @@ class PerformedWorkout {
   String name = "New Workout";
 
   static PerformedWorkout fromJson(Map<String, Object?> json, String id) {
-    print('Creating a PerformedWorkout from json, using: ');
-    print(json);
     PerformedWorkout workout = PerformedWorkout();
     workout.name = json['name']! as String;
     workout.dateInMilliseconds = json['dateInMilliseconds']! as int;
@@ -64,16 +62,12 @@ class PerformedWorkout {
   }
 
   void log(String message) {
+    print('');
     print(message);
-    print('WORKOUT[$id]: $name');
+    print(
+        'WORKOUT[$id]: name: $name, date: ${DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds)}');
     for (var exercise in performedExercises) {
-      print(
-          'Exercise[${exercise.id}]: ${exercise.exercise.name} (id = ${exercise.exercise.id})');
-      int setNumber = 0;
-      for (var set in exercise.sets) {
-        print(
-            'Set[${set.id}]: ${setNumber++}: weight = ${set.weight}, reps = ${set.reps}');
-      }
+      exercise.log();
     }
   }
 }

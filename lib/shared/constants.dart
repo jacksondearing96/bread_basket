@@ -108,8 +108,8 @@ class Constants {
     Colors.greenAccent[100]!,
   ];
 
-  static Image weightIcon = Image.asset('resources/icons/weight.png');
-  static Image sigmaIcon = Image.asset('resources/icons/sigma.png');
+  static String weightIcon = 'resources/icons/weight.png';
+  static String sigmaIcon = 'resources/icons/sigma.png';
   static Image backgroundImage = Image.asset('resources/icons/background.png');
 
   static AppBar gradientAppBar({title, actions, leading}) {
