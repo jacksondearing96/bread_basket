@@ -3,6 +3,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/screens/wrapper.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/database.dart';
+import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,14 +39,22 @@ class MyApp extends StatelessWidget {
                   final user = Provider.of<User?>(context);
                   return StreamProvider<List<PerformedWorkout>?>.value(
                     initialData: [],
-                    value: DatabaseService(userId: user == null ? null : user.userId).pastWorkouts,
+                    value: DatabaseService(
+                            userId: user == null ? null : user.userId)
+                        .pastWorkouts,
                     child: MaterialApp(
                       theme: ThemeData(
                         textTheme: TextTheme(
+                          bodyText1: TextStyle(color: Constants.textColorTemp),
+                          bodyText2: TextStyle(color: Constants.hintColorTemp),
+                          subtitle1: TextStyle(color: Colors.pink),
+                          subtitle2: TextStyle(color: Colors.pink),
+                          button: TextStyle(color: Colors.orange),
+                          caption: TextStyle(color: Colors.yellow),
                         ),
                       ),
                       home: Wrapper(),
-                     ),
+                    ),
                   );
                 }),
               ),

@@ -98,7 +98,7 @@ class _ProgressGraphState extends State<ProgressGraph> {
                           return spotIndexes.map((spotIndex) {
                             return TouchedSpotIndicatorData(
                               FlLine(
-                                  color: Colors.lightBlueAccent,
+                                  color: Constants.primaryColor,
                                   strokeWidth: 2),
                               FlDotData(
                                 getDotPainter: (spot, percent, barData, index) {
@@ -106,14 +106,14 @@ class _ProgressGraphState extends State<ProgressGraph> {
                                       radius: 3,
                                       color: Colors.white,
                                       strokeWidth: 2,
-                                      strokeColor: Colors.lightBlueAccent);
+                                      strokeColor: Constants.primaryColor);
                                 },
                               ),
                             );
                           }).toList();
                         },
                         touchTooltipData: LineTouchTooltipData(
-                            tooltipBgColor: Colors.lightBlueAccent,
+                            tooltipBgColor: Constants.primaryColor,
                             getTooltipItems:
                                 (List<LineBarSpot> touchedBarSpots) {
                               return touchedBarSpots.map((barSpot) {

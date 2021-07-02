@@ -23,32 +23,30 @@ class Home extends StatelessWidget {
     final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
     final noWorkoutsYet = pastWorkouts == null || pastWorkouts.isEmpty;
 
-    Widget _button({text: String, icon: Icon, onTap: Function}) {
-      return Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.lightBlueAccent,
-            Colors.greenAccent,
+    Widget _progressGraph({exerciseId: int}) {
+      if (noWorkoutsYet || exercises.isEmpty) return Container();
+      Exercise exercise =
+          exercises.firstWhere((e) => e.id == exerciseId.toString());
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          children: [
+            Text(exercise.title, style: TextStyle(color: Constants.hintColor)),
+            ChangeNotifierProvider.value(
+              value: PerformedExerciseProvider(
+                  performedExercise: PerformedExercise(exercise: exercise)),
+              child: ProgressGraph(exerciseId: exerciseId.toString()),
+            ),
           ],
-        )),
-        child: ElevatedButton.icon(
-          icon: Icon(
-            icon,
-            color: Constants.textColor,
-          ),
-          label: Text(
-            text,
-            style: TextStyle(color: Constants.textColor),
-          ),
-          onPressed: onTap,
-          style: TextButton.styleFrom(
-              backgroundColor: Colors.transparent,
-              primary: Constants.textColor),
         ),
       );
+    }
+
+    void _startNewWorkout(BuildContext context) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Workout(exercises: exercises)));
     }
 
     return Scaffold(
@@ -81,68 +79,21 @@ class Home extends StatelessWidget {
                     GradientButton(
                       text: 'New workout',
                       iconData: Icons.fitness_center,
-                      onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  Workout(exercises: exercises))),
+                      onPressed: () => _startNewWorkout(context),
                     ),
                     SizedBox(height: 15),
                     GradientButton(
-                        text: 'History (coming soon)', iconData: Icons.history),
+                        text: 'History (coming soon)',
+                        iconData: Icons.history),
                   ],
                 ),
               ),
               noWorkoutsYet ? Container() : WeeklyTrainingVolume(),
               noWorkoutsYet ? Container() : MuscleGroupPieChart(),
               HeatmapCalendar(),
-              noWorkoutsYet ? Container() : Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  children: [
-                    Text('Bench Press',
-                        style: TextStyle(color: Constants.hintColor)),
-                    ChangeNotifierProvider.value(
-                      value: PerformedExerciseProvider(
-                          performedExercise: PerformedExercise(
-                              exercise: Exercise(
-                                  id: 35.toString(),
-                                  name: 'bench_press_(barbell)',
-                                  tags: []))),
-                      child: ProgressGraph(exerciseId: 35.toString()),
-                    ),
-                  ],
-                ),
-              ),
-              noWorkoutsYet ? Container() : Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Column(children: [
-                  Text('Deadlift',
-                      style: TextStyle(color: Constants.hintColor)),
-                  ChangeNotifierProvider.value(
-                      value: PerformedExerciseProvider(
-                          performedExercise: PerformedExercise(
-                              exercise: Exercise(
-                                  id: 1.toString(),
-                                  name: 'deadlift_(barbell)',
-                                  tags: []))),
-                      child: ProgressGraph(exerciseId: 1.toString())),
-                ]),
-              ),
-              noWorkoutsYet ? Container() : Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Column(children: [
-                  Text('Squat', style: TextStyle(color: Constants.hintColor)),
-                  ChangeNotifierProvider.value(
-                      value: PerformedExerciseProvider(
-                          performedExercise: PerformedExercise(
-                              exercise: Exercise(
-                                  id: 151.toString(),
-                                  name: 'squat_(barbell)',
-                                  tags: []))),
-                      child: ProgressGraph(exerciseId: 151.toString())),
-                ]),
-              ),
+              _progressGraph(exerciseId: Constants.benchPressExerciseId),
+              _progressGraph(exerciseId: Constants.deadliftExerciseId),
+              _progressGraph(exerciseId: Constants.squatExerciseId),
             ],
           ),
         ),

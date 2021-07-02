@@ -48,7 +48,7 @@ class Calendar {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 2.1, 5, 2.1),
       child: Text(weekday,
-          style: TextStyle(color: Constants.textColor, fontSize: 10)),
+          style: TextStyle(fontSize: 10)),
     );
   }
 

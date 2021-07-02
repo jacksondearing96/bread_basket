@@ -1,3 +1,4 @@
+import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class RadiantGradientMask extends StatelessWidget {
@@ -11,8 +12,8 @@ class RadiantGradientMask extends StatelessWidget {
     return ShaderMask(
       shaderCallback: (bounds) => LinearGradient(
         colors: [
-          overrideColor ?? Colors.greenAccent,
-          overrideColor ?? Colors.lightBlueAccent
+          overrideColor ?? Constants.secondaryColor,
+          overrideColor ?? Constants.primaryColor
         ],
       ).createShader(bounds),
       child: child,

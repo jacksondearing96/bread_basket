@@ -5,7 +5,13 @@ class Constants {
   static Color lighterBackground =
       Color.fromARGB(255, 255, 255, 255).withOpacity(0.9);
   static const Color accentColor = Colors.blueAccent;
+
+  static const Color primaryColor = Colors.lightBlueAccent;
+  static const Color secondaryColor = Colors.greenAccent;
+
   static const Color textColor = Colors.white;
+  static const Color textColorTemp = Colors.pink;
+  static const Color hintColorTemp = Colors.purple;
   static const Color hintColor = Colors.grey;
   static const Color errorColor = Colors.red;
   static const Color warmUpSetTypeColor = Colors.orange;
@@ -19,8 +25,8 @@ class Constants {
 
   static Gradient themeGradient = LinearGradient(
     colors: <Color>[
-      Colors.lightBlueAccent.withOpacity(0.9),
-      Colors.greenAccent.withOpacity(0.9)
+      Constants.primaryColor.withOpacity(0.9),
+      Constants.secondaryColor.withOpacity(0.9)
     ],
   );
   // Progress graph dark theme.
@@ -37,7 +43,7 @@ class Constants {
     hintStyle: TextStyle(color: hintColor),
     focusedBorder: UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.lightBlueAccent,
+        color: Constants.primaryColor,
         width: 1.0,
       ),
     ),
@@ -53,13 +59,13 @@ class Constants {
     hintStyle: TextStyle(color: hintColor),
     focusedBorder: UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.lightBlueAccent,
+        color: Constants.primaryColor,
         width: 1.0,
       ),
     ),
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.greenAccent,
+        color: Constants.secondaryColor,
         width: 1.0,
       ),
     ),
@@ -77,6 +83,9 @@ class Constants {
   static const double workoutExerciseImageHeight = 60.0;
   static const double progressIndicatorIconWidth = 20.0;
   static const double progressIndicatorIconHeight = 20.0;
+
+  static const double largeButtonWidth = 220;
+  static const double largeButtonHeight = 60;
 
   static const double equipmentTypeIconOpacity = 0.4;
 
@@ -112,9 +121,13 @@ class Constants {
     'core',
   ];
 
+  static const int benchPressExerciseId = 35;
+  static const int deadliftExerciseId = 1;
+  static const int squatExerciseId = 151;
+
   static List<Color> pieChartColors = [
-    Colors.lightBlueAccent,
-    Colors.greenAccent,
+    Constants.primaryColor,
+    Constants.secondaryColor,
     Colors.purpleAccent[100]!,
     Colors.lightBlueAccent[700]!,
     Colors.greenAccent[400]!,
@@ -137,8 +150,8 @@ class Constants {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-            Colors.greenAccent,
-            Colors.lightBlueAccent,
+            Constants.secondaryColor,
+            Constants.primaryColor,
           ]))),
       elevation: 0.0,
       actions: actions ?? [],

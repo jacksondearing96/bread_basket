@@ -32,7 +32,7 @@ class SelectExerciseTile extends StatelessWidget {
                             width: Constants.exerciseTypeIconWidth,
                             child: ImageIcon(
                               AssetImage(exercise.equipmentTypeIconLocation),
-                              color: Colors.lightBlueAccent.withAlpha(230),
+                              color: Constants.primaryColor.withAlpha(230),
                             ),
                           ),
                 // child: exercise.equipmentTypeIcon,

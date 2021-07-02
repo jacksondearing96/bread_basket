@@ -33,7 +33,7 @@ class UserSnapshot extends StatelessWidget {
                   CircleAvatar(
                       child: Text(user.name.isEmpty ? 'J' : user.name[0]),
                       radius: Constants.exerciseTypeIconWidth / 2,
-                      backgroundColor: Colors.lightBlueAccent),
+                      backgroundColor: Constants.primaryColor),
                   SizedBox(width: 20),
                   Expanded(
                       child: Text(user.name,
@@ -59,7 +59,7 @@ class UserSnapshot extends StatelessWidget {
                           child: ImageIcon(
                             AssetImage(
                                 Constants.equipmentTypeIcons['dumbbell']!),
-                            color: Colors.lightBlueAccent.withAlpha(230),
+                            color: Constants.primaryColor.withAlpha(230),
                           ),
                         ),
                         SizedBox(width: 20),
@@ -94,7 +94,7 @@ class UserSnapshot extends StatelessWidget {
                           width: Constants.exerciseTypeIconWidth,
                           child: ImageIcon(
                             AssetImage(Constants.weightIcon),
-                            color: Colors.lightBlueAccent.withAlpha(230),
+                            color: Constants.primaryColor.withAlpha(230),
                           ),
                         ),
                         SizedBox(width: 20),

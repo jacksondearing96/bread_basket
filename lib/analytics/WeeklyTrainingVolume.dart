@@ -30,7 +30,7 @@ class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
     BarChartGroupData _barChartData(int dayOftheWeek, double volume) {
       return BarChartGroupData(x: dayOftheWeek, barRods: [
         BarChartRodData(
-            y: volume, colors: [Colors.lightBlueAccent, Colors.greenAccent])
+            y: volume, colors: [Constants.primaryColor, Constants.secondaryColor])
       ]);
     }
 

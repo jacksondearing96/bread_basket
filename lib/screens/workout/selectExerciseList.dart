@@ -93,7 +93,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                   color: Colors.transparent,
                   child: new ListTile(
                     title: new TextField(
-                        style: TextStyle(color: Constants.textColor),
+                        // style: TextStyle(color: Constants.textColor),
                         controller: controller,
                         decoration: new InputDecoration(
                           prefixIcon: RadiantGradientMask(
@@ -108,7 +108,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                           ),
                           enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: Colors.lightBlueAccent, width: 1.0)),
+                                  color: Constants.primaryColor, width: 1.0)),
                           filled: false,
                           hintStyle: TextStyle(color: Constants.hintColor),
                           hintText: 'Search',
