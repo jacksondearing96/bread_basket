@@ -35,9 +35,23 @@ class PerformedExercise {
     return totalVolume;
   }
 
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> exerciseJson = {
+      'exerciseId': exercise.id,
+      'name': exercise.name,
+      'tags': exercise.tags,
+      'sets': {}
+    };
+    for (PerformedSet set in sets) {
+      // Skip empty sets.
+      if (set.reps != 0) exerciseJson['sets']![set.id] = set.toJson();
+    }
+    return exerciseJson;
+  }
+
   void log() {
     print("PERFORMED EXERCISE >>");
-    exercise.log(); 
+    exercise.log();
     for (PerformedSet s in sets) s.log();
   }
 }

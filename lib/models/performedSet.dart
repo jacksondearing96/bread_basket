@@ -28,6 +28,10 @@ class PerformedSet {
     return reps * weight;
   }
 
+  Map<String, Object> toJson() {
+    return {'type': setType, 'weight': weight, 'reps': reps};
+  }
+
   Widget styledTypeCode() {
     if (setType == Constants.normalCode) return Container();
 
@@ -38,7 +42,9 @@ class PerformedSet {
       color = Constants.dropSetSetTypeColor;
     }
 
-    return Container(padding: EdgeInsets.fromLTRB(0,0,5,0), child: Text(setType, style: TextStyle(color: color)));
+    return Container(
+        padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+        child: Text(setType, style: TextStyle(color: color)));
   }
 
   void log() {
