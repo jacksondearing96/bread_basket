@@ -137,8 +137,6 @@ class _RegisterState extends State<Register> {
                         onPressed: () => widget.toggleView(),
                       ),
                     ),
-                    SizedBox(height: 12.0),
-
                   ],
                 ),
               ),
