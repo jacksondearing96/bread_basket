@@ -123,6 +123,7 @@ class Constants {
   ];
 
   static String weightIcon = 'resources/icons/weight.png';
+  static String dumbbellIcon = 'resources/icons/dumbbell.png';
   static String sigmaIcon = 'resources/icons/sigma.png';
   static Image backgroundImage = Image.asset('resources/icons/background.png');
 

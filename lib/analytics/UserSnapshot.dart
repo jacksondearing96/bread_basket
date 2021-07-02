@@ -36,7 +36,7 @@ class UserSnapshot extends StatelessWidget {
                       backgroundColor: Colors.lightBlueAccent),
                   SizedBox(width: 20),
                   Expanded(
-                      child: Text(true ? 'Jackson' : user.name,
+                      child: Text(user.name,
                           style: TextStyle(fontSize: 18, color: Colors.white))),
                 ],
               ),

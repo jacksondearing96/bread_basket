@@ -129,7 +129,7 @@ class Home extends StatelessWidget {
                       child: ProgressGraph(exerciseId: 1.toString())),
                 ]),
               ),
-              Padding(
+              noWorkoutsYet ? Container() : Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(children: [
                   Text('Squat', style: TextStyle(color: Constants.hintColor)),

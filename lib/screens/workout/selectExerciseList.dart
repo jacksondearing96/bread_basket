@@ -82,9 +82,11 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: Row(
               children: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Icon(Icons.arrow_back),
+                RadiantGradientMask(
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Icon(Icons.arrow_back, color: Colors.white),
+                  ),
                 ), 
                 Expanded(
                   child: Ink(
