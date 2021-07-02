@@ -1,6 +1,7 @@
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
+// TODO: Merge Exercise with PerformedExercise.
 class Exercise {
   final String name;
   final String id;

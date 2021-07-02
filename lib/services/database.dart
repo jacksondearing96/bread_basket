@@ -22,6 +22,9 @@ class DatabaseService {
   }
 
   // Get exercises stream.
+  // TODO: Migrate this to a single doc - it's contents will never exceed the 
+  // Firebase doc capacity and this would greatly reduce the number of reads
+  // required which is the billable metric in Firebase.
   Stream<List<Exercise>> get exercises {
     return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
   }

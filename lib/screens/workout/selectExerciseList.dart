@@ -55,7 +55,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                 selectedChips.contains(filterValue) ? null : Colors.grey,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-              child: Text(filterValue),
+              child: Text(filterValue, style: TextStyle(color: Colors.black)),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12), color: Colors.white),
             ),

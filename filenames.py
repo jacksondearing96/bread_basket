@@ -2,6 +2,8 @@ import os
 
 # Let the order
 # Next id = 209
+# TODO: Extract this into a separate JSON file that the dart code can 
+# reference too in order to remove duplicates of this list.
 exercises = {
 
 'assisted_chin_up_(machine)':['5160', 'biceps',  'back'],

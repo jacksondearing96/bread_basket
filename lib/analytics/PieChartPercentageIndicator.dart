@@ -1,7 +1,7 @@
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
-class Indicator extends StatelessWidget {
+class PieChartPercentageIndicator extends StatelessWidget {
   final Color color;
   final String text;
   final bool isSquare;
@@ -9,7 +9,7 @@ class Indicator extends StatelessWidget {
   final Color textColor;
   final double proportion;
 
-  const Indicator({
+  const PieChartPercentageIndicator({
     Key? key,
     required this.color,
     required this.text,
