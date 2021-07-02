@@ -4,8 +4,8 @@ import 'package:bread_basket/shared/toolTipOnTap.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseProgressIndicator extends StatelessWidget {
-  List<PerformedSet> prevSets;
-  List<PerformedSet> currentSets;
+  final List<PerformedSet> prevSets;
+  final List<PerformedSet> currentSets;
   ExerciseProgressIndicator(
       {required this.prevSets, required this.currentSets});
 

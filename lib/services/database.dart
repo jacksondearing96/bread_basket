@@ -1,4 +1,3 @@
-import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bread_basket/models/exercise.dart';

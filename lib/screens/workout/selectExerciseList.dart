@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class SelectExerciseList extends StatefulWidget {
   final List<Exercise> exercises;
-  List<Exercise> selectedExercises;
+  final List<Exercise> selectedExercises;
   SelectExerciseList(
       {required this.exercises, required this.selectedExercises});
 

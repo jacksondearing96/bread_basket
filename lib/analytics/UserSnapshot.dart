@@ -1,7 +1,6 @@
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

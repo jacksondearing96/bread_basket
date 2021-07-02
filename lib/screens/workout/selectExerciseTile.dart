@@ -6,7 +6,7 @@ import 'package:bread_basket/models/exercise.dart';
 class SelectExerciseTile extends StatelessWidget {
   final Exercise exercise;
   final Function onTap;
-  bool isSelected;
+  final bool isSelected;
   SelectExerciseTile(
       {required this.exercise, required this.onTap, required this.isSelected});
 
@@ -35,7 +35,6 @@ class SelectExerciseTile extends StatelessWidget {
                               color: Constants.primaryColor.withAlpha(230),
                             ),
                           ),
-                // child: exercise.equipmentTypeIcon,
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),

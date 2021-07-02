@@ -92,8 +92,6 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       setState(() => performedSet.reps = int.parse(val));
                       updateSet(
                           performedExerciseProvider.updateSet, performedSet);
-                      // performedExerciseProvider.updateSet(
-                      //     widget.setIndex, performedSet);
                     },
                   ),
                 ),

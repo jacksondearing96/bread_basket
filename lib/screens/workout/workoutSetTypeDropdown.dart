@@ -41,7 +41,6 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
                     .toList(),
                 onChanged: (newValue) {
                   setState(() => performedSet.setType = newValue ?? performedSet.setType);
-                  // performedExerciseProvider.updateSet(widget.setIndex, performedSet);
                 }),
           ),
         ),

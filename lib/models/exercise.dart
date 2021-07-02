@@ -81,7 +81,6 @@ class Exercise {
   bool isSearchHit(String query, Set<String> tagQueries) {
     // Check that it is compliant with the tag queries first.
     if (tagQueries.isNotEmpty) {
-      bool meetsTagRequirement = false;
       for (String tag in tagQueries) {
         if (!tags.contains(tag)) return false;
       }

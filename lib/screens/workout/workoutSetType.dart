@@ -30,7 +30,6 @@ class _WorkoutSetTypeState extends State<WorkoutSetType> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // decoration: BoxDecoration(color: Constants.darkSecondaryBackground),
       child: Row(
         children: [
           !widget._abbreviate

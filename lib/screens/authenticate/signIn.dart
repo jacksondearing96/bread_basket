@@ -3,7 +3,6 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customTextFormField.dart';
 import 'package:bread_basket/shared/customButton.dart';
 import 'package:bread_basket/shared/loading.dart';
-import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 

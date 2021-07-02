@@ -1,5 +1,4 @@
 import 'package:bread_basket/models/performedExercise.dart';
-import 'package:bread_basket/models/performedSet.dart';
 
 class PerformedWorkout {
   String id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -25,7 +24,6 @@ class PerformedWorkout {
   }
 
   Map<String, Object?> toJson() {
-    // TODO: Separate this work into each class.
     Map<String, dynamic> workoutData = {
       'name': name,
       'dateInMilliseconds': dateInMilliseconds,
