@@ -1,0 +1,2 @@
+flutter build apk --split-per-abi
+adb -s 0A011FDD40011W install build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk

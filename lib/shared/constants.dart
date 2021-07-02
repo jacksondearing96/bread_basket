@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Constants {
-  static Color backgroundColor = Color.fromARGB(255, 20, 20, 20);
+  static Color backgroundColor = Color.fromARGB(255, 30, 30, 30);
   static Color lighterBackground =
       Color.fromARGB(255, 255, 255, 255).withOpacity(0.9);
   static const Color accentColor = Colors.blueAccent;
@@ -35,6 +35,12 @@ class Constants {
 
   static const InputDecoration textInputDecoration = InputDecoration(
     hintStyle: TextStyle(color: hintColor),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        color: Colors.lightBlueAccent,
+        width: 1.0,
+      ),
+    ),
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
         color: textColor,

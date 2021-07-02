@@ -110,7 +110,7 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
         proportion: proportionOfTotalExercises,
         isSquare: false,
       ));
-      labels.add(SizedBox(height: 4.0));
+      labels.add(SizedBox(height: 6.0));
       ++index;
     }
     return labels;

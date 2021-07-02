@@ -45,7 +45,7 @@ class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
     }
 
     return AspectRatio(
-      aspectRatio: 1.7,
+      aspectRatio: 1.5,
       child: Container(
         decoration: BoxDecoration(
          borderRadius: BorderRadius.circular(8), 
@@ -59,8 +59,8 @@ class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
             children: [ 
               Text('Weekly training volumes (total kgs)',
               style: TextStyle(color: Constants.hintColor)), 
-              SizedBox(
-                height: 110,
+              SizedBox(height: 10),
+              Expanded(
                 child: BarChart(
                 BarChartData(
                   alignment: BarChartAlignment.spaceAround,
