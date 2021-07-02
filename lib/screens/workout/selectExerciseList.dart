@@ -1,7 +1,7 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/screens/workout/selectExerciseTile.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/radiantGradientMask.dart';
+import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 
 class SelectExerciseList extends StatefulWidget {
@@ -50,7 +50,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
         }),
         child: Container(
           padding: EdgeInsets.all(5),
-          child: RadiantGradientMask(
+          child: GradientMask(
             overrideColor:
                 selectedChips.contains(filterValue) ? null : Colors.grey,
             child: Container(
@@ -82,7 +82,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
             child: Row(
               children: [
-                RadiantGradientMask(
+                GradientMask(
                   child: TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: Icon(Icons.arrow_back, color: Colors.white),
@@ -96,7 +96,7 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                         // style: TextStyle(color: Constants.textColor),
                         controller: controller,
                         decoration: new InputDecoration(
-                          prefixIcon: RadiantGradientMask(
+                          prefixIcon: GradientMask(
                               child: Icon(Icons.search, color: Colors.white)),
                           suffixIcon: IconButton(
                             icon:

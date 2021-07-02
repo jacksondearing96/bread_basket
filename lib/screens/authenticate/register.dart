@@ -1,7 +1,9 @@
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/customButton.dart';
+import 'package:bread_basket/shared/customTextFormField.dart';
 import 'package:bread_basket/shared/loading.dart';
-import 'package:bread_basket/shared/radiantGradientMask.dart';
+import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -27,6 +29,55 @@ class _RegisterState extends State<Register> {
 
   @override
   Widget build(BuildContext context) {
+    String? _isValidName(String? name) {
+      return (name == null || name.isEmpty) ? "Enter your name" : null;
+    }
+
+    _updateNameFromUserInput(String newName) {
+      setState(() => name = newName.trim());
+    }
+
+    String? _isValidEmail(String? email) {
+      return (email == null || !EmailValidator.validate(email))
+          ? "Enter a valid email"
+          : null;
+    }
+
+    _updateEmailFromUserInput(String newEmail) {
+      setState(() => email = newEmail.trim());
+    }
+
+    String? _isValidPassword(String? password) {
+      return (password == null || password.length < 6)
+          ? "Enter password at least 6 characters long"
+          : null;
+    }
+
+    _updatePasswordFromUserInput(String newPassword) {
+      setState(() => password = newPassword.trim());
+    }
+
+    String? _passwordsMatch(String? reEnteredPassword) {
+      return (reEnteredPassword == null || reEnteredPassword != password)
+          ? "Passwords do not match"
+          : null;
+    }
+
+    _register() async {
+      FormState? state = _formKey.currentState;
+      if (state != null && state.validate()) {
+        setState(() => loading = true);
+        dynamic userCredential =
+            await _auth.registerWithEmailAndPassword(email, password, name);
+        if (userCredential == null) {
+          setState(() {
+            error = 'Could not register new user';
+            loading = false;
+          });
+        }
+      }
+    }
+
     return loading
         ? Loading()
         : Scaffold(
@@ -41,90 +92,46 @@ class _RegisterState extends State<Register> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 20.0),
-                    TextFormField(
-                      style: TextStyle(color: Constants.textColor),
-                      decoration: Constants.textInputDecoration
-                          .copyWith(hintText: 'Firstname'),
-                      validator: (val) => (val == null || val.isEmpty)
-                          ? "Enter your name"
-                          : null,
-                      onChanged: (val) {
-                        setState(() => name = val.trim());
-                      },
+                    CustomTextFormField(
+                      hint: 'Firstname',
+                      validator: _isValidName,
+                      onChanged: _updateNameFromUserInput,
                     ),
                     SizedBox(height: 20.0),
-                    TextFormField(
-                      style: TextStyle(color: Constants.textColor),
-                      decoration: Constants.textInputDecoration
-                          .copyWith(hintText: 'Email'),
-                      validator: (val) =>
-                          (val == null || !EmailValidator.validate(val))
-                              ? "Enter a valid email"
-                              : null,
-                      onChanged: (val) {
-                        setState(() => email = val.trim());
-                      },
+                    CustomTextFormField(
+                      hint: 'Email',
+                      validator: _isValidEmail,
+                      onChanged: _updateEmailFromUserInput,
                     ),
                     SizedBox(height: 20.0),
-                    TextFormField(
-                        style: TextStyle(color: Constants.textColor),
-                        decoration: Constants.textInputDecoration
-                            .copyWith(hintText: 'Password'),
-                        validator: (val) => (val == null || val.length < 6)
-                            ? "Enter password at least 6 characters long"
-                            : null,
-                        obscureText: true,
-                        onChanged: (val) {
-                          setState(() => password = val.trim());
-                        }),
+                    CustomTextFormField(
+                      hint: 'Password',
+                      validator: _isValidPassword,
+                      onChanged: _updatePasswordFromUserInput,
+                      obscureText: true,
+                    ),
                     SizedBox(height: 20.0),
-                    TextFormField(
-                        style: TextStyle(color: Constants.textColor),
-                        decoration: Constants.textInputDecoration
-                            .copyWith(hintText: 'Verify password'),
-                        validator: (val) => (val == null || val != password)
-                            ? "Passwords do not match"
-                            : null,
-                        obscureText: true),
+                    CustomTextFormField(
+                      hint: 'Verify password',
+                      validator: _passwordsMatch,
+                      obscureText: true,
+                    ),
                     SizedBox(height: 20.0),
-                    RadiantGradientMask(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Constants.darkIconColor),
-                        ),
-                        onPressed: () async {
-                          FormState? state = _formKey.currentState;
-                          if (state != null && state.validate()) {
-                            setState(() => loading = true);
-                            dynamic userCredential =
-                                await _auth.registerWithEmailAndPassword(
-                                    email, password, name);
-                            if (userCredential == null) {
-                              setState(() {
-                                error = 'Could not register new user';
-                                loading = false;
-                              });
-                            }
-                          }
-                        },
-                      ),
+                    CustomButton(
+                      text: 'Register',
+                      onPressed: _register,
                     ),
                     SizedBox(height: 10),
-                                        Text(error,
+                    Text(error,
                         style: TextStyle(
                           color: Constants.errorColor,
                           fontSize: 14.0,
                         )),
-                        SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Text("Already have an account?",
                         style: TextStyle(color: Constants.hintColor)),
                     SizedBox(height: 10),
-                    RadiantGradientMask(
+                    GradientMask(
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:

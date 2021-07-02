@@ -1,7 +1,7 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/screens/workout/selectExerciseList.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
+import 'package:bread_basket/shared/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
 
 class SelectExercise extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SelectExerciseState extends State<SelectExercise> {
           child: SelectExerciseList(
               exercises: widget.exercises,
               selectedExercises: selectedExercises)),
-      floatingActionButton: GradientFloatingActionButton(
+      floatingActionButton: CustomFloatingActionButton(
         onPressed: () => Navigator.pop(context, selectedExercises),
         tooltip: 'New exercise',
         iconData: Icons.check,

@@ -9,9 +9,9 @@ import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
 import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
+import 'package:bread_basket/shared/customFloatingActionButton.dart';
 import 'package:bread_basket/shared/loading.dart';
-import 'package:bread_basket/shared/radiantGradientMask.dart';
+import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -95,7 +95,7 @@ class _WorkoutState extends State<Workout> {
         onTap: () => _selectDate(context),
         child: Row(
           children: [
-            RadiantGradientMask(
+            GradientMask(
                 child: Icon(Icons.calendar_today, color: Colors.white)),
             SizedBox(width: 20),
             Text(
@@ -155,7 +155,7 @@ class _WorkoutState extends State<Workout> {
         width: 200,
         height: 50,
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          RadiantGradientMask(
+          GradientMask(
               child: Icon(Icons.create_rounded, color: Colors.white)),
           SizedBox(width: 20),
           Expanded(
@@ -177,7 +177,7 @@ class _WorkoutState extends State<Workout> {
   }
 
   Widget addNewExerciseButton(BuildContext context) {
-    return GradientFloatingActionButton(
+    return CustomFloatingActionButton(
       onPressed: () => _navigateToSelectExercise(context),
       tooltip: 'New exercise',
       iconData: Icons.add,

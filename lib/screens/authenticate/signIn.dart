@@ -1,7 +1,9 @@
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/customTextFormField.dart';
+import 'package:bread_basket/shared/customButton.dart';
 import 'package:bread_basket/shared/loading.dart';
-import 'package:bread_basket/shared/radiantGradientMask.dart';
+import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -42,6 +44,34 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  _signInToDemoAccount() {
+    setState(() {
+      email = 'demo@demo.com';
+      password = 'demo123';
+    });
+    _signIn();
+  }
+
+  String? _isValidEmail(String? email) {
+    return (email == null || !EmailValidator.validate(email))
+        ? "Enter a valid email"
+        : null;
+  }
+
+  String? _isValidPassword(String? password) {
+    return (password == null || password.length < 6)
+        ? "Enter password at least 6 characters long"
+        : null;
+  }
+
+  _updateEmailFromUserInput(String newEmailFromUserInput) {
+    setState(() => email = newEmailFromUserInput.trim());
+  }
+
+  _updatePasswordFromUserInput(String newPasswordFromUserInput) {
+    setState(() => password = newPasswordFromUserInput.trim());
+  }
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -58,46 +88,20 @@ class _SignInState extends State<SignIn> {
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 20.0),
-                    TextFormField(
-                      style: TextStyle(color: Constants.textColor),
-                      decoration: Constants.textInputDecoration
-                          .copyWith(hintText: 'Email'),
-                      validator: (val) =>
-                          (val == null || !EmailValidator.validate(val))
-                              ? "Enter a valid email"
-                              : null,
-                      onChanged: (val) {
-                        setState(() => email = val.trim());
-                      },
+                    CustomTextFormField(
+                        hint: 'Email',
+                        validator: _isValidEmail,
+                        onChanged: _updateEmailFromUserInput),
+                    SizedBox(height: 20.0),
+                    CustomTextFormField(
+                      hint: 'Password',
+                      validator: _isValidPassword,
+                      onChanged: _updatePasswordFromUserInput,
+                      obscureText: true,
                     ),
                     SizedBox(height: 20.0),
-                    TextFormField(
-                        style: TextStyle(color: Constants.textColor),
-                        decoration: Constants.textInputDecoration
-                            .copyWith(hintText: 'Password'),
-                        validator: (val) => (val == null || val.length < 6)
-                            ? "Enter password at least 6 characters long"
-                            : null,
-                        obscureText: true,
-                        onChanged: (val) {
-                          setState(() => password = val.trim());
-                        }),
-                    SizedBox(height: 20.0),
-                    RadiantGradientMask(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(color: Constants.darkIconColor),
-                        ),
-                        onPressed: () async {
-                          _validateFormAndSignIn();
-                        },
-                      ),
-                    ),
+                    CustomButton(
+                        text: 'Sign in', onPressed: _validateFormAndSignIn),
                     SizedBox(height: 10),
                     Text(error,
                         style: TextStyle(
@@ -108,56 +112,16 @@ class _SignInState extends State<SignIn> {
                     Text("Don't have an account yet?",
                         style: TextStyle(color: Constants.hintColor)),
                     SizedBox(height: 10),
-                    RadiantGradientMask(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Text(
-                          'Register',
-                          style: TextStyle(color: Constants.darkIconColor),
-                        ),
-                        onPressed: () => widget.toggleView(),
-                      ),
+                    CustomButton(
+                      text: 'Register',
+                      onPressed: widget.toggleView,
                     ),
                     SizedBox(height: 20.0),
                     Expanded(child: Container()),
-                    RadiantGradientMask(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: SizedBox(
-                          width: 190,
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ImageIcon(AssetImage(Constants.dumbbellIcon),
-                                    color: Constants.darkIconColor),
-                                SizedBox(width: 5),
-                                Text(
-                                  'See demo account',
-                                  style:
-                                      TextStyle(color: Constants.darkIconColor),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                ImageIcon(AssetImage(Constants.dumbbellIcon),
-                                    color: Constants.darkIconColor),
-                              ]),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            email = 'demo@demo.com';
-                            password = 'demo123';
-                          });
-
-                          _signIn();
-                        },
-                      ),
+                    CustomButton(
+                      text: 'See demo account',
+                      imageIconLocation: Constants.dumbbellIcon,
+                      onPressed: _signInToDemoAccount,
                     ),
                     SizedBox(height: 50),
                   ],

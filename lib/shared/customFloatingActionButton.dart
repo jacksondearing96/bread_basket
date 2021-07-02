@@ -1,14 +1,14 @@
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/radiantGradientMask.dart';
+import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
 
-class GradientFloatingActionButton extends StatelessWidget {
-  VoidCallback onPressed;
-  IconData iconData;
-  String tooltip;
-  bool mini;
+class CustomFloatingActionButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final IconData iconData;
+  final String tooltip;
+  final bool mini;
 
-  GradientFloatingActionButton(
+  CustomFloatingActionButton(
       {Key? key,
       required this.onPressed,
       required this.iconData,
@@ -18,7 +18,7 @@ class GradientFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RadiantGradientMask(
+    return GradientMask(
       child: FloatingActionButton(
         heroTag: UniqueKey(),
         onPressed: onPressed,

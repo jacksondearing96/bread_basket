@@ -8,7 +8,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/gradientFloatingActionButton.dart';
+import 'package:bread_basket/shared/customFloatingActionButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -196,7 +196,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   }
 
   Widget _addNewSetButton(VoidCallback addSet) {
-    return GradientFloatingActionButton(
+    return CustomFloatingActionButton(
         onPressed: addSet, iconData: Icons.add, tooltip: 'Add set', mini: true);
   }
 }

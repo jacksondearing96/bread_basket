@@ -9,7 +9,7 @@ import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
-import 'package:bread_basket/shared/gradientButton.dart';
+import 'package:bread_basket/shared/customButton.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -76,14 +76,16 @@ class Home extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    GradientButton(
+                    CustomButton(
                       text: 'New workout',
+                      isLarge: true,
                       iconData: Icons.fitness_center,
                       onPressed: () => _startNewWorkout(context),
                     ),
                     SizedBox(height: 15),
-                    GradientButton(
+                    CustomButton(
                         text: 'History (coming soon)',
+                        isLarge: true,
                         iconData: Icons.history),
                   ],
                 ),
