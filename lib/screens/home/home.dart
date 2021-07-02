@@ -1,6 +1,7 @@
 import 'package:bread_basket/analytics/HeatmapCalendar.dart';
 import 'package:bread_basket/analytics/MuscleGroupPieChart.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
+import 'package:bread_basket/analytics/UserSnapshot.dart';
 import 'package:bread_basket/analytics/WeeklyTrainingVolume.dart';
 import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/workout.dart';
@@ -20,6 +21,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final exercises = Provider.of<List<Exercise>>(context);
     final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+    final noWorkoutsYet = pastWorkouts == null || pastWorkouts.isEmpty;
 
     Widget _button({text: String, icon: Icon, onTap: Function}) {
       return Container(
@@ -70,6 +72,7 @@ class Home extends StatelessWidget {
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              UserSnapshot(),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
                 child: Column(
@@ -90,10 +93,10 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-              WeeklyTrainingVolume(),
-              MuscleGroupPieChart(),
+              noWorkoutsYet ? Container() : WeeklyTrainingVolume(),
+              noWorkoutsYet ? Container() : MuscleGroupPieChart(),
               HeatmapCalendar(),
-              Padding(
+              noWorkoutsYet ? Container() : Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: [
@@ -111,7 +114,7 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
+              noWorkoutsYet ? Container() : Padding(
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: Column(children: [
                   Text('Deadlift',
