@@ -45,12 +45,12 @@ class MyApp extends StatelessWidget {
                     child: MaterialApp(
                       theme: ThemeData(
                         textTheme: TextTheme(
-                          bodyText1: TextStyle(color: Constants.textColorTemp),
-                          bodyText2: TextStyle(color: Constants.hintColorTemp),
-                          subtitle1: TextStyle(color: Colors.pink),
-                          subtitle2: TextStyle(color: Colors.pink),
-                          button: TextStyle(color: Colors.orange),
-                          caption: TextStyle(color: Colors.yellow),
+                          bodyText1: TextStyle(color: Constants.textColor),
+                          bodyText2: TextStyle(color: Constants.hintColor),
+                          subtitle1: TextStyle(color: Constants.hintColor),
+                          subtitle2: TextStyle(color: Constants.hintColor),
+                          button: TextStyle(color: Constants.hintColor),
+                          caption: TextStyle(color: Constants.hintColor),
                         ),
                       ),
                       home: Wrapper(),
