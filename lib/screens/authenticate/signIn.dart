@@ -89,6 +89,15 @@ class _SignInState extends State<SignIn> {
                   },
                 ),
               ),
+              SizedBox(height: 10),
+              Text(error,
+                  style: TextStyle(
+                    color: Constants.errorColor,
+                    fontSize: 14.0,
+                  )),
+              SizedBox(height: 10),
+              Text("Don't have an account yet?", style: TextStyle(color: Constants.hintColor)),
+              SizedBox(height: 10),
               RadiantGradientMask(
                 child: ElevatedButton(
                   style: ButtonStyle(
@@ -104,12 +113,6 @@ class _SignInState extends State<SignIn> {
                   ,
                 ),
               ),
-              SizedBox(height: 12.0),
-              Text(error,
-                  style: TextStyle(
-                    color: Constants.errorColor,
-                    fontSize: 14.0,
-                  )),
             ],
           ),
         ),

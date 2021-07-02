@@ -33,20 +33,6 @@ class _RegisterState extends State<Register> {
             backgroundColor: Constants.backgroundColor,
             appBar: Constants.gradientAppBar(
               title: Text('Sign up to GymStats'),
-              actions: [
-                RadiantGradientMask(
-                  child: TextButton.icon(
-                    icon: Icon(Icons.person, color: Colors.white),
-                    label: Text('Sign in'),
-                    onPressed: () {
-                      widget.toggleView();
-                    },
-                    style: TextButton.styleFrom(
-                      primary: Constants.textColor,
-                    ),
-                  ),
-                ),
-              ],
             ),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -101,37 +87,58 @@ class _RegisterState extends State<Register> {
                             : null,
                         obscureText: true),
                     SizedBox(height: 20.0),
-                    ElevatedButton(
-                      child: Text(
-                        'Register',
-                        style: TextStyle(color: Constants.textColor),
-                      ),
-                      onPressed: () async {
-                        FormState? state = _formKey.currentState;
-                        if (state != null && state.validate()) {
-                          setState(() => loading = true);
-                          dynamic userCredential = await _auth
-                              .registerWithEmailAndPassword(email, password);
-                          if (userCredential == null) {
-                            setState(
-                                () {
-                                  error = 'Could not register new user';
+                    RadiantGradientMask(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        child: Text(
+                          'Register',
+                          style: TextStyle(color: Constants.darkIconColor),
+                        ),
+                        onPressed: () async {
+                          FormState? state = _formKey.currentState;
+                          if (state != null && state.validate()) {
+                            setState(() => loading = true);
+                            dynamic userCredential =
+                                await _auth.registerWithEmailAndPassword(
+                                    email, password, name);
+                            if (userCredential == null) {
+                              setState(() {
+                                error = 'Could not register new user';
                                 loading = false;
-                                }
-                                );
-                          } else {
-                            userCredential.user
-                                .updateProfile(displayName: name);
+                              });
+                            }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                    SizedBox(height: 12.0),
-                    Text(error,
+                    SizedBox(height: 10),
+                                        Text(error,
                         style: TextStyle(
                           color: Constants.errorColor,
                           fontSize: 14.0,
                         )),
+                        SizedBox(height: 10),
+                    Text("Already have an account?",
+                        style: TextStyle(color: Constants.hintColor)),
+                    SizedBox(height: 10),
+                    RadiantGradientMask(
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        child: Text(
+                          'Sign in',
+                          style: TextStyle(color: Constants.darkIconColor),
+                        ),
+                        onPressed: () => widget.toggleView(),
+                      ),
+                    ),
+                    SizedBox(height: 12.0),
+
                   ],
                 ),
               ),
