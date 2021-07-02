@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
-import 'indicator.dart';
+import 'PieChartPercentageIndicator.dart';
 
 class MuscleGroupPieChart extends StatefulWidget {
   MuscleGroupPieChart({Key? key}) : super(key: key);
@@ -104,7 +104,7 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
       if (exerciseCount > 0) {
         color = colors.removeAt(0);
       }
-      labels.add(Indicator(
+      labels.add(PieChartPercentageIndicator(
         color: color,
         text: muscleGroup,
         proportion: proportionOfTotalExercises,
