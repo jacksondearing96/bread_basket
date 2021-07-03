@@ -1,13 +1,13 @@
 import os
 
 # Let the order
-# Next id = 209
+# Next id = 213
 # TODO: Extract this into a separate JSON file that the dart code can 
 # reference too in order to remove duplicates of this list.
 exercises = {
 
 'assisted_chin_up_(machine)':['5160', 'biceps',  'back'],
-'back_extension':['5122', 'back'],
+'back_extension_(bodyweight)':['5122', 'back'],
 'back_extension_(machine)':['5156', 'back'],
 'bent_over_row_(barbell)':['1127', 'back'],
 'bent_over_row_(dumbbell)':['4087', 'back'],
@@ -15,7 +15,7 @@ exercises = {
 'bent_over_row_(machine)':['3100', 'back'],
 'stiff_leg_deadlift_(barbell)':['2139', 'legs',  'back'],
 'high_standing_row_(cable)':['4071', 'back'],
-'inverted_pull_up_(under_grip)':['5002', 'back'], 
+'inverted_pull_up_(bodyweight_under_grip)':['5002', 'back'], 
 'lat_pulldown_(cable_close_grip)':['4053', 'back'],
 'lat_pulldown_(cable_single_arm)':['3013','back'], 
 'lat_pulldown_(cable_under_grip)':['4028', 'back'],
@@ -24,7 +24,7 @@ exercises = {
 'lat_pulldown_(iso-lateral_machine_under_grip)':['3153', 'back'],
 'lat_pulldown_(machine)':['2061', 'back'],
 'lat_pulldown_behind_neck_(cable)':['5039', 'back'],
-'pull_up':['1069', 'back'],
+'pull_up_(bodyweight)':['1069', 'back'],
 'pull_up_(behind_neck)':['5023', 'back'],
 'row_(cable_single_arm)':['3044', 'back'],
 'seated_row_(iso-lateral_machine)':['3124', 'back'],
@@ -39,7 +39,7 @@ exercises = {
 'bicep_curl_(ez_bar)':['2081', 'biceps'],
 'bicep_curl_(machine)':['3050', 'biceps'],
 'bicep_curl_(tricep_bar)':['5080', 'biceps'],
-'chin_up':['3005','back',  'biceps'], 
+'chin_up_(bodyweight)':['3005','back',  'biceps'], 
 'hammer_curls_(dumbbell)':['3027', 'biceps'],
 'high_bicep_curl_(cable)':['5158', 'biceps'],
 'incline_seated_bicep_curl_(dumbbell)':['3034', 'biceps'],
@@ -57,14 +57,14 @@ exercises = {
 'cable_fly_(cable)':['1117', 'chest'],
 'cable_fly_(cable_high_to_low)':['2042', 'chest'],
 'cable_fly_(cable_low_to_high)':['2116', 'chest'],
-'chest_dip':['3101', 'chest'],
+'chest_dip_(bodyweight)':['3101', 'chest'],
 'chest_fly_(dumbbell)':['1113', 'chest'],
 'chest_fly_(machine)':['2054', 'chest'],
 'chest_press_(dumbbell)':['1112', 'chest'],
 'chest_press_(machine)':['2025', 'chest'],
 'decline_bench_press_(barbell)':['2040', 'chest'],
 'decline_bench_press_(smith_machine)':['5083', 'chest'],
-'dip':['1046', 'triceps',  'chest'],
+'dip_(bodyweight)':['1046', 'triceps',  'chest'],
 'incline_bench_press_(barbell)':['2129', 'chest'],
 'incline_bench_press_(smith_machine)':['5048', 'chest'],
 'incline_bench_row_(dumbbell)':['5004','back'], 
@@ -73,6 +73,9 @@ exercises = {
 'iso-lateral_chest_press_(machine)':['3103', 'chest'],
 'pull_over_(barbell)':['5012','chest'], 
 'pull_over_(dumbbell)':['3146', 'chest'],
+'push_up_(bodyweight)':['1209', 'chest', 'core'],
+'push_up_(bodyweight_diamond)':['3211', 'triceps', 'chest'],
+'push_up_(bodyweight_close_grip_tricep_focus)': ['3212', 'chest', 'triceps'],
 
 'arnold_press_(dumbbell)':['3037', 'shoulders'],
 'bent_over_reverse_fly_(cable)':['5104', 'back',  'shoulders'],
@@ -118,54 +121,55 @@ exercises = {
 'standing_straight_leg_kickback_(cable)':['5082', 'legs'],
 'step_up_(dumbbell)':['3115', 'legs'],
 'sumo_squat_(barbell)':['3142', 'legs'],
-'hip_thrust':['2203', 'legs'],
-'bulgarian_split_squat':['2204', 'legs'],
+'hip_thrust_(barbell)':['2203', 'legs'],
+'bulgarian_split_squat_(dumbbell)':['2204', 'legs'],
 
 'exercise_bike':['5090', 'cardio'],
 'running':['5123', 'cardio'],
 'treadmill':['5126', 'cardio'],
 'skipping':['5157', 'cardio'],
 
-'ab_wheel':['6141', 'core'],
-'bench_v_sit_crunch':['6079', 'core'],
-'burpee':['6003', 'core'], 
+'ab_wheel_(bodyweight)':['6141', 'core'],
+'bench_v_sit_crunch_(bodyweight)':['6079', 'core'],
+'burpee_(bodyweight)':['6003', 'core'], 
 'cable_crunch_(cable)':['6147', 'core'],
-'captains_chair_cross_body_knee_raise':['6161', 'core'],
-'captains_chair_knee_raise':['6109', 'core'],
-'cross_body_crunch':['6111', 'core'],
-'crunch':['6097', 'core'],
-'crunch_(ab_board)':['6098', 'core'],
+'captains_chair_cross_body_knee_raise_(bodyweight)':['6161', 'core'],
+'captains_chair_knee_raise_(bodyweight)':['6109', 'core'],
+'cross_body_crunch_(bodyweight)':['6111', 'core'],
+'crunch_(bodyweight)':['6097', 'core'],
+'crunch_(bodyweight_ab_board)':['6098', 'core'],
 'crunch_(machine)':['6152', 'core'],
-'decline_sit_up':['6045', 'core'],
+'decline_sit_up_(bodyweight)':['6045', 'core'],
 'exercise_ball_feet-hand_pass':['6135', 'core'],
-'exercise_ball_knee_roll':['6132', 'core'],
-'flat_leg_raise':['6062', 'core'],
-'hanging_cross_body_leg_raises':['6056', 'core'],
-'hanging_knee_raise':['6063', 'core'],
-'hanging_toes_to_bar':['6047', 'core'],
-'heel_taps':['6010','core'], 
-'incline_leg_raises':['6015', 'core'],
-'incline_oblique_crunch':['6108', 'core'],
-'lying_knee_raise':['6091', 'core'],
-'mountain_climbers':['6159', 'core'],
-'nordic':['6043', 'core'],
+'exercise_ball_knee_roll_(bodyweight)':['6132', 'core'],
+'flat_leg_raise_(bodyweight)':['6062', 'core'],
+'hanging_cross_body_leg_raises_(bodyweight)':['6056', 'core'],
+'hanging_knee_raise_(bodyweight)':['6063', 'core'],
+'hanging_toes_to_bar_(bodyweight)':['6047', 'core'],
+'heel_taps_(bodyweight)':['6010','core'], 
+'incline_leg_raises_(bodyweight)':['6015', 'core'],
+'incline_oblique_crunch_(bodyweight)':['6108', 'core'],
+'lying_knee_raise_(bodyweight)':['6091', 'core'],
+'mountain_climbers_(bodyweight)':['6159', 'core'],
+'nordic_(bodyweight)':['6043', 'core'],
 'oblique_crunch_(medicine_ball)':['6096', 'core'],
-'prone_leg_extension':['6051', 'legs',  'core'],
-'prone_leg_extension_(bench)':['6060', 'legs',  'core'],
-'reverse_crunch':['6073', 'core'],
+'prone_leg_extension_(bodyweight)':['6051', 'legs',  'core'],
+'prone_leg_extension_(bodyweight_bench)':['6060', 'legs',  'core'],
+'reverse_crunch_(bodyweight)':['6073', 'core'],
 'russian_twist':['6032', 'core'],
-'scissor_leg_raise':['6055', 'core'],
+'scissor_leg_raise_(bodyweight)':['6055', 'core'],
 'seated_abdominal_twist_(barbell)':['6070', 'core'],
-'side-lying_leg_raise':['6162', 'legs',  'core'],
-'single-leg_v_up':['6085', 'core'],
+'side-lying_leg_raise_(bodyweight)':['6162', 'legs',  'core'],
+'single-leg_v_up_(bodyweight)':['6085', 'core'],
 'sit_up_(medicine_ball)':['6078', 'core'],
 'standing_oblique_crunch_(dumbbell)':['6038', 'core'],
 'standing_plate_twist':['6155', 'core'],
 'standing_twist_(barbell)':['6095', 'core'],
-'straight_leg_kickback':['6148', 'legs',  'core'],
-'v_up':['6093', 'core'],
+'straight_leg_kickback_(bodyweight)':['6148', 'legs',  'core'],
+'v_up_(bodyweight)':['6093', 'core'],
 
-'bench_dip':['5134', 'triceps'],
+'bench_dip_(bodyweight)':['5134', 'triceps'],
+'bent_over_overhead_tricep_extension_(cable)':['3210', 'triceps'],
 'overhead_tricep_extension_(dumbbell_single_arm)':['3068', 'triceps'],
 'overhead_tricep_extension_(ez_bar)':['4018', 'triceps'],
 'overhead_tricep_extension_(tricep_bar)':['4086', 'triceps'],
@@ -186,12 +190,26 @@ exercises = {
 
 # Function to ensure consistency between filenames and dict below.
 def print_filenames(exercises):
-    exercise_names = os.listdir('resources/exercise_images')
-    # exercise_names.remove('.DS_Store')
-    for name in exercise_names:
-        print(name)
-        print(exercises[name.replace('.png', '')])
-    assert len(exercise_names) == len(exercises)
+    exercise_filenames = os.listdir('resources/exercise_images_transparent_background')
+
+    ds_store = '.DS_Store'
+    if ds_store in exercise_filenames:
+        exercise_filenames.remove('.DS_Store')
+
+    ids = [] 
+    for name in exercise_filenames:
+        trimmed_exercise_name = name.replace('.png', '')
+
+        # Check that this filename is within the list above.
+        print(trimmed_exercise_name)
+        assert trimmed_exercise_name in exercises
+
+        # Check that this exercise has a unique ID.
+        assert exercises[trimmed_exercise_name] not in ids
+        ids.append(exercises[trimmed_exercise_name])
+
+    # Check that sizes are equal.
+    assert len(exercise_filenames) == len(exercises)
     print('\n\n *** CONSISTENT ***\n\n')
 
 print_filenames(exercises)

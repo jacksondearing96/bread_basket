@@ -101,14 +101,16 @@ class Constants {
     'barbell',
     'cable',
     'ez_bar',
-    'machine'
+    'machine',
+    'bodyweight'
   ];
   static Map<String, String> equipmentTypeIcons = {
     'dumbbell': 'resources/icons/dumbbell.png',
     'barbell': 'resources/icons/barbell.png',
     'cable': 'resources/icons/cable.png',
     'machine': 'resources/icons/cog.png',
-    'ez_bar': 'resources/icons/ez_bar.png'
+    'ez_bar': 'resources/icons/ez_bar.png',
+    'bodyweight': 'resources/icons/body.png',
   };
 
   static const List<String> muscleGroups = [
