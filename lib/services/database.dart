@@ -273,7 +273,7 @@ class DatabaseService {
 'seated_tricep_pushdown_(machine)':['5033', 'triceps',  'chest'],
 'skull_crusher_(dumbbell)':['5076', 'triceps'],
 'skull_crusher_(ez_bar)':['1084', 'triceps'],
-'tricep_extension_(cable_flat_bar)':['2121', 'triceps'],
+'tricep_extension_(cable_flat_bar)':['1121', 'triceps'],
 'tricep_extension_(cable_v_bar)':['1201', 'triceps'],
 'tricep_extension_(cable_rope)':['1202', 'triceps'],
 'tricep_extension_(cable_single_arm)':['2016', 'triceps'],
