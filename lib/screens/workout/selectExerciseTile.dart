@@ -10,6 +10,19 @@ class SelectExerciseTile extends StatelessWidget {
   SelectExerciseTile(
       {required this.exercise, required this.onTap, required this.isSelected});
 
+  Widget _equipmentTypeIcon() {
+    String iconLocation = exercise.equipmentTypeIconLocation;
+    return Container(
+      width: Constants.exerciseTypeIconWidth,
+      height:
+          Constants.exerciseTypeIconHeight(iconLocation),
+      child: ImageIcon(
+        AssetImage(iconLocation),
+        color: Constants.primaryColor.withAlpha(230),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -27,14 +40,7 @@ class SelectExerciseTile extends StatelessWidget {
                     ? exerciseIsSelectedCircle()
                     : exercise.equipmentTypeIconLocation == ''
                         ? Container()
-                        : Container(
-                            height: Constants.exerciseTypeIconWidth,
-                            width: Constants.exerciseTypeIconWidth,
-                            child: ImageIcon(
-                              AssetImage(exercise.equipmentTypeIconLocation),
-                              color: Constants.primaryColor.withAlpha(230),
-                            ),
-                          ),
+                        : _equipmentTypeIcon(),
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(10.0, 0, 5, 0),
