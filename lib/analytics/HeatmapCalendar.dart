@@ -47,8 +47,7 @@ class Calendar {
   Widget weekDayLabel(String weekday) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 2.1, 5, 2.1),
-      child: Text(weekday,
-          style: TextStyle(fontSize: 10)),
+      child: Text(weekday, style: TextStyle(fontSize: 10)),
     );
   }
 

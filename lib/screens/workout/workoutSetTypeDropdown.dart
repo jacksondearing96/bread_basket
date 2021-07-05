@@ -40,7 +40,8 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
                     .map(_workoutSetTypeToDropdownMenuItem)
                     .toList(),
                 onChanged: (newValue) {
-                  setState(() => performedSet.setType = newValue ?? performedSet.setType);
+                  setState(() =>
+                      performedSet.setType = newValue ?? performedSet.setType);
                 }),
           ),
         ),

@@ -20,13 +20,12 @@ class CustomFloatingActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GradientMask(
       child: FloatingActionButton(
-        heroTag: UniqueKey(),
-        onPressed: onPressed,
-        tooltip: tooltip,
-        child: Icon(iconData, color: Constants.darkIconColor),
-        backgroundColor: Constants.floatingActionButtonColor,
-        mini: mini
-      ),
+          heroTag: UniqueKey(),
+          onPressed: onPressed,
+          tooltip: tooltip,
+          child: Icon(iconData, color: Constants.darkIconColor),
+          backgroundColor: Constants.floatingActionButtonColor,
+          mini: mini),
     );
   }
 }

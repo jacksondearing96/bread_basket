@@ -10,7 +10,7 @@ class Loading extends StatelessWidget {
       color: Constants.backgroundColor,
       child: GradientMask(
         child: Center(
-                child: SpinKitRotatingCircle(
+          child: SpinKitRotatingCircle(
             color: Colors.white,
             size: 50.0,
           ),

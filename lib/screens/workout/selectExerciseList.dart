@@ -87,39 +87,40 @@ class _SelectExerciseListState extends State<SelectExerciseList> {
                     onPressed: () => Navigator.pop(context),
                     child: Icon(Icons.arrow_back, color: Colors.white),
                   ),
-                ), 
+                ),
                 Expanded(
                   child: Ink(
-                  color: Colors.transparent,
-                  child: new ListTile(
-                    title: new TextField(
-                        // style: TextStyle(color: Constants.textColor),
-                        controller: controller,
-                        decoration: new InputDecoration(
-                          prefixIcon: GradientMask(
-                              child: Icon(Icons.search, color: Colors.white)),
-                          suffixIcon: IconButton(
-                            icon:
-                                new Icon(Icons.cancel, color: Constants.hintColor),
-                            onPressed: () {
-                              controller.clear();
-                              onSearchTextChanged('');
-                            },
+                    color: Colors.transparent,
+                    child: new ListTile(
+                      title: new TextField(
+                          // style: TextStyle(color: Constants.textColor),
+                          controller: controller,
+                          decoration: new InputDecoration(
+                            prefixIcon: GradientMask(
+                                child: Icon(Icons.search, color: Colors.white)),
+                            suffixIcon: IconButton(
+                              icon: new Icon(Icons.cancel,
+                                  color: Constants.hintColor),
+                              onPressed: () {
+                                controller.clear();
+                                onSearchTextChanged('');
+                              },
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Constants.primaryColor, width: 1.0)),
+                            filled: false,
+                            hintStyle: TextStyle(color: Constants.hintColor),
+                            hintText: 'Search',
                           ),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Constants.primaryColor, width: 1.0)),
-                          filled: false,
-                          hintStyle: TextStyle(color: Constants.hintColor),
-                          hintText: 'Search',
-                        ),
-                        onChanged: (val) {
-                          _searchQuery = val;
-                          onSearchTextChanged(val);
-                        }),
+                          onChanged: (val) {
+                            _searchQuery = val;
+                            onSearchTextChanged(val);
+                          }),
+                    ),
                   ),
-                              ),
-                ),],
+                ),
+              ],
             ),
           ),
         ),

@@ -7,7 +7,8 @@ class CustomTextFormField extends StatelessWidget {
   final dynamic onChanged;
   final bool? obscureText;
 
-  CustomTextFormField({this.hint = '', this.validator, this.onChanged, this.obscureText});
+  CustomTextFormField(
+      {this.hint = '', this.validator, this.onChanged, this.obscureText});
 
   @override
   Widget build(BuildContext context) {

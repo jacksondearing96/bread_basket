@@ -1,5 +1,5 @@
-
 import 'package:email_validator/email_validator.dart';
+
 class Util {
   static String? isValidEmail(String? email) {
     return (email == null || !EmailValidator.validate(email))

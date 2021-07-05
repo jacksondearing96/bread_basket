@@ -14,8 +14,7 @@ class SelectExerciseTile extends StatelessWidget {
     String iconLocation = exercise.equipmentTypeIconLocation;
     return Container(
       width: Constants.exerciseTypeIconWidth,
-      height:
-          Constants.exerciseTypeIconHeight(iconLocation),
+      height: Constants.exerciseTypeIconHeight(iconLocation),
       child: ImageIcon(
         AssetImage(iconLocation),
         color: Constants.primaryColor.withAlpha(230),

@@ -141,7 +141,9 @@ class _WorkoutState extends State<Workout> {
                       ChangeNotifierProvider(
                           create: (_) => performedExerciseListProvider,
                           child: WorkoutExerciseList()),
-                          Container(margin: EdgeInsets.all(10), child: addNewExerciseButton(context)),
+                      Container(
+                          margin: EdgeInsets.all(10),
+                          child: addNewExerciseButton(context)),
                     ]),
               ),
             ),
@@ -155,8 +157,7 @@ class _WorkoutState extends State<Workout> {
         width: 200,
         height: 50,
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          GradientMask(
-              child: Icon(Icons.create_rounded, color: Colors.white)),
+          GradientMask(child: Icon(Icons.create_rounded, color: Colors.white)),
           SizedBox(width: 20),
           Expanded(
             child: TextFormField(
@@ -249,8 +250,7 @@ class _WorkoutState extends State<Workout> {
           PerformedExercise(exercise: exercise);
       // Start it off with 1 empty set.
       performedExercise.sets.add(PerformedSet());
-      performedExerciseListProvider
-          .addExercise(performedExercise);
+      performedExerciseListProvider.addExercise(performedExercise);
     }
   }
 }

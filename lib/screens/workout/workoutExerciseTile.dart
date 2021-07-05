@@ -84,10 +84,12 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Constants.textColor,
-                                    fontSize: Constants.selectExerciseFontSize)),
+                                    fontSize:
+                                        Constants.selectExerciseFontSize)),
                             exercise.subtitle != ''
                                 ? Text(exercise.subtitle,
-                                    style: TextStyle(color: Constants.hintColor))
+                                    style:
+                                        TextStyle(color: Constants.hintColor))
                                 : Container(),
                           ]),
                     ),

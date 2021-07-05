@@ -33,10 +33,11 @@ void main() {
     });
 
     test('ToJson', () {
-      expect(
-        performedSet.toJson(),
-        {'type': Constants.normalCode, 'weight': testWeight, 'reps': testReps}
-      );
+      expect(performedSet.toJson(), {
+        'type': Constants.normalCode,
+        'weight': testWeight,
+        'reps': testReps
+      });
     });
   });
 }
