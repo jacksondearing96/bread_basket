@@ -4,6 +4,7 @@ import 'package:bread_basket/shared/customButton.dart';
 import 'package:bread_basket/shared/customTextFormField.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:bread_basket/shared/gradientMask.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -45,12 +46,6 @@ class _RegisterState extends State<Register> {
 
     _updateEmailFromUserInput(String newEmail) {
       setState(() => email = newEmail.trim());
-    }
-
-    String? _isValidPassword(String? password) {
-      return (password == null || password.length < 6)
-          ? "Enter password at least 6 characters long"
-          : null;
     }
 
     _updatePasswordFromUserInput(String newPassword) {
@@ -106,7 +101,7 @@ class _RegisterState extends State<Register> {
                     SizedBox(height: 20.0),
                     CustomTextFormField(
                       hint: 'Password',
-                      validator: _isValidPassword,
+                      validator: Util.isValidPassword,
                       onChanged: _updatePasswordFromUserInput,
                       obscureText: true,
                     ),

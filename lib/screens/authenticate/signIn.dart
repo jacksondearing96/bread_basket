@@ -3,8 +3,8 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customTextFormField.dart';
 import 'package:bread_basket/shared/customButton.dart';
 import 'package:bread_basket/shared/loading.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
-import 'package:email_validator/email_validator.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
@@ -51,18 +51,6 @@ class _SignInState extends State<SignIn> {
     _signIn();
   }
 
-  String? _isValidEmail(String? email) {
-    return (email == null || !EmailValidator.validate(email))
-        ? "Enter a valid email"
-        : null;
-  }
-
-  String? _isValidPassword(String? password) {
-    return (password == null || password.length < 6)
-        ? "Enter password at least 6 characters long"
-        : null;
-  }
-
   _updateEmailFromUserInput(String newEmailFromUserInput) {
     setState(() => email = newEmailFromUserInput.trim());
   }
@@ -89,12 +77,12 @@ class _SignInState extends State<SignIn> {
                     SizedBox(height: 20.0),
                     CustomTextFormField(
                         hint: 'Email',
-                        validator: _isValidEmail,
+                        validator: Util.isValidEmail,
                         onChanged: _updateEmailFromUserInput),
                     SizedBox(height: 20.0),
                     CustomTextFormField(
                       hint: 'Password',
-                      validator: _isValidPassword,
+                      validator: Util.isValidPassword,
                       onChanged: _updatePasswordFromUserInput,
                       obscureText: true,
                     ),

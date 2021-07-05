@@ -29,12 +29,7 @@ class Constants {
       Constants.secondaryColor.withOpacity(0.9)
     ],
   );
-  // Progress graph dark theme.
-  // static const Color progressGraphBackgroundColor = Color(0xff232d37);
-  // static const Color progressGraphGridLineColor = Color(0xff37434d);
-  // static const Color progressGraphBorderColor = Color(0xff37434d);
 
-  // Progress graph light theme.
   static const Color progressGraphBackgroundColor = Colors.transparent;
   static Color progressGraphGridLineColor = Color.fromARGB(200, 45, 45, 45);
   static const Color progressGraphBorderColor = Color.fromARGB(200, 40, 40, 40);
@@ -75,7 +70,7 @@ class Constants {
 
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 45.0;
-  static const double prevSetWidth = 80.0;
+  static const double prevSetWidth = 76.0;
   static const double exerciseTypeIconWidth = 32.0;
   static double exerciseTypeIconHeight(String iconLocation) {
     if (iconLocation == 'resources/icons/body.png') return 44;
