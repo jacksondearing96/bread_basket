@@ -29,12 +29,7 @@ class MyApp extends StatelessWidget {
               initialData: null,
               value: AuthService().user,
               child: GestureDetector(
-                onTap: () {
-                  FocusScopeNode currentFocus = FocusScope.of(context);
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
-                },
+                onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                 child: Builder(builder: (context) {
                   final user = Provider.of<User?>(context);
                   return StreamProvider<List<PerformedWorkout>?>.value(

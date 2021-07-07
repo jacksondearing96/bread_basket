@@ -1,4 +1,5 @@
 import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/performedSet.dart';
 
 class PerformedWorkout {
   String id = DateTime.now().millisecondsSinceEpoch.toString();
@@ -23,7 +24,14 @@ class PerformedWorkout {
     return workout;
   }
 
+  clearEmptySetsAndExercises() {
+    performedExercises.forEach(
+        (exercise) => exercise.sets.removeWhere((set) => set.reps == 0));
+    performedExercises.removeWhere((exercise) => exercise.sets.isEmpty);
+  }
+
   Map<String, Object?> toJson() {
+    clearEmptySetsAndExercises();
     Map<String, dynamic> workoutData = {
       'name': name,
       'dateInMilliseconds': dateInMilliseconds,
@@ -34,7 +42,6 @@ class PerformedWorkout {
         workoutData['exercises'][exercise.id] = exercise.toJson();
       }
     }
-
     return {id: workoutData};
   }
 
@@ -46,7 +53,7 @@ class PerformedWorkout {
     return totalVolume;
   }
 
-  void log(String message) {
+  void log({String? message}) {
     print('');
     print(message);
     print(

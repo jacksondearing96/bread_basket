@@ -66,26 +66,25 @@ class ExerciseSummary extends StatelessWidget {
                               color: Constants.textColor,
                             ),
                           )),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(5.0, 0, 5, 0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(exercise.exercise.title,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Constants.textColor,
-                                    fontSize:
-                                        Constants.selectExerciseFontSize)),
-                            exercise.exercise.subtitle != ''
-                                ? Text(exercise.exercise.subtitle,
-                                    style:
-                                        TextStyle(color: Constants.hintColor))
-                                : Container(),
-                          ]),
+                  Flexible(
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(7, 0, 0, 0),
+                      child: Wrap(
+                        children: [
+                          Text(exercise.exercise.title,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: Constants.textColor,
+                                  fontSize: Constants.selectExerciseFontSize)),
+                          exercise.exercise.subtitle != ''
+                              ? Text('(${exercise.exercise.subtitle})',
+                                  style: TextStyle(
+                                      color: Constants.hintColor, fontSize: 14))
+                              : Container(),
+                        ],
+                      ),
                     ),
-                  ),
+                  )
                 ]),
               ]),
             ),
@@ -99,16 +98,9 @@ class ExerciseSummary extends StatelessWidget {
           Text('best: ${setToString(exercise.bestSet())}kg',
               style: TextStyle(fontSize: 14)),
         ]),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: <Widget>[
-        //     Flexible(
-        //       child: ExerciseProgressIndicator(
-        //           prevSets: mostRecentSetsOfExercise, currentSets: sets),
-        //     ),
-        //     _addNewSetButton(performedExerciseProvider.addSet),
-        //   ],
-        // ),
+        Divider(
+          color: Constants.hintColor,
+        ),
       ],
     );
   }

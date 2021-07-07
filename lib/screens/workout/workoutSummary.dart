@@ -45,6 +45,7 @@ class WorkoutSummary {
       width: 250,
       height: 500,
       child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
           itemCount: workout.performedExercises.length,
           itemBuilder: (context, index) {
             return Expanded(
@@ -58,11 +59,14 @@ class WorkoutSummary {
   Widget content() {
     return SingleChildScrollView(
       child: Column(children: [
+        Icon(Icons.check_circle, color: Constants.secondaryColor, size: 60),
+        SizedBox(height: 8),
         workoutName(),
         SizedBox(height: 15),
         workoutDate(),
         SizedBox(height: 15),
         TotalWeightVolumeLifted(kgs: workout.totalVolume().round()),
+        SizedBox(height: 15),
         exerciseList(),
       ]),
     );

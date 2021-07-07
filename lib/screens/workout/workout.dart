@@ -49,6 +49,9 @@ class _WorkoutState extends State<Workout> {
         .exercises
         .map((performedExerciseProvider) => performedExerciseProvider.exercise)
         .toList();
+    widget.performedWorkout.log();
+    widget.performedWorkout.clearEmptySetsAndExercises();
+    widget.performedWorkout.log();
     if (widget.performedWorkout.performedExercises.isEmpty) {
       endLoading();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -60,7 +63,7 @@ class _WorkoutState extends State<Workout> {
         .saveWorkout(widget.performedWorkout);
     if (saveSuceeded) {
       Navigator.pop(context);
-              WorkoutSummary(workout: widget.performedWorkout).show(context);
+      WorkoutSummary(workout: widget.performedWorkout).show(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Successfully saved workout.'),
       ));
@@ -99,9 +102,10 @@ class _WorkoutState extends State<Workout> {
                 child: Icon(Icons.calendar_today, color: Colors.white)),
             SizedBox(width: 20),
             Text(
-                Constants.dateFormatter.format(new DateTime.fromMillisecondsSinceEpoch(
-                        widget.performedWorkout.dateInMilliseconds)
-                    .toLocal()),
+                Constants.dateFormatter.format(
+                    new DateTime.fromMillisecondsSinceEpoch(
+                            widget.performedWorkout.dateInMilliseconds)
+                        .toLocal()),
                 style: TextStyle(fontSize: 16.0, color: Constants.hintColor)),
           ],
         ),

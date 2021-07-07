@@ -80,66 +80,68 @@ class _RegisterState extends State<Register> {
             appBar: Constants.gradientAppBar(
               title: Text('Sign up to GymStats'),
             ),
-            body: Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    CustomTextFormField(
-                      hint: 'Firstname',
-                      validator: _isValidName,
-                      onChanged: _updateNameFromUserInput,
-                    ),
-                    SizedBox(height: 20.0),
-                    CustomTextFormField(
-                      hint: 'Email',
-                      validator: _isValidEmail,
-                      onChanged: _updateEmailFromUserInput,
-                    ),
-                    SizedBox(height: 20.0),
-                    CustomTextFormField(
-                      hint: 'Password',
-                      validator: Util.isValidPassword,
-                      onChanged: _updatePasswordFromUserInput,
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 20.0),
-                    CustomTextFormField(
-                      hint: 'Verify password',
-                      validator: _passwordsMatch,
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 20.0),
-                    CustomButton(
-                      text: 'Register',
-                      onPressed: _register,
-                    ),
-                    SizedBox(height: 10),
-                    Text(error,
-                        style: TextStyle(
-                          color: Constants.errorColor,
-                          fontSize: 14.0,
-                        )),
-                    SizedBox(height: 10),
-                    Text("Already have an account?",
-                        style: TextStyle(color: Constants.hintColor)),
-                    SizedBox(height: 10),
-                    GradientMask(
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                        ),
-                        child: Text(
-                          'Sign in',
-                          style: TextStyle(color: Constants.darkIconColor),
-                        ),
-                        onPressed: () => widget.toggleView(),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 20.0),
+                      CustomTextFormField(
+                        hint: 'Firstname',
+                        validator: _isValidName,
+                        onChanged: _updateNameFromUserInput,
                       ),
-                    ),
-                  ],
+                      SizedBox(height: 20.0),
+                      CustomTextFormField(
+                        hint: 'Email',
+                        validator: _isValidEmail,
+                        onChanged: _updateEmailFromUserInput,
+                      ),
+                      SizedBox(height: 20.0),
+                      CustomTextFormField(
+                        hint: 'Password',
+                        validator: Util.isValidPassword,
+                        onChanged: _updatePasswordFromUserInput,
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 20.0),
+                      CustomTextFormField(
+                        hint: 'Verify password',
+                        validator: _passwordsMatch,
+                        obscureText: true,
+                      ),
+                      SizedBox(height: 20.0),
+                      CustomButton(
+                        text: 'Register',
+                        onPressed: _register,
+                      ),
+                      SizedBox(height: 10),
+                      Text(error,
+                          style: TextStyle(
+                            color: Constants.errorColor,
+                            fontSize: 14.0,
+                          )),
+                      SizedBox(height: 10),
+                      Text("Already have an account?",
+                          style: TextStyle(color: Constants.hintColor)),
+                      SizedBox(height: 10),
+                      GradientMask(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(Colors.white),
+                          ),
+                          child: Text(
+                            'Sign in',
+                            style: TextStyle(color: Constants.darkIconColor),
+                          ),
+                          onPressed: () => widget.toggleView(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

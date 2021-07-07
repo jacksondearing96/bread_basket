@@ -31,8 +31,9 @@ class UserSnapshot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  user.name.isEmpty ? Container() :
                   CircleAvatar(
-                      child: Text(user.name.isEmpty ? 'J' : user.name[0]),
+                      child: Text(user.name[0]),
                       radius: Constants.exerciseTypeIconWidth / 2,
                       backgroundColor: Constants.primaryColor),
                   SizedBox(width: 20),
