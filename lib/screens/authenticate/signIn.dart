@@ -2,6 +2,7 @@ import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customTextFormField.dart';
 import 'package:bread_basket/shared/customButton.dart';
+import 'package:bread_basket/shared/keys.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
@@ -77,13 +78,13 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     CustomTextFormField(
-                        // key: Keys.signInEmailField,
+                        key: Keys.signInEmailField,
                         hint: 'Email',
                         validator: Util.isValidEmail,
                         onChanged: _updateEmailFromUserInput),
                     SizedBox(height: 20.0),
                     CustomTextFormField(
-                      // key: Keys.signInPasswordField,
+                      key: Keys.signInPasswordField,
                       hint: 'Password',
                       validator: Util.isValidPassword,
                       onChanged: _updatePasswordFromUserInput,
@@ -91,12 +92,12 @@ class _SignInState extends State<SignIn> {
                     ),
                     SizedBox(height: 20.0),
                     CustomButton(
-                        // key: Keys.signInButton,
+                        key: Keys.signInButton,
                         text: 'Sign in',
                         onPressed: _validateFormAndSignIn),
                     SizedBox(height: 10),
                     Text(error,
-                    // key: Keys.signInErrorMessage,
+                    key: Keys.signInErrorMessage,
                         style: TextStyle(
                           color: Constants.errorColor,
                           fontSize: Constants.signInErrorMessageFontSize,
@@ -106,7 +107,7 @@ class _SignInState extends State<SignIn> {
                         style: TextStyle(color: Constants.hintColor)),
                     SizedBox(height: 10),
                     CustomButton(
-                      // key: Keys.signInRegisterButton,
+                      key: Keys.signInRegisterButton,
                       text: 'Register',
                       onPressed: widget.toggleView,
                     ),
