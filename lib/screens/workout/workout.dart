@@ -7,6 +7,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
+import 'package:bread_basket/screens/workout/workoutSummary.dart';
 import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customFloatingActionButton.dart';
@@ -16,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
-import 'package:intl/intl.dart';
 
 class Workout extends StatefulWidget {
   final List<Exercise> exercises;
@@ -60,6 +60,7 @@ class _WorkoutState extends State<Workout> {
         .saveWorkout(widget.performedWorkout);
     if (saveSuceeded) {
       Navigator.pop(context);
+              WorkoutSummary(workout: widget.performedWorkout).show(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Successfully saved workout.'),
       ));
@@ -75,7 +76,6 @@ class _WorkoutState extends State<Workout> {
     final user = Provider.of<User?>(context);
 
     DateTime selectedDate = DateTime.now();
-    final DateFormat dateFormatter = DateFormat('EEEE d MMMM, y');
 
     Future<void> _selectDate(BuildContext context) async {
       final DateTime? pickedDate = await showDatePicker(
@@ -99,7 +99,7 @@ class _WorkoutState extends State<Workout> {
                 child: Icon(Icons.calendar_today, color: Colors.white)),
             SizedBox(width: 20),
             Text(
-                dateFormatter.format(new DateTime.fromMillisecondsSinceEpoch(
+                Constants.dateFormatter.format(new DateTime.fromMillisecondsSinceEpoch(
                         widget.performedWorkout.dateInMilliseconds)
                     .toLocal()),
                 style: TextStyle(fontSize: 16.0, color: Constants.hintColor)),

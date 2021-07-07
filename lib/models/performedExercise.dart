@@ -35,6 +35,15 @@ class PerformedExercise {
     return totalVolume;
   }
 
+  PerformedSet bestSet() {
+    double bestWeight = 0;
+    PerformedSet bestSet = PerformedSet();
+    for (PerformedSet performedSet in sets) {
+      if (performedSet.weight > bestWeight) bestSet = performedSet;
+    }
+    return bestSet;
+  }
+
   Map<String, dynamic> toJson() {
     Map<String, dynamic> exerciseJson = {
       'exerciseId': exercise.id,

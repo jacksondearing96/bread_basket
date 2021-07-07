@@ -1,3 +1,5 @@
+import 'package:bread_basket/analytics/NumberOfWorkouts.dart';
+import 'package:bread_basket/analytics/TotalWeightVolumeLifted.dart';
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -43,72 +45,12 @@ class UserSnapshot extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.black.withAlpha(70),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: Constants.exerciseTypeIconWidth,
-                          width: Constants.exerciseTypeIconWidth,
-                          child: ImageIcon(
-                            AssetImage(
-                                Constants.equipmentTypeIcons['dumbbell']!),
-                            color: Constants.primaryColor.withAlpha(230),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Expanded(
-                            child: Column(children: [
-                          Text(
-                              pastWorkouts == null
-                                  ? '0'
-                                  : pastWorkouts.length.toString(),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
-                          Text('Workouts',
-                              style: TextStyle(
-                                  color: Constants.hintColor, fontSize: 12))
-                        ])),
-                      ],
-                    ),
-                  ),
-                ),
+                    child: NumberOfWorkouts(
+                  numberOfWorkouts:
+                      pastWorkouts == null ? 0 : pastWorkouts.length,
+                )),
                 Expanded(
-                  child: Container(
-                    margin: EdgeInsets.all(4),
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                        color: Colors.black.withAlpha(70),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          height: Constants.exerciseTypeIconWidth,
-                          width: Constants.exerciseTypeIconWidth,
-                          child: ImageIcon(
-                            AssetImage(Constants.weightIcon),
-                            color: Constants.primaryColor.withAlpha(230),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Expanded(
-                            child: Column(children: [
-                          Text(totalVolume.round().toString(),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white)),
-                          Text('kgs lifted',
-                              style: TextStyle(
-                                  color: Constants.hintColor, fontSize: 12))
-                        ])),
-                      ],
-                    ),
-                  ),
+                  child: TotalWeightVolumeLifted(kgs: totalVolume.round()),
                 ),
               ],
             )

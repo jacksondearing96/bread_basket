@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Constants {
   static Color backgroundColor = Color.fromARGB(255, 30, 30, 30);
@@ -22,6 +23,9 @@ class Constants {
   static Color darkSecondaryBackground =
       Color.fromARGB(255, 66, 66, 66).withAlpha(120);
   static Color floatingActionButtonColor = Colors.white;
+
+  static final DateFormat dateFormatter = DateFormat('EEEE d MMMM, y');
+  static final DateFormat shorterDateFormatter = DateFormat('EEE d MMMM y');
 
   static Gradient themeGradient = LinearGradient(
     colors: <Color>[
