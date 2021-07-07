@@ -1,5 +1,6 @@
 import 'package:bread_basket/screens/authenticate/register.dart';
 import 'package:bread_basket/screens/authenticate/signIn.dart';
+import 'package:bread_basket/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {
@@ -8,6 +9,8 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
+  AuthService authService = AuthService();
+
   bool showSignIn = true;
 
   void toggleView() {
@@ -17,7 +20,7 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
     return showSignIn
-        ? SignIn(toggleView: toggleView)
+        ? SignIn(toggleView: toggleView, authService: authService)
         : Register(toggleView: toggleView);
   }
 }

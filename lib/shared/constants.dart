@@ -67,6 +67,7 @@ class Constants {
   );
 
   static const double selectExerciseFontSize = 16.0;
+  static const double signInErrorMessageFontSize = 14.0;
 
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 48.0;

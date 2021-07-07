@@ -17,17 +17,6 @@ class AuthService {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
-  // Sign in (anon).
-  Future signInAnon() async {
-    try {
-      Firebase.UserCredential userCredential = await _auth.signInAnonymously();
-      return _userFromFirebaseUser(userCredential.user);
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
   // Sign in (email and password).
   Future signInWithEmailAndPassword(String email, String password) async {
     try {

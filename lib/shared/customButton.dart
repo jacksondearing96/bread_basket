@@ -15,13 +15,14 @@ class CustomButton extends StatelessWidget {
 
   CustomButton({
     required this.text,
+    Key? key,
     this.width = double.infinity,
     this.height = 50.0,
     this.iconData,
     this.imageIconLocation,
     this.onPressed,
     this.isLarge = false,
-  }) {
+  }) : super(key: key) {
     this.gradient = Constants.themeGradient;
   }
 

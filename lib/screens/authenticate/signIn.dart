@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
+  final AuthService authService;
 
-  SignIn({required this.toggleView});
+  SignIn({required this.toggleView, required this.authService});
 
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignIn> {
-  final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool loading = false;
@@ -27,7 +27,8 @@ class _SignInState extends State<SignIn> {
 
   _signIn() async {
     setState(() => loading = true);
-    dynamic user = await _auth.signInWithEmailAndPassword(email, password);
+    dynamic user =
+        await widget.authService.signInWithEmailAndPassword(email, password);
     if (user == null) {
       setState(() {
         error = 'Could not sign in user';
@@ -76,11 +77,13 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     SizedBox(height: 20.0),
                     CustomTextFormField(
+                        // key: Keys.signInEmailField,
                         hint: 'Email',
                         validator: Util.isValidEmail,
                         onChanged: _updateEmailFromUserInput),
                     SizedBox(height: 20.0),
                     CustomTextFormField(
+                      // key: Keys.signInPasswordField,
                       hint: 'Password',
                       validator: Util.isValidPassword,
                       onChanged: _updatePasswordFromUserInput,
@@ -88,18 +91,22 @@ class _SignInState extends State<SignIn> {
                     ),
                     SizedBox(height: 20.0),
                     CustomButton(
-                        text: 'Sign in', onPressed: _validateFormAndSignIn),
+                        // key: Keys.signInButton,
+                        text: 'Sign in',
+                        onPressed: _validateFormAndSignIn),
                     SizedBox(height: 10),
                     Text(error,
+                    // key: Keys.signInErrorMessage,
                         style: TextStyle(
                           color: Constants.errorColor,
-                          fontSize: 14.0,
+                          fontSize: Constants.signInErrorMessageFontSize,
                         )),
                     SizedBox(height: 10),
                     Text("Don't have an account yet?",
                         style: TextStyle(color: Constants.hintColor)),
                     SizedBox(height: 10),
                     CustomButton(
+                      // key: Keys.signInRegisterButton,
                       text: 'Register',
                       onPressed: widget.toggleView,
                     ),
