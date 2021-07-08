@@ -8,6 +8,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customButton.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final exercises = Provider.of<List<Exercise>>(context);
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
-    final noWorkoutsYet = pastWorkouts == null || pastWorkouts.isEmpty;
+    final history = Provider.of<HistoryService>(context);
+    final noWorkoutsYet = history.workouts.isEmpty;
 
     Widget _progressGraph({exerciseId: int}) {
       if (noWorkoutsYet || exercises.isEmpty) return Container();

@@ -32,7 +32,6 @@ void main() {
       filenames.forEach((filename) => print(filename));
 
       Map<String, List<String>> exerciseList = Constants.exerciseList;
-      print('b');
 
       filenames.removeWhere((filename) => filename == '.DS_Store');
 
@@ -53,5 +52,6 @@ void main() {
 
       assert(filenames.length == exerciseList.length);
     });
+
   });
 }

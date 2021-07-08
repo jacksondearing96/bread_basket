@@ -49,9 +49,8 @@ class _WorkoutState extends State<Workout> {
         .exercises
         .map((performedExerciseProvider) => performedExerciseProvider.exercise)
         .toList();
-    widget.performedWorkout.log();
     widget.performedWorkout.clearEmptySetsAndExercises();
-    widget.performedWorkout.log();
+
     if (widget.performedWorkout.performedExercises.isEmpty) {
       endLoading();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -59,6 +58,7 @@ class _WorkoutState extends State<Workout> {
       ));
       return;
     }
+
     dynamic saveSuceeded = await DatabaseService(userId: user.userId)
         .saveWorkout(widget.performedWorkout);
     if (saveSuceeded) {

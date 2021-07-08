@@ -48,10 +48,7 @@ class WorkoutSummary {
           physics: NeverScrollableScrollPhysics(),
           itemCount: workout.performedExercises.length,
           itemBuilder: (context, index) {
-            return Expanded(
-              child:
-                  ExerciseSummary(exercise: workout.performedExercises[index]),
-            );
+            return ExerciseSummary(exercise: workout.performedExercises[index]);
           }),
     );
   }

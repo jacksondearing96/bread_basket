@@ -1,4 +1,5 @@
 import 'package:bread_basket/models/workout.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bread_basket/models/exercise.dart';
 
@@ -43,13 +44,11 @@ class DatabaseService {
     }
   }
 
-  List<PerformedWorkout> _workoutsFromJson(Map<String, Object?> json) {
+  HistoryService _historyFromJson(Map<String, Object?> json) {
     List<PerformedWorkout> workouts = [];
     for (var id in json.keys) {
       workouts.add(
           PerformedWorkout.fromJson(json[id]! as Map<String, Object?>, id));
-      // print(json[id]);
-      // workouts.last.log('');
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
@@ -60,10 +59,11 @@ class DatabaseService {
       }
       return a.dateInMilliseconds.compareTo(b.dateInMilliseconds);
     });
-    return workouts;
+    return HistoryService(pastWorkouts: workouts);
   }
 
-  Map<String, Object?> _workoutsToJson(List<PerformedWorkout> workouts) {
+  Map<String, Object?> _historyToJson(HistoryService history) {
+    List<PerformedWorkout> workouts = history.workouts;
     Map<String, Object?> json = {};
     for (var workout in workouts) {
       json[workout.id] = workout.toJson();
@@ -71,15 +71,15 @@ class DatabaseService {
     return json;
   }
 
-  Stream<List<PerformedWorkout>?> get pastWorkouts {
+  Stream<HistoryService> get history {
     return FirebaseFirestore.instance
         .collection('bros')
         .doc(userId)
-        .withConverter<List<PerformedWorkout>>(
-            fromFirestore: (snapshot, _) => _workoutsFromJson(snapshot.data()!),
-            toFirestore: (workouts, _) => _workoutsToJson(workouts))
+        .withConverter<HistoryService>(
+            fromFirestore: (snapshot, _) => _historyFromJson(snapshot.data()!),
+            toFirestore: (workouts, _) => _historyToJson(workouts))
         .snapshots()
-        .map((snapshot) => snapshot.data());
+        .map((snapshot) => snapshot.data() ?? HistoryService(pastWorkouts: []));
   }
 
   void uploadExercises() {

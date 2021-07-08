@@ -1,4 +1,5 @@
 import 'package:bread_basket/models/workout.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +14,8 @@ class WeeklyTrainingVolume extends StatefulWidget {
 class WeeklyTrainingVolumeState extends State<WeeklyTrainingVolume> {
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
-
-    List<double> volumes = List.filled(7, 0.0);
-    if (pastWorkouts != null) {
-      for (PerformedWorkout workout in pastWorkouts.reversed) {
-        DateTime now = DateTime.now();
-        DateTime workoutTime =
-            DateTime.fromMillisecondsSinceEpoch(workout.dateInMilliseconds);
-        int difference = now.difference(workoutTime).inDays;
-        if (difference >= 7) break;
-        volumes[6 - difference] += workout.totalVolume();
-      }
-    }
+    final history = Provider.of<HistoryService>(context);
+    List<double> volumes = history.last7DaysVolumes();
 
     BarChartGroupData _barChartData(int dayOftheWeek, double volume) {
       return BarChartGroupData(x: dayOftheWeek, barRods: [

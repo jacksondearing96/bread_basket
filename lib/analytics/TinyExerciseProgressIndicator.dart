@@ -1,37 +1,22 @@
+import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/toolTipOnTap.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TinyExerciseProgressIndicator extends StatelessWidget {
-  final List<PerformedSet> prevSets;
-  final List<PerformedSet> currentSets;
-  TinyExerciseProgressIndicator(
-      {required this.prevSets, required this.currentSets});
-
-  double _totalVolume(List<PerformedSet> sets) {
-    double totalVolume = 0;
-    for (var s in sets) totalVolume += s.volume();
-    return totalVolume;
-  }
-
-  double _bestWeight(List<PerformedSet> sets) {
-    double bestWeight = 0;
-    for (var s in sets)
-      bestWeight = s.weight > bestWeight ? s.weight : bestWeight;
-    return bestWeight;
-  }
-
-  int _progressPercentage(Function metric) {
-    double prevMetric = metric(prevSets);
-    if (prevMetric == 0) return 0;
-    double progressRatio = metric(currentSets) / metric(prevSets);
-    int rounded = ((progressRatio - 1) * 100).round();
-    return rounded;
-  }
+  final PerformedExercise exercise;
+  TinyExerciseProgressIndicator({required this.exercise});
 
   @override
   Widget build(BuildContext context) {
+    final history = Provider.of<HistoryService>(context);
+    final prevSets = history.mostRecentSetsOf(
+        exerciseId: exercise.exercise.id, skipFirstFound: true);
+
     return prevSets.isEmpty
         ? Container()
         : Container(
@@ -39,10 +24,14 @@ class TinyExerciseProgressIndicator extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _progressIndicatorTile(_progressPercentage(_bestWeight),
-                    Constants.weightIcon, 'Max weight (compared to last time)'),
-                _progressIndicatorTile(
-                    _progressPercentage(_totalVolume),
+                _tinyProgressIndicatorTile(
+                    Util.progressPercentage(
+                        exercise, Util.bestWeight, prevSets),
+                    Constants.weightIcon,
+                    'Max weight (compared to last time)'),
+                _tinyProgressIndicatorTile(
+                    Util.progressPercentage(
+                        exercise, Util.totalVolume, prevSets),
                     Constants.sigmaIcon,
                     'Total volume (compared to last time)'),
               ],
@@ -50,7 +39,7 @@ class TinyExerciseProgressIndicator extends StatelessWidget {
           );
   }
 
-  Widget _progressIndicatorTile(
+  Widget _tinyProgressIndicatorTile(
       int progress, String iconLocation, String tooltip) {
     bool improvement = progress >= 0;
     progress = progress.abs();

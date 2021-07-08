@@ -4,6 +4,7 @@ import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,33 +17,8 @@ class ExerciseSummary extends StatelessWidget {
     return '${set.reps} x ${set.getWeightString()}';
   }
 
-  // TODO: Abstract this function as it is repeated in WorkoutExerciseTile.
-  // TODO: Take into account the skip index 0 added in this version too.
-  List<PerformedSet> _findMostRecentSetsOfExercise(
-      List<PerformedWorkout>? prevWorkouts, Exercise exercise) {
-    if (prevWorkouts == null) return [];
-
-    bool isMostRecentExercise = true;
-    for (PerformedWorkout prevWorkout in prevWorkouts.reversed.toList()) {
-      // Want to skip the first item this time because the first item will
-      // be the set that we just completed.
-      if (isMostRecentExercise) {
-        isMostRecentExercise = false;
-        continue;
-      }
-
-      for (PerformedExercise prevExercise in prevWorkout.performedExercises) {
-        if (prevExercise.exercise.id == exercise.id) {
-          return prevExercise.sets;
-        }
-      }
-    }
-    return [];
-  }
-
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
     return Column(
       children: <Widget>[
         Row(
@@ -91,10 +67,7 @@ class ExerciseSummary extends StatelessWidget {
           ],
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          TinyExerciseProgressIndicator(
-              prevSets: _findMostRecentSetsOfExercise(
-                  pastWorkouts, exercise.exercise),
-              currentSets: exercise.sets),
+          TinyExerciseProgressIndicator(exercise: exercise),
           Text('best: ${setToString(exercise.bestSet())}kg',
               style: TextStyle(fontSize: 14)),
         ]),

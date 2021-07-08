@@ -1,11 +1,10 @@
 import 'package:bread_basket/analytics/ExerciseProgressIndicator.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customFloatingActionButton.dart';
 import 'package:flutter/material.dart';
@@ -27,30 +26,16 @@ class WorkoutExerciseTile extends StatefulWidget {
 }
 
 class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
-  List<PerformedSet> _findMostRecentSetsOfExercise(
-      List<PerformedWorkout>? prevWorkouts, Exercise exercise) {
-    if (prevWorkouts == null) return [];
-
-    for (PerformedWorkout prevWorkout in prevWorkouts.reversed.toList()) {
-      for (PerformedExercise prevExercise in prevWorkout.performedExercises) {
-        if (prevExercise.exercise.id == exercise.id) {
-          return prevExercise.sets;
-        }
-      }
-    }
-    return [];
-  }
-
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+    final history = Provider.of<HistoryService>(context);
 
     return Consumer<PerformedExerciseProvider>(
         builder: (context, performedExerciseProvider, child) {
       Exercise exercise = performedExerciseProvider.exercise.exercise;
       List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
       List<PerformedSet> mostRecentSetsOfExercise =
-          _findMostRecentSetsOfExercise(pastWorkouts, exercise);
+          history.mostRecentSetsOf(exerciseId: exercise.id);
 
       return Card(
         color: Colors.transparent,
@@ -148,7 +133,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 children: <Widget>[
                   Flexible(
                     child: ExerciseProgressIndicator(
-                        prevSets: mostRecentSetsOfExercise, currentSets: sets),
+                        exercise: performedExerciseProvider.exercise),
                   ),
                   _addNewSetButton(performedExerciseProvider.addSet),
                 ],

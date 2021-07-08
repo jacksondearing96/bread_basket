@@ -1,5 +1,6 @@
-import 'package:bread_basket/models/workout.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,30 +69,20 @@ class Calendar {
 class HeatmapCalendar extends StatelessWidget {
   const HeatmapCalendar({Key? key}) : super(key: key);
 
-  String dateToStringKey(DateTime date) {
-    return '${date.day.toString()}-${date.month}-${date.year}';
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+    final history = Provider.of<HistoryService>(context);
 
     // Create a set of all the dates where a workout occurred.
-    Map<String, int> workoutDates = {};
-    if (pastWorkouts != null) {
-      for (PerformedWorkout workout in pastWorkouts) {
-        DateTime date =
-            DateTime.fromMillisecondsSinceEpoch(workout.dateInMilliseconds);
-        workoutDates.update(dateToStringKey(date), (val) => val + 1,
-            ifAbsent: () => 1);
-      }
-    }
+    Map<String, int> workoutDates = history.workoutDates();
 
     int daysToShow = 100 + DateTime.now().weekday - 2;
     Calendar calendar = Calendar();
     DateTime d = DateTime.now().subtract(Duration(days: daysToShow - 1));
     for (var i = 0; i < daysToShow; ++i) {
-      calendar.addDay(_puck(workoutDates[dateToStringKey(d)] ?? 0));
+      calendar.addDay(_puck(workoutDates[Util.dateToStringKey(d)] ?? 0));
       d = d.add(Duration(days: 1));
     }
 

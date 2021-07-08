@@ -3,6 +3,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/screens/wrapper.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/database.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,11 @@ class MyApp extends StatelessWidget {
                 onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
                 child: Builder(builder: (context) {
                   final user = Provider.of<User?>(context);
-                  return StreamProvider<List<PerformedWorkout>?>.value(
-                    initialData: [],
+                  return StreamProvider<HistoryService>.value(
+                    initialData: HistoryService(pastWorkouts: []),
                     value: DatabaseService(
                             userId: user == null ? null : user.userId)
-                        .pastWorkouts,
+                        .history,
                     child: MaterialApp(
                       theme: ThemeData(
                         textTheme: TextTheme(

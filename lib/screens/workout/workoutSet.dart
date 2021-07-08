@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class WorkoutSet extends StatefulWidget {
-  int setIndex;
-  PerformedSet? prevSet;
+  final int setIndex;
+  final PerformedSet? prevSet;
 
   WorkoutSet({Key? key, required this.setIndex, this.prevSet})
       : super(key: key);

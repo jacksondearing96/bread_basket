@@ -1,5 +1,6 @@
 import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/workout.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -15,30 +16,15 @@ class MuscleGroupPieChart extends StatefulWidget {
 }
 
 class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
-  Map<String, int> muscleGroupToExerciseCount = {};
   int touchedIndex = -1;
+  Map<String, int> muscleGroupToExerciseCount = {};
   int totalExerciseCount = 0;
 
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
-
-    if (pastWorkouts != null) {
-      for (PerformedWorkout workout in pastWorkouts) {
-        for (PerformedExercise exercise in workout.performedExercises) {
-          ++totalExerciseCount;
-          for (String muscleGroup in Constants.muscleGroups) {
-            if (exercise.exercise.tags.contains(muscleGroup)) {
-              muscleGroupToExerciseCount.update(
-                muscleGroup,
-                (existingValue) => existingValue + 1,
-                ifAbsent: () => 1,
-              );
-            }
-          }
-        }
-      }
-    }
+    final history = Provider.of<HistoryService>(context);
+    muscleGroupToExerciseCount = history.muscleGroupToExerciseCounts();
+    totalExerciseCount = history.totalExerciseCount();
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -92,7 +78,6 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
 
   List<Widget> getPieChartLabels() {
     List<Widget> labels = [];
-    int index = 0;
     List<Color> colors = []..addAll(Constants.pieChartColors);
     for (String muscleGroup in Constants.muscleGroups) {
       final exerciseCount = muscleGroupToExerciseCount.containsKey(muscleGroup)
@@ -111,7 +96,6 @@ class _MuscleGroupPieChartState extends State<MuscleGroupPieChart> {
         isSquare: false,
       ));
       labels.add(SizedBox(height: 6.0));
-      ++index;
     }
     return labels;
   }

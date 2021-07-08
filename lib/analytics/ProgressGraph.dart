@@ -1,8 +1,8 @@
-import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,46 +19,13 @@ class ProgressGraph extends StatefulWidget {
 class _ProgressGraphState extends State<ProgressGraph> {
   @override
   Widget build(BuildContext context) {
-    final pastWorkouts = Provider.of<List<PerformedWorkout>?>(context);
+    final history = Provider.of<HistoryService>(context);
 
-    List<PerformedSet> bestSets;
-    double bestPastWeight = 0;
-    double worstPastWeight = 0;
-    double verticalInterval = 0;
-
-    List<PerformedSet> fetchBestPastSets() {
-      List<PerformedSet> bestSetsList = [];
-      if (pastWorkouts == null) return [];
-      for (PerformedWorkout workout in pastWorkouts) {
-        for (PerformedExercise exercise in workout.performedExercises) {
-          if (exercise.exercise.id != widget.exerciseId) continue;
-          PerformedSet? maxWeightSet;
-          double maxWeight = 0;
-          for (PerformedSet performedSet in exercise.sets) {
-            // Don't count warm up sets or drop sets.
-            if (performedSet.setType == Constants.warmUpCode ||
-                performedSet.setType == Constants.dropSetCode) continue;
-
-            // Update the local best weight for this workout.
-            if (performedSet.weight > maxWeight) {
-              maxWeightSet = performedSet;
-              maxWeight = performedSet.weight;
-            }
-
-            // Update our overall best/worst weights.
-            if (maxWeight > bestPastWeight) bestPastWeight = maxWeight;
-            if (performedSet.weight < worstPastWeight)
-              worstPastWeight = performedSet.weight;
-          }
-          if (maxWeightSet != null) bestSetsList.add(maxWeightSet);
-        }
-        if (bestSetsList.length >= Constants.progressGraphDataPointLimit) break;
-      }
-      return bestSetsList;
-    }
-
-    bestSets = fetchBestPastSets();
-    verticalInterval =
+    List<PerformedSet> bestSets =
+        history.bestSetFromEveryPastWorkout(exerciseId: widget.exerciseId);
+    double bestPastWeight = Util.bestWeight(bestSets);
+    double worstPastWeight = Util.worstWeight(bestSets);
+    double verticalInterval =
         ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
 
     List<Color> gradientColors = [
