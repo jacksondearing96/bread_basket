@@ -47,4 +47,12 @@ class Util {
         ? string
         : string[0].toUpperCase() + string.substring(1);
   }
+
+  static String? isAValidDouble(String? val) {
+    return (val != null && double.tryParse(val) != null) ? null : 'invalid';
+  }
+
+  static String? isAValidInteger(String? val) {
+    return (val != null && int.tryParse(val) != null) ? null : 'invalid';
+  }
 }

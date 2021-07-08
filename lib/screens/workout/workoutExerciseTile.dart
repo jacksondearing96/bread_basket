@@ -36,6 +36,7 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
       List<PerformedSet> sets = exerciseProvider.exercise.sets;
       List<PerformedSet> mostRecentSetsOfExercise =
           history.mostRecentSetsOf(exerciseId: exercise.exerciseId);
+      mostRecentSetsOfExercise.forEach((set) => set.log());
 
       return Card(
         color: Colors.transparent,

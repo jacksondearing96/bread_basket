@@ -28,7 +28,7 @@ class HistoryService {
       }
 
       for (Exercise exercise in workout.exercises) {
-        if (exercise.exerciseId == exercise.id) {
+        if (exercise.exerciseId == exerciseId) {
           return exercise.sets;
         }
       }

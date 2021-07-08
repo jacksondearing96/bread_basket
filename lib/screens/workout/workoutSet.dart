@@ -2,6 +2,7 @@ import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetTypeDropdown.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -64,10 +65,13 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       textAlign: TextAlign.center,
                       decoration:
                           Constants.setInputDecoration.copyWith(hintText: ''),
-                      validator: isAValidNumber,
-                      onChanged: (val) =>
-                          performedSet.weight = double.parse(val),
+                      validator: _isValidWeight,
+                      onChanged: (val) {
+                        if (!_formIsValid()) return;
+                        performedSet.weight = double.parse(val);
+                      },
                       onEditingComplete: () {
+                        if (!_formIsValid()) return;
                         setState(() {});
                         exerciseProvider.updateSet(
                             widget.setIndex, performedSet);
@@ -85,11 +89,11 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     textAlign: TextAlign.center,
                     decoration:
                         Constants.setInputDecoration.copyWith(hintText: ''),
-                    validator: isAValidInteger,
+                    validator: _isValidReps,
                     onChanged: (val) {
+                      if (!_formIsValid()) return;
                       setState(() => performedSet.reps = int.parse(val));
-                      updateSet(
-                          exerciseProvider.updateSet, performedSet);
+                      updateSet(exerciseProvider.updateSet, performedSet);
                     },
                   ),
                 ),
@@ -97,6 +101,21 @@ class _WorkoutSetState extends State<WorkoutSet> {
             )),
       );
     });
+  }
+
+  String? _isValidReps(String? val) {
+    if (val == null || val.isEmpty) return null;
+    return Util.isAValidInteger(val);
+  }
+
+  String? _isValidWeight(String? val) {
+    if (val == null || val.isEmpty) return null;
+    return Util.isAValidDouble(val);
+  }
+
+  bool _formIsValid() {
+    FormState? state = _formKey.currentState;
+    return state != null && state.validate();
   }
 
   void updateSet(Function providerUpdateSet, PerformedSet performedSet) {
@@ -107,13 +126,5 @@ class _WorkoutSetState extends State<WorkoutSet> {
         }
       });
     }
-  }
-
-  String? isAValidNumber(String? val) {
-    return (val != null && double.tryParse(val) != null) ? null : 'invalid';
-  }
-
-  String? isAValidInteger(String? val) {
-    return (val != null && int.tryParse(val) != null) ? null : 'invalid';
   }
 }
