@@ -27,7 +27,7 @@ class HistoryService {
         continue;
       }
 
-      for (Exercise exercise in workout.Exercises) {
+      for (Exercise exercise in workout.exercises) {
         if (exercise.exerciseId == exercise.id) {
           return exercise.sets;
         }
@@ -50,7 +50,7 @@ class HistoryService {
   Map<String, int> muscleGroupToExerciseCounts() {
     Map<String, int> muscleGroupToExerciseCount = {};
     for (PerformedWorkout workout in pastWorkouts) {
-      for (Exercise exercise in workout.Exercises) {
+      for (Exercise exercise in workout.exercises) {
         for (String muscleGroup in Constants.muscleGroups) {
           if (exercise.tags.contains(muscleGroup)) {
             muscleGroupToExerciseCount.update(
@@ -69,13 +69,13 @@ class HistoryService {
     return pastWorkouts.fold(
         0,
         (exerciseCount, workout) =>
-            exerciseCount + workout.Exercises.length);
+            exerciseCount + workout.exercises.length);
   }
 
   List<PerformedSet> bestSetFromEveryPastWorkout({exerciseId: String}) {
     List<PerformedSet> bestSetsList = [];
     for (PerformedWorkout workout in pastWorkouts) {
-      for (Exercise exercise in workout.Exercises) {
+      for (Exercise exercise in workout.exercises) {
         if (exercise.exerciseId != exerciseId) continue;
         PerformedSet? maxWeightSet;
         double maxWeight = 0;

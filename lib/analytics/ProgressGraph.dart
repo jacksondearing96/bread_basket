@@ -36,10 +36,10 @@ class _ProgressGraphState extends State<ProgressGraph> {
     return bestSets.length < 2
         ? Container()
         : Consumer<ExerciseProvider>(
-            builder: (context, ExerciseProvider, child) {
-            PerformedSet? bestCurrentSet = ExerciseProvider.bestSet();
+            builder: (context, exerciseProvider, child) {
+            PerformedSet? bestCurrentSet = exerciseProvider.bestSet();
             if (bestCurrentSet != null) {
-              bestSets.add(ExerciseProvider.bestSet()!);
+              bestSets.add(exerciseProvider.bestSet()!);
               if (bestCurrentSet.weight > bestPastWeight)
                 bestPastWeight = bestCurrentSet.weight;
               if (bestCurrentSet.weight < worstPastWeight)

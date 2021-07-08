@@ -46,9 +46,9 @@ class WorkoutSummary {
       height: 500,
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
-          itemCount: workout.Exercises.length,
+          itemCount: workout.exercises.length,
           itemBuilder: (context, index) {
-            return ExerciseSummary(exercise: workout.Exercises[index]);
+            return ExerciseSummary(exercise: workout.exercises[index]);
           }),
     );
   }

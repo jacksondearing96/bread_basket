@@ -25,9 +25,9 @@ class _WorkoutSetState extends State<WorkoutSet> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ExerciseProvider>(
-        builder: (context, ExerciseProvider, child) {
+        builder: (context, exerciseProvider, child) {
       PerformedSet performedSet =
-          ExerciseProvider.exercise.sets[widget.setIndex];
+          exerciseProvider.exercise.sets[widget.setIndex];
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 3.0),
@@ -37,7 +37,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ChangeNotifierProvider.value(
-                  value: ExerciseProvider,
+                  value: exerciseProvider,
                   child: WorkoutSetTypeDropdown(setIndex: widget.setIndex),
                 ),
                 Container(
@@ -69,7 +69,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                           performedSet.weight = double.parse(val),
                       onEditingComplete: () {
                         setState(() {});
-                        ExerciseProvider.updateSet(
+                        exerciseProvider.updateSet(
                             widget.setIndex, performedSet);
                       }),
                 ),
@@ -89,7 +89,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     onChanged: (val) {
                       setState(() => performedSet.reps = int.parse(val));
                       updateSet(
-                          ExerciseProvider.updateSet, performedSet);
+                          exerciseProvider.updateSet, performedSet);
                     },
                   ),
                 ),

@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/models/workout.dart';
 import 'package:email_validator/email_validator.dart';
 
 class Util {

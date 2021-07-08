@@ -1,12 +1,11 @@
 import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/models/performedSet.dart';
 
 class PerformedWorkout {
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   int dateInMilliseconds = DateTime.now().millisecondsSinceEpoch;
   PerformedWorkout();
 
-  List<Exercise> Exercises = [];
+  List<Exercise> exercises = [];
   String name = "New Workout";
 
   static PerformedWorkout fromJson(Map<String, Object?> json, String id) {
@@ -18,16 +17,16 @@ class PerformedWorkout {
     Map<String, Object?> exercisesJson =
         json['exercises']! as Map<String, Object?>;
     for (var exerciseId in exercisesJson.keys) {
-      workout.Exercises.add(Exercise.fromJson(
+      workout.exercises.add(Exercise.fromJson(
           exercisesJson[exerciseId]! as Map<String, Object?>, exerciseId));
     }
     return workout;
   }
 
   clearEmptySetsAndExercises() {
-    Exercises.forEach(
+    exercises.forEach(
         (exercise) => exercise.sets.removeWhere((set) => set.reps == 0));
-    Exercises.removeWhere((exercise) => exercise.sets.isEmpty);
+    exercises.removeWhere((exercise) => exercise.sets.isEmpty);
   }
 
   Map<String, Object?> toJson() {
@@ -37,7 +36,7 @@ class PerformedWorkout {
       'dateInMilliseconds': dateInMilliseconds,
       'exercises': {},
     };
-    for (var exercise in Exercises) {
+    for (var exercise in exercises) {
       if (exercise.sets.isNotEmpty) {
         workoutData['exercises'][exercise.id] = exercise.toJson();
       }
@@ -47,7 +46,7 @@ class PerformedWorkout {
 
   double totalVolume() {
     double totalVolume = 0;
-    for (Exercise exercise in Exercises) {
+    for (Exercise exercise in exercises) {
       totalVolume += exercise.totalVolume();
     }
     return totalVolume;
@@ -58,7 +57,7 @@ class PerformedWorkout {
     print(message);
     print(
         'WORKOUT[$id]: name: $name, date: ${DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds)}');
-    for (var exercise in Exercises) {
+    for (var exercise in exercises) {
       exercise.log();
     }
   }

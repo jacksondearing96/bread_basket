@@ -44,13 +44,13 @@ class _WorkoutState extends State<Workout> {
   void save(User? user) async {
     if (user == null) return;
     startLoading();
-    widget.performedWorkout.Exercises = exerciseListProvider
+    widget.performedWorkout.exercises = exerciseListProvider
         .exercises
         .map((exerciseProvider) => exerciseProvider.exercise)
         .toList();
     widget.performedWorkout.clearEmptySetsAndExercises();
 
-    if (widget.performedWorkout.Exercises.isEmpty) {
+    if (widget.performedWorkout.exercises.isEmpty) {
       endLoading();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Your workout is empty! Nothing to save.'),

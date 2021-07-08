@@ -1,5 +1,3 @@
-import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';

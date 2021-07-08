@@ -14,11 +14,14 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('allExercises');
 
   List<Exercise> _exerciseListFromJson(Map<String, Object?> json) {
-    return json.keys.map((key) {
-      List<String> tags = ((json[key]) as List).map((elem) => elem as String).toList();
+    List<Exercise> exercises = json.keys.map((key) {
+      List<String> tags =
+          ((json[key]) as List).map((elem) => elem as String).toList();
       String id = tags.removeAt(0);
       return Exercise(exerciseId: id, name: key, tags: tags);
     }).toList();
+    exercises.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    return exercises;
   }
 
   Stream<List<Exercise>> get exercises {

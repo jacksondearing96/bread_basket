@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   Future<List<FileSystemEntity>> dirContents(Directory dir) {

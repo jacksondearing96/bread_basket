@@ -1,5 +1,4 @@
 import 'package:bread_basket/models/user.dart';
-import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/screens/wrapper.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/database.dart';

@@ -18,9 +18,9 @@ class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ExerciseProvider>(
-        builder: (context, ExerciseProvider, child) {
+        builder: (context, exerciseProvider, child) {
       PerformedSet performedSet =
-          ExerciseProvider.exercise.sets[widget.setIndex];
+          exerciseProvider.exercise.sets[widget.setIndex];
 
       return Container(
         width: Constants.workoutSetTypeDropdownWidth,
