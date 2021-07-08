@@ -1,5 +1,5 @@
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetType.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,10 @@ class WorkoutSetTypeDropdown extends StatefulWidget {
 class _WorkoutSetTypeDropdownState extends State<WorkoutSetTypeDropdown> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PerformedExerciseProvider>(
-        builder: (context, performedExerciseProvider, child) {
+    return Consumer<ExerciseProvider>(
+        builder: (context, ExerciseProvider, child) {
       PerformedSet performedSet =
-          performedExerciseProvider.exercise.sets[widget.setIndex];
+          ExerciseProvider.exercise.sets[widget.setIndex];
 
       return Container(
         width: Constants.workoutSetTypeDropdownWidth,

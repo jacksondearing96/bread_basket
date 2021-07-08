@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:email_validator/email_validator.dart';
@@ -30,7 +30,7 @@ class Util {
     return sets.fold(0, (volume, set) => volume + set.volume());
   }
 
-  static int progressPercentage(PerformedExercise exercise, Function metric,
+  static int progressPercentage(Exercise exercise, Function metric,
       List<PerformedSet> prevSets) {
     double prevMetric = metric(prevSets);
     if (prevMetric == 0) return 0;
@@ -41,5 +41,11 @@ class Util {
 
   static String dateToStringKey(DateTime date) {
     return '${date.day.toString()}-${date.month}-${date.year}';
+  }
+
+  static String capitalize(String string) {
+    return string.isEmpty
+        ? string
+        : string[0].toUpperCase() + string.substring(1);
   }
 }

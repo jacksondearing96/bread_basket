@@ -3,9 +3,7 @@ import 'package:bread_basket/analytics/MuscleGroupPieChart.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/analytics/UserSnapshot.dart';
 import 'package:bread_basket/analytics/WeeklyTrainingVolume.dart';
-import 'package:bread_basket/models/performedExercise.dart';
-import 'package:bread_basket/models/workout.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/history.dart';
@@ -27,15 +25,15 @@ class Home extends StatelessWidget {
     Widget _progressGraph({exerciseId: int}) {
       if (noWorkoutsYet || exercises.isEmpty) return Container();
       Exercise exercise =
-          exercises.firstWhere((e) => e.id == exerciseId.toString());
+          exercises.firstWhere((e) => e.exerciseId == exerciseId.toString());
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
             Text(exercise.title, style: TextStyle(color: Constants.hintColor)),
             ChangeNotifierProvider.value(
-              value: PerformedExerciseProvider(
-                  performedExercise: PerformedExercise(exercise: exercise)),
+              value: ExerciseProvider(
+                  exerciseToProvide: exercise),
               child: ProgressGraph(exerciseId: exerciseId.toString()),
             ),
           ],

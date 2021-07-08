@@ -1,4 +1,4 @@
-import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -27,8 +27,8 @@ class HistoryService {
         continue;
       }
 
-      for (PerformedExercise exercise in workout.performedExercises) {
-        if (exercise.exercise.id == exercise.id) {
+      for (Exercise exercise in workout.Exercises) {
+        if (exercise.exerciseId == exercise.id) {
           return exercise.sets;
         }
       }
@@ -50,9 +50,9 @@ class HistoryService {
   Map<String, int> muscleGroupToExerciseCounts() {
     Map<String, int> muscleGroupToExerciseCount = {};
     for (PerformedWorkout workout in pastWorkouts) {
-      for (PerformedExercise exercise in workout.performedExercises) {
+      for (Exercise exercise in workout.Exercises) {
         for (String muscleGroup in Constants.muscleGroups) {
-          if (exercise.exercise.tags.contains(muscleGroup)) {
+          if (exercise.tags.contains(muscleGroup)) {
             muscleGroupToExerciseCount.update(
               muscleGroup,
               (existingValue) => existingValue + 1,
@@ -69,14 +69,14 @@ class HistoryService {
     return pastWorkouts.fold(
         0,
         (exerciseCount, workout) =>
-            exerciseCount + workout.performedExercises.length);
+            exerciseCount + workout.Exercises.length);
   }
 
   List<PerformedSet> bestSetFromEveryPastWorkout({exerciseId: String}) {
     List<PerformedSet> bestSetsList = [];
     for (PerformedWorkout workout in pastWorkouts) {
-      for (PerformedExercise exercise in workout.performedExercises) {
-        if (exercise.exercise.id != exerciseId) continue;
+      for (Exercise exercise in workout.Exercises) {
+        if (exercise.exerciseId != exerciseId) continue;
         PerformedSet? maxWeightSet;
         double maxWeight = 0;
         for (PerformedSet performedSet in exercise.sets) {

@@ -1,5 +1,4 @@
-import 'package:bread_basket/models/performedExercise.dart';
-import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/toolTipOnTap.dart';
@@ -8,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TinyExerciseProgressIndicator extends StatelessWidget {
-  final PerformedExercise exercise;
+  final Exercise exercise;
   TinyExerciseProgressIndicator({required this.exercise});
 
   @override
   Widget build(BuildContext context) {
     final history = Provider.of<HistoryService>(context);
     final prevSets = history.mostRecentSetsOf(
-        exerciseId: exercise.exercise.id, skipFirstFound: true);
+        exerciseId: exercise.exerciseId, skipFirstFound: true);
 
     return prevSets.isEmpty
         ? Container()

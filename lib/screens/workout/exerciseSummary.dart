@@ -1,16 +1,11 @@
-import 'package:bread_basket/analytics/ExerciseProgressIndicator.dart';
 import 'package:bread_basket/analytics/TinyExerciseProgressIndicator.dart';
 import 'package:bread_basket/models/exercise.dart';
-import 'package:bread_basket/models/performedExercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/models/workout.dart';
-import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ExerciseSummary extends StatelessWidget {
-  final PerformedExercise exercise;
+  final Exercise exercise;
   const ExerciseSummary({Key? key, required this.exercise}) : super(key: key);
 
   String setToString(PerformedSet set) {
@@ -28,7 +23,7 @@ class ExerciseSummary extends StatelessWidget {
               child: Column(children: [
                 Row(children: [
                   Text('${exercise.sets.length} x '),
-                  exercise.exercise.equipmentTypeIconLocation == ''
+                  exercise.equipmentTypeIconLocation == ''
                       ? Container()
                       : Container(
                           padding: EdgeInsets.all(4.0),
@@ -38,7 +33,7 @@ class ExerciseSummary extends StatelessWidget {
                             opacity: Constants.equipmentTypeIconOpacity,
                             child: ImageIcon(
                               AssetImage(
-                                  exercise.exercise.equipmentTypeIconLocation),
+                                  exercise.equipmentTypeIconLocation),
                               color: Constants.textColor,
                             ),
                           )),
@@ -47,13 +42,13 @@ class ExerciseSummary extends StatelessWidget {
                       padding: EdgeInsets.fromLTRB(7, 0, 0, 0),
                       child: Wrap(
                         children: [
-                          Text(exercise.exercise.title,
+                          Text(exercise.title,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                   color: Constants.textColor,
                                   fontSize: Constants.selectExerciseFontSize)),
-                          exercise.exercise.subtitle != ''
-                              ? Text('(${exercise.exercise.subtitle})',
+                          exercise.subtitle != ''
+                              ? Text('(${exercise.subtitle})',
                                   style: TextStyle(
                                       color: Constants.hintColor, fontSize: 14))
                               : Container(),

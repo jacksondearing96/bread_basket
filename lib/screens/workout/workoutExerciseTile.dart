@@ -2,7 +2,7 @@ import 'package:bread_basket/analytics/ExerciseProgressIndicator.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -30,12 +30,12 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
   Widget build(BuildContext context) {
     final history = Provider.of<HistoryService>(context);
 
-    return Consumer<PerformedExerciseProvider>(
-        builder: (context, performedExerciseProvider, child) {
-      Exercise exercise = performedExerciseProvider.exercise.exercise;
-      List<PerformedSet> sets = performedExerciseProvider.exercise.sets;
+    return Consumer<ExerciseProvider>(
+        builder: (context, exerciseProvider, child) {
+      Exercise exercise = exerciseProvider.exercise;
+      List<PerformedSet> sets = exerciseProvider.exercise.sets;
       List<PerformedSet> mostRecentSetsOfExercise =
-          history.mostRecentSetsOf(exerciseId: exercise.id);
+          history.mostRecentSetsOf(exerciseId: exercise.exerciseId);
 
       return Card(
         color: Colors.transparent,
@@ -89,8 +89,8 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 ],
               ),
               ChangeNotifierProvider.value(
-                value: performedExerciseProvider,
-                child: ProgressGraph(exerciseId: exercise.id),
+                value: exerciseProvider,
+                child: ProgressGraph(exerciseId: exercise.exerciseId),
               ),
               SizedBox(height: 15),
               _header(),
@@ -115,9 +115,9 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                         ),
                       ),
                       onDismissed: (direction) =>
-                          performedExerciseProvider.removeSet(index),
+                          exerciseProvider.removeSet(index),
                       child: ChangeNotifierProvider.value(
-                        value: performedExerciseProvider,
+                        value: exerciseProvider,
                         child: WorkoutSet(
                             key: UniqueKey(),
                             setIndex: index,
@@ -133,9 +133,9 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 children: <Widget>[
                   Flexible(
                     child: ExerciseProgressIndicator(
-                        exercise: performedExerciseProvider.exercise),
+                        exercise: exerciseProvider.exercise),
                   ),
-                  _addNewSetButton(performedExerciseProvider.addSet),
+                  _addNewSetButton(exerciseProvider.addSet),
                 ],
               ),
             ],

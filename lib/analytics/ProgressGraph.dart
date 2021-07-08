@@ -1,5 +1,5 @@
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/util.dart';
@@ -35,11 +35,11 @@ class _ProgressGraphState extends State<ProgressGraph> {
 
     return bestSets.length < 2
         ? Container()
-        : Consumer<PerformedExerciseProvider>(
-            builder: (context, performedExerciseProvider, child) {
-            PerformedSet? bestCurrentSet = performedExerciseProvider.bestSet();
+        : Consumer<ExerciseProvider>(
+            builder: (context, ExerciseProvider, child) {
+            PerformedSet? bestCurrentSet = ExerciseProvider.bestSet();
             if (bestCurrentSet != null) {
-              bestSets.add(performedExerciseProvider.bestSet()!);
+              bestSets.add(ExerciseProvider.bestSet()!);
               if (bestCurrentSet.weight > bestPastWeight)
                 bestPastWeight = bestCurrentSet.weight;
               if (bestCurrentSet.weight < worstPastWeight)

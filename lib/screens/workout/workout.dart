@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/models/workout.dart';
@@ -14,7 +14,6 @@ import 'package:bread_basket/shared/customFloatingActionButton.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:bread_basket/shared/gradientMask.dart';
 import 'package:flutter/material.dart';
-import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
@@ -29,8 +28,8 @@ class Workout extends StatefulWidget {
 
 class _WorkoutState extends State<Workout> {
   String workoutName = 'New Workout';
-  PerformedExerciseListProvider performedExerciseListProvider =
-      new PerformedExerciseListProvider();
+  ExerciseListProvider exerciseListProvider =
+      new ExerciseListProvider();
 
   bool isLoading = false;
 
@@ -45,13 +44,13 @@ class _WorkoutState extends State<Workout> {
   void save(User? user) async {
     if (user == null) return;
     startLoading();
-    widget.performedWorkout.performedExercises = performedExerciseListProvider
+    widget.performedWorkout.Exercises = exerciseListProvider
         .exercises
-        .map((performedExerciseProvider) => performedExerciseProvider.exercise)
+        .map((exerciseProvider) => exerciseProvider.exercise)
         .toList();
     widget.performedWorkout.clearEmptySetsAndExercises();
 
-    if (widget.performedWorkout.performedExercises.isEmpty) {
+    if (widget.performedWorkout.Exercises.isEmpty) {
       endLoading();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Your workout is empty! Nothing to save.'),
@@ -143,7 +142,7 @@ class _WorkoutState extends State<Workout> {
                       _datePicker(),
                       SizedBox(height: 20),
                       ChangeNotifierProvider(
-                          create: (_) => performedExerciseListProvider,
+                          create: (_) => exerciseListProvider,
                           child: WorkoutExerciseList()),
                       Container(
                           margin: EdgeInsets.all(10),
@@ -250,11 +249,9 @@ class _WorkoutState extends State<Workout> {
 
   void _processSelectedExercises(List<Exercise> exercises) {
     for (Exercise exercise in exercises) {
-      PerformedExercise performedExercise =
-          PerformedExercise(exercise: exercise);
       // Start it off with 1 empty set.
-      performedExercise.sets.add(PerformedSet());
-      performedExerciseListProvider.addExercise(performedExercise);
+      exercise.sets.add(PerformedSet());
+      exerciseListProvider.addExercise(exercise);
     }
   }
 }

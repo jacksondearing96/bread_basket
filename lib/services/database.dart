@@ -17,7 +17,7 @@ class DatabaseService {
     return json.keys.map((key) {
       List<String> tags = ((json[key]) as List).map((elem) => elem as String).toList();
       String id = tags.removeAt(0);
-      return Exercise(id: id, name: key, tags: tags);
+      return Exercise(exerciseId: id, name: key, tags: tags);
     }).toList();
   }
 

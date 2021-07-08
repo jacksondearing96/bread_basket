@@ -1,4 +1,4 @@
-import 'package:bread_basket/models/performedExercise.dart';
+import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 
 class PerformedWorkout {
@@ -6,7 +6,7 @@ class PerformedWorkout {
   int dateInMilliseconds = DateTime.now().millisecondsSinceEpoch;
   PerformedWorkout();
 
-  List<PerformedExercise> performedExercises = [];
+  List<Exercise> Exercises = [];
   String name = "New Workout";
 
   static PerformedWorkout fromJson(Map<String, Object?> json, String id) {
@@ -18,16 +18,16 @@ class PerformedWorkout {
     Map<String, Object?> exercisesJson =
         json['exercises']! as Map<String, Object?>;
     for (var exerciseId in exercisesJson.keys) {
-      workout.performedExercises.add(PerformedExercise.fromJson(
+      workout.Exercises.add(Exercise.fromJson(
           exercisesJson[exerciseId]! as Map<String, Object?>, exerciseId));
     }
     return workout;
   }
 
   clearEmptySetsAndExercises() {
-    performedExercises.forEach(
+    Exercises.forEach(
         (exercise) => exercise.sets.removeWhere((set) => set.reps == 0));
-    performedExercises.removeWhere((exercise) => exercise.sets.isEmpty);
+    Exercises.removeWhere((exercise) => exercise.sets.isEmpty);
   }
 
   Map<String, Object?> toJson() {
@@ -37,7 +37,7 @@ class PerformedWorkout {
       'dateInMilliseconds': dateInMilliseconds,
       'exercises': {},
     };
-    for (var exercise in performedExercises) {
+    for (var exercise in Exercises) {
       if (exercise.sets.isNotEmpty) {
         workoutData['exercises'][exercise.id] = exercise.toJson();
       }
@@ -47,7 +47,7 @@ class PerformedWorkout {
 
   double totalVolume() {
     double totalVolume = 0;
-    for (PerformedExercise exercise in performedExercises) {
+    for (Exercise exercise in Exercises) {
       totalVolume += exercise.totalVolume();
     }
     return totalVolume;
@@ -58,7 +58,7 @@ class PerformedWorkout {
     print(message);
     print(
         'WORKOUT[$id]: name: $name, date: ${DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds)}');
-    for (var exercise in performedExercises) {
+    for (var exercise in Exercises) {
       exercise.log();
     }
   }

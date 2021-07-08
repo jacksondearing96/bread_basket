@@ -1,14 +1,14 @@
-import 'package:bread_basket/models/performedExercise.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/models/exercise.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:flutter/material.dart';
 
-class PerformedExerciseListProvider extends ChangeNotifier {
-  List<PerformedExerciseProvider> _exercises = [];
+class ExerciseListProvider extends ChangeNotifier {
+  List<ExerciseProvider> _exercises = [];
 
-  List<PerformedExerciseProvider> get exercises => _exercises;
+  List<ExerciseProvider> get exercises => _exercises;
 
-  void addExercise(PerformedExercise exercise) {
-    _exercises.add(PerformedExerciseProvider(performedExercise: exercise));
+  void addExercise(Exercise exercise) {
+    _exercises.add(ExerciseProvider(exerciseToProvide: exercise));
     notifyListeners();
   }
 

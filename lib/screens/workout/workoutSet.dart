@@ -1,5 +1,5 @@
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/providers/performedExerciseProvider.dart';
+import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workoutSetTypeDropdown.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +24,10 @@ class _WorkoutSetState extends State<WorkoutSet> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PerformedExerciseProvider>(
-        builder: (context, performedExerciseProvider, child) {
+    return Consumer<ExerciseProvider>(
+        builder: (context, ExerciseProvider, child) {
       PerformedSet performedSet =
-          performedExerciseProvider.exercise.sets[widget.setIndex];
+          ExerciseProvider.exercise.sets[widget.setIndex];
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 3.0),
@@ -37,7 +37,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 ChangeNotifierProvider.value(
-                  value: performedExerciseProvider,
+                  value: ExerciseProvider,
                   child: WorkoutSetTypeDropdown(setIndex: widget.setIndex),
                 ),
                 Container(
@@ -69,7 +69,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                           performedSet.weight = double.parse(val),
                       onEditingComplete: () {
                         setState(() {});
-                        performedExerciseProvider.updateSet(
+                        ExerciseProvider.updateSet(
                             widget.setIndex, performedSet);
                       }),
                 ),
@@ -89,7 +89,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     onChanged: (val) {
                       setState(() => performedSet.reps = int.parse(val));
                       updateSet(
-                          performedExerciseProvider.updateSet, performedSet);
+                          ExerciseProvider.updateSet, performedSet);
                     },
                   ),
                 ),

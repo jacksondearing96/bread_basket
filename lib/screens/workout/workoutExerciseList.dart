@@ -13,22 +13,22 @@ class WorkoutExerciseList extends StatefulWidget {
 class _WorkoutExerciseListState extends State<WorkoutExerciseList> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<PerformedExerciseListProvider>(
-      builder: (context, performedExerciseListProvider, child) =>
+    return Consumer<ExerciseListProvider>(
+      builder: (context, exerciseListProvider, child) =>
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: performedExerciseListProvider.exercises.length,
+              itemCount: exerciseListProvider.exercises.length,
               itemBuilder: (context, index) {
                 return Container(
                     child: ChangeNotifierProvider.value(
-                  value: performedExerciseListProvider.exercises[index],
+                  value: exerciseListProvider.exercises[index],
                   child: WorkoutExerciseTile(
                     key: UniqueKey(),
                     exerciseIndex: index,
                     removeExerciseCallback:
-                        performedExerciseListProvider.removeExercise,
+                        exerciseListProvider.removeExercise,
                   ),
                 ));
               }),
