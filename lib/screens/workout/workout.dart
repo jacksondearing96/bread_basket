@@ -7,7 +7,7 @@ import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/providers/performedExerciseListProvider.dart';
 import 'package:bread_basket/screens/workout/selectExercise.dart';
 import 'package:bread_basket/screens/workout/workoutExerciseList.dart';
-import 'package:bread_basket/screens/workout/workoutSummary.dart';
+import 'package:bread_basket/analytics/WorkoutSummary.dart';
 import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customFloatingActionButton.dart';
