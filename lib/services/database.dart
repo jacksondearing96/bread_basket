@@ -11,23 +11,25 @@ class DatabaseService {
       FirebaseFirestore.instance.collection('bros');
 
   final CollectionReference exerciseCollection =
-      FirebaseFirestore.instance.collection('exercises');
+      FirebaseFirestore.instance.collection('allExercises');
 
-  List<Exercise> _exerciseListFromQuerySnapshot(QuerySnapshot snapshot) {
-    List<Exercise> exercises = snapshot.docs
-        .map(
-            (doc) => Exercise(id: doc.id, name: doc['name'], tags: doc['tags']))
-        .toList();
-    exercises.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-    return exercises;
+  List<Exercise> _exerciseListFromJson(Map<String, Object?> json) {
+    return json.keys.map((key) {
+      List<String> tags = ((json[key]) as List).map((elem) => elem as String).toList();
+      String id = tags.removeAt(0);
+      return Exercise(id: id, name: key, tags: tags);
+    }).toList();
   }
 
-  // Get exercises stream.
-  // TODO: Migrate this to a single doc - it's contents will never exceed the
-  // Firebase doc capacity and this would greatly reduce the number of reads
-  // required which is the billable metric in Firebase.
   Stream<List<Exercise>> get exercises {
-    return exerciseCollection.snapshots().map(_exerciseListFromQuerySnapshot);
+    return exerciseCollection
+        .doc('exercises')
+        .withConverter<List<Exercise>>(
+            fromFirestore: (snapshot, _) =>
+                _exerciseListFromJson(snapshot.data()!),
+            toFirestore: (exercise, _) => {})
+        .snapshots()
+        .map((snapshot) => snapshot.data() ?? []);
   }
 
   Future<bool> saveWorkout(PerformedWorkout workout) async {
@@ -86,18 +88,9 @@ class DatabaseService {
     bool upload = false;
     if (!upload) return;
     print('Uploading exercises:');
-    for (String exercise_name in exerciseList.keys) {
-      List<String>? list = exerciseList[exercise_name];
-      if (list == null) return;
-      String id = list.removeAt(0);
-      List<String> tags = list;
-
-      exerciseCollection.doc(id).set({
-        'name': exercise_name,
-        'tags': tags,
-      });
-      print('Uploaded: $exercise_name (id=$id, tags=$tags)');
-    }
+    exerciseCollection
+        .doc('exercises')
+        .set(exerciseList, SetOptions(merge: true));
   }
 
   Map<String, List<String>> exerciseList = {
