@@ -66,8 +66,9 @@ class ExerciseProgressIndicator extends StatelessWidget {
               ),
               Icon(improvement ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                   color: improvement ? Colors.green : Colors.red),
+              // Cap the % increase displayed to 1000%.
               Text(
-                "$progress%",
+                "$progress${progress == 1000 ? '+' : ''}%",
                 style: TextStyle(color: Constants.hintColor),
               ),
             ],
