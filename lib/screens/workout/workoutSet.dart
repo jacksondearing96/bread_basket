@@ -5,6 +5,7 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class WorkoutSet extends StatefulWidget {
   final int setIndex;
@@ -68,7 +69,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       validator: _isValidWeight,
                       onChanged: (val) {
                         if (!_formIsValid()) return;
-                        performedSet.weight = double.parse(val);
+                        performedSet.weight = max(999, double.parse(val));
                       },
                       onEditingComplete: () {
                         if (!_formIsValid()) return;
@@ -92,7 +93,8 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     validator: _isValidReps,
                     onChanged: (val) {
                       if (!_formIsValid()) return;
-                      setState(() => performedSet.reps = int.parse(val));
+                      setState(
+                          () => performedSet.reps = max(999, int.parse(val)));
                       updateSet(exerciseProvider.updateSet, performedSet);
                     },
                   ),
