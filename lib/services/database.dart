@@ -169,10 +169,10 @@ class DatabaseService {
       if (_random.nextInt(100) < 50) {
         final workout = _randomWorkout(i);
         workouts[workout['id']! as String] = workout;
-        if (_random.nextInt(100) < 40) {
+        if (_random.nextInt(100) < 15) {
           final workout = _randomWorkout(i);
           workouts[workout['id']! as String] = workout;
-          if (_random.nextInt(100) < 25) {
+          if (_random.nextInt(100) < 50) {
             final workout = _randomWorkout(i);
             workouts[workout['id']! as String] = workout;
           }
