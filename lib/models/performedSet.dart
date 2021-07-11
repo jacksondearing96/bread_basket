@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class PerformedSet {
   String id = DateTime.now().millisecondsSinceEpoch.toString();
   String setType = Constants.normalCode;
-  int reps = 0;
-  double weight = 0.0;
+  int reps;
+  double weight;
 
-  PerformedSet();
+  PerformedSet({this.weight = 0.0, this.reps = 0});
 
   static PerformedSet fromJson(Map<String, dynamic> json, String id) {
     PerformedSet performedSet = PerformedSet();

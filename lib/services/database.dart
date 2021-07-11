@@ -1,3 +1,5 @@
+import 'package:bread_basket/models/exerciseCatalog.dart';
+import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,26 +15,27 @@ class DatabaseService {
   final CollectionReference exerciseCollection =
       FirebaseFirestore.instance.collection('allExercises');
 
-  List<Exercise> _exerciseListFromJson(Map<String, Object?> json) {
+  ExerciseCatalog _exerciseListFromJson(Map<String, Object?> json) {
     List<Exercise> exercises = json.keys.map((key) {
       List<String> tags =
           ((json[key]) as List).map((elem) => elem as String).toList();
       String id = tags.removeAt(0);
       return Exercise(exerciseId: id, name: key, tags: tags);
     }).toList();
-    exercises.sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
-    return exercises;
+    exercises.sort(
+        (a, b) => int.parse(a.exerciseId).compareTo(int.parse(b.exerciseId)));
+    return ExerciseCatalog(exercises);
   }
 
-  Stream<List<Exercise>> get exercises {
+  Stream<ExerciseCatalog> get exercises {
     return exerciseCollection
         .doc('exercises')
-        .withConverter<List<Exercise>>(
+        .withConverter<ExerciseCatalog>(
             fromFirestore: (snapshot, _) =>
                 _exerciseListFromJson(snapshot.data()!),
             toFirestore: (exercise, _) => {})
         .snapshots()
-        .map((snapshot) => snapshot.data() ?? []);
+        .map((snapshot) => snapshot.data() ?? ExerciseCatalog([]));
   }
 
   Future<bool> saveWorkout(PerformedWorkout workout) async {

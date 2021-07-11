@@ -1,8 +1,10 @@
 import 'package:bread_basket/analytics/HeatmapCalendar.dart';
 import 'package:bread_basket/analytics/MuscleGroupPieChart.dart';
+import 'package:bread_basket/analytics/OverallProgress.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/analytics/UserSnapshot.dart';
 import 'package:bread_basket/analytics/WeeklyTrainingVolume.dart';
+import 'package:bread_basket/models/exerciseCatalog.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
 import 'package:bread_basket/screens/workout/workout.dart';
 import 'package:bread_basket/services/auth.dart';
@@ -18,22 +20,22 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final exercises = Provider.of<List<Exercise>>(context);
+    final exerciseCatalog = Provider.of<ExerciseCatalog>(context);
     final history = Provider.of<HistoryService>(context);
     final noWorkoutsYet = history.workouts.isEmpty;
 
     Widget _progressGraph({exerciseId: int}) {
-      if (noWorkoutsYet || exercises.isEmpty) return Container();
-      Exercise exercise =
-          exercises.firstWhere((e) => e.exerciseId == exerciseId.toString());
+      if (noWorkoutsYet || exerciseCatalog.exercises.isEmpty)
+        return Container();
+      Exercise exercise = exerciseCatalog.exercises
+          .firstWhere((e) => e.exerciseId == exerciseId.toString());
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
             Text(exercise.title, style: TextStyle(color: Constants.hintColor)),
             ChangeNotifierProvider.value(
-              value: ExerciseProvider(
-                  exerciseToProvide: exercise),
+              value: ExerciseProvider(exerciseToProvide: exercise),
               child: ProgressGraph(exerciseId: exerciseId.toString()),
             ),
           ],
@@ -45,7 +47,8 @@ class Home extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => Workout(exercises: exercises)));
+              builder: (context) =>
+                  Workout(exercises: exerciseCatalog.exercises)));
     }
 
     return Scaffold(
@@ -69,6 +72,7 @@ class Home extends StatelessWidget {
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // noWorkoutsYet ? Container() : OverallProgress(),
               UserSnapshot(),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
@@ -91,6 +95,7 @@ class Home extends StatelessWidget {
               ),
               noWorkoutsYet ? Container() : WeeklyTrainingVolume(),
               noWorkoutsYet ? Container() : MuscleGroupPieChart(),
+              // noWorkoutsYet ? Container() : OverallProgress(),
               HeatmapCalendar(),
               _progressGraph(exerciseId: Constants.benchPressExerciseId),
               _progressGraph(exerciseId: Constants.deadliftExerciseId),
