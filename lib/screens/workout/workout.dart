@@ -17,16 +17,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
-class Workout extends StatefulWidget {
+class WorkoutScreen extends StatefulWidget {
   final List<Exercise> exercises;
-  final PerformedWorkout performedWorkout = PerformedWorkout();
-  Workout({required this.exercises});
+  final Workout workout = Workout();
+  WorkoutScreen({required this.exercises});
 
   @override
-  _WorkoutState createState() => _WorkoutState();
+  _WorkoutScreenState createState() => _WorkoutScreenState();
 }
 
-class _WorkoutState extends State<Workout> {
+class _WorkoutScreenState extends State<WorkoutScreen> {
   String workoutName = Constants.newWorkoutName;
   ExerciseListProvider exerciseListProvider =
       new ExerciseListProvider();
@@ -44,13 +44,13 @@ class _WorkoutState extends State<Workout> {
   void save(User? user) async {
     if (user == null) return;
     startLoading();
-    widget.performedWorkout.exercises = exerciseListProvider
+    widget.workout.exercises = exerciseListProvider
         .exercises
         .map((exerciseProvider) => exerciseProvider.exercise)
         .toList();
-    widget.performedWorkout.clearEmptySetsAndExercises();
+    widget.workout.clearEmptySetsAndExercises();
 
-    if (widget.performedWorkout.exercises.isEmpty) {
+    if (widget.workout.exercises.isEmpty) {
       endLoading();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Your workout is empty! Nothing to save.'),
@@ -59,10 +59,10 @@ class _WorkoutState extends State<Workout> {
     }
 
     dynamic saveSuceeded = await DatabaseService(userId: user.userId)
-        .saveWorkout(widget.performedWorkout);
+        .saveWorkout(widget.workout);
     if (saveSuceeded) {
       Navigator.pop(context);
-      WorkoutSummary(workout: widget.performedWorkout).show(context);
+      WorkoutSummary(workout: widget.workout).show(context);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Successfully saved workout.'),
       ));
@@ -87,7 +87,7 @@ class _WorkoutState extends State<Workout> {
           lastDate: DateTime.now());
       if (pickedDate != null)
         setState(() {
-          widget.performedWorkout.timestamp =
+          widget.workout.timestamp =
               pickedDate.millisecondsSinceEpoch + (new Random()).nextInt(1000);
         });
     }
@@ -103,7 +103,7 @@ class _WorkoutState extends State<Workout> {
             Text(
                 Constants.dateFormatter.format(
                     new DateTime.fromMillisecondsSinceEpoch(
-                            widget.performedWorkout.timestamp)
+                            widget.workout.timestamp)
                         .toLocal()),
                 style: TextStyle(fontSize: 16.0, color: Constants.hintColor)),
           ],

@@ -2,15 +2,15 @@ import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
-class PerformedWorkout {
+class Workout {
   int timestamp = DateTime.now().millisecondsSinceEpoch;
   String id = UniqueKey().toString();
-  PerformedWorkout();
+  Workout();
 
   List<Exercise> exercises = [];
   String name = Constants.newWorkoutName;
 
-  bool equals(PerformedWorkout other) {
+  bool equals(Workout other) {
     if (exercises.length != other.exercises.length) return false;
     for (int i = 0; i < exercises.length; ++i) {
       if (!exercises[i].equals(other.exercises[i])) return false;
@@ -18,8 +18,8 @@ class PerformedWorkout {
     return timestamp == other.timestamp && id == other.id && name == other.name;
   }
 
-  static PerformedWorkout fromJson(Map<String, Object?> json) {
-    PerformedWorkout workout = PerformedWorkout();
+  static Workout fromJson(Map<String, Object?> json) {
+    Workout workout = Workout();
     workout.name = json['name']! as String;
     workout.timestamp = json['timestamp']! as int;
     workout.id = json['id'] as String;

@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Workout tests', () {
-    late PerformedWorkout testWorkout;
+    late Workout testWorkout;
 
     const int testTimestamp = 12345;
     const String testId = 'testId';
@@ -19,7 +19,7 @@ void main() {
     PerformedSet testSet2 = PerformedSet(weight: 5.5, reps: 11);
 
     setUp(() {
-      testWorkout = PerformedWorkout();
+      testWorkout = Workout();
       testWorkout.timestamp = testTimestamp;
       testWorkout.id = testId;
 
@@ -35,7 +35,7 @@ void main() {
     });
 
     test('Initialisation', () {
-      PerformedWorkout workout = PerformedWorkout();
+      Workout workout = Workout();
       expect(workout.timestamp, TypeMatcher<int>());
       expect(workout.id, TypeMatcher<String>());
       expect(workout.exercises, []);
@@ -53,7 +53,7 @@ void main() {
 
     test('FromJson', () {
       Map<String, Object?> json = testWorkout.toJson();
-      PerformedWorkout workout = PerformedWorkout.fromJson(json);
+      Workout workout = Workout.fromJson(json);
       expect(workout.equals(testWorkout), isTrue);
     });
   });

@@ -62,7 +62,7 @@ class DatabaseService {
         .map((snapshot) => snapshot.data() ?? ExerciseCatalog([]));
   }
 
-  Future<bool> saveWorkout(PerformedWorkout workout) async {
+  Future<bool> saveWorkout(Workout workout) async {
     try {
       await Future.delayed(Duration(milliseconds: 1500));
       await broCollection
@@ -78,10 +78,10 @@ class DatabaseService {
 
   HistoryService _historyFromJson(Map<String, dynamic>? json) {
     if (json == null) return HistoryService(pastWorkouts: []);
-    List<PerformedWorkout> workouts = [];
+    List<Workout> workouts = [];
     for (String id in json.keys) {
       workouts
-          .add(PerformedWorkout.fromJson(json[id]! as Map<String, Object?>));
+          .add(Workout.fromJson(json[id]! as Map<String, Object?>));
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
@@ -96,7 +96,7 @@ class DatabaseService {
   }
 
   Map<String, dynamic> _historyToJson(HistoryService history) {
-    List<PerformedWorkout> workouts = history.workouts;
+    List<Workout> workouts = history.workouts;
     Map<String, dynamic> json = {};
     for (var workout in workouts) {
       json[workout.id] = workout.toJson();
@@ -124,7 +124,7 @@ class DatabaseService {
   String randomId() => (_random.nextDouble() * 100000000).round().toString();
 
   Map<String, Object?> _randomWorkout(int daysAgo) {
-    PerformedWorkout workout = PerformedWorkout();
+    Workout workout = Workout();
     workout.timestamp -=
         (daysAgo * 24 * 60 * 60 * 1000 + _random.nextInt(10000)).round();
 

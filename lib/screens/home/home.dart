@@ -48,7 +48,7 @@ class Home extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  Workout(exercises: exerciseCatalog.exercises)));
+                  WorkoutScreen(exercises: exerciseCatalog.exercises)));
     }
 
     return Scaffold(

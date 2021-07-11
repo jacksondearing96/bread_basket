@@ -5,7 +5,7 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutSummary {
-  PerformedWorkout workout;
+  Workout workout;
   WorkoutSummary({required this.workout});
 
   Widget workoutDate() {
