@@ -6,6 +6,7 @@ import 'package:bread_basket/shared/util.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class ProgressGraph extends StatefulWidget {
   final String exerciseId;
@@ -27,7 +28,8 @@ class _ProgressGraphState extends State<ProgressGraph> {
     double worstPastWeight = Util.worstWeight(bestSets);
     double verticalInterval =
         ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
-
+    if (verticalInterval == 0)
+      verticalInterval = (bestPastWeight / 4).round().toDouble() + 1;
     List<Color> gradientColors = [
       const Color(0xff23b6e6),
       const Color(0xff02d39a),
@@ -46,6 +48,8 @@ class _ProgressGraphState extends State<ProgressGraph> {
                 worstPastWeight = bestCurrentSet.weight;
               verticalInterval =
                   ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
+              if (verticalInterval == 0)
+                verticalInterval = (bestPastWeight / 4).round().toDouble() + 1;
             }
             return Container(
               height: 150,
@@ -110,8 +114,8 @@ class _ProgressGraphState extends State<ProgressGraph> {
                               }).toList();
                             }),
                       ),
-                      minY: worstPastWeight,
-                      maxY: bestPastWeight,
+                      minY: max(worstPastWeight, 0),
+                      maxY: max(bestPastWeight, worstPastWeight + 10),
                       gridData: FlGridData(
                         show: true,
                         drawVerticalLine: true,
@@ -137,12 +141,13 @@ class _ProgressGraphState extends State<ProgressGraph> {
                           showTitles: true,
                           getTextStyles: (value) => const TextStyle(
                             color: Constants.hintColor,
-                            fontSize: 11,
+                            fontSize: 10,
                           ),
                           getTitles: (value) =>
-                              value.toString().replaceAll('.0', '') + 'kg',
+                              value.toStringAsFixed(1).replaceAll('.0', '') +
+                              'kg',
                           reservedSize: 18,
-                          margin: 12,
+                          margin: 10,
                         ),
                       ),
                       borderData: FlBorderData(
