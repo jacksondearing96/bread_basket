@@ -127,18 +127,9 @@ class _RegisterState extends State<Register> {
                       Text("Already have an account?",
                           style: TextStyle(color: Constants.hintColor)),
                       SizedBox(height: 10),
-                      GradientMask(
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.white),
-                          ),
-                          child: Text(
-                            'Sign in',
-                            style: TextStyle(color: Constants.darkIconColor),
-                          ),
-                          onPressed: () => widget.toggleView(),
-                        ),
+                      CustomButton(
+                        text: 'Sign in',
+                        onPressed: () => widget.toggleView(),
                       ),
                     ],
                   ),
