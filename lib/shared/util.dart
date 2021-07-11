@@ -22,19 +22,22 @@ class Util {
   }
 
   static double worstWeight(List<PerformedSet> sets) {
-    return sets.fold(0, (worst, set) => min(worst, set.weight));
+    if (sets.isEmpty) return 0;
+    return sets.fold(double.maxFinite, (worst, set) => min(worst, set.weight));
   }
 
   static double totalVolume(List<PerformedSet> sets) {
     return sets.fold(0, (volume, set) => volume + set.volume());
   }
 
-  static int progressPercentage(Exercise exercise, Function metric,
-      List<PerformedSet> prevSets) {
+  static int progressPercentage(
+      Exercise exercise, Function metric, List<PerformedSet> prevSets) {
     double prevMetric = metric(prevSets);
     if (prevMetric == 0) return 0;
     double progressRatio = metric(exercise.sets) / metric(prevSets);
     int rounded = ((progressRatio - 1) * 100).round();
+    rounded = min(rounded, 1000);
+    rounded = max(rounded, -1000);
     return rounded;
   }
 
