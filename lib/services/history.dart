@@ -61,8 +61,7 @@ class HistoryService {
   Map<String, int> workoutDates() {
     Map<String, int> workoutDates = {};
     for (PerformedWorkout workout in pastWorkouts) {
-      DateTime date =
-          DateTime.fromMillisecondsSinceEpoch(workout.timestamp);
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(workout.timestamp);
       workoutDates.update(Util.dateToStringKey(date), (val) => val + 1,
           ifAbsent: () => 1);
     }
@@ -150,67 +149,86 @@ class HistoryService {
    * Plot this cumulatively. 
    */
 
-  List<double> overallWeightProgress() {
+  List<Map<String, double>> overallWeightProgress() {
     Map<String, RecentHistory> exerciseIdToRecentHistory = {};
     Constants.exerciseList.keys.forEach((exerciseName) =>
         exerciseIdToRecentHistory[Constants.exerciseList[exerciseName]![0]] =
             RecentHistory());
 
     List<double> graphDataPoints = [];
+    List<int> workoutTimestamps = [];
 
     pastWorkouts.forEach((workout) {
       List<double> workoutProgressDataPoints = [];
       workout.exercises.forEach((exercise) {
-            if (exerciseIdToRecentHistory[exercise.exerciseId]!
-                .isStatisticallySignificant()) {
-              workoutProgressDataPoints.add(
-                  exerciseIdToRecentHistory[exercise.exerciseId]!
-                      .progressPercentage(exercise.bestSet().weight));
-            }
-            exerciseIdToRecentHistory[exercise.exerciseId]!
-                .add(exercise.bestSet().weight);
+        if (exerciseIdToRecentHistory[exercise.exerciseId]!
+            .isStatisticallySignificant()) {
+          workoutProgressDataPoints.add(
+              exerciseIdToRecentHistory[exercise.exerciseId]!
+                  .progressPercentage(exercise.bestSet().weight));
+        }
+        exerciseIdToRecentHistory[exercise.exerciseId]!
+            .add(exercise.bestSet().weight);
       });
       // Take the mean progress % inc/dec out of all the exercises performed
       // in this workout.
       if (workoutProgressDataPoints.isNotEmpty)
         graphDataPoints.add(workoutProgressDataPoints.reduce((a, b) => a + b) /
             workoutProgressDataPoints.length);
+        workoutTimestamps.add(workout.timestamp);
     });
 
     // Return the cumulative distribution.
     double sum = 0;
-    return [for (final val in graphDataPoints) sum += val];
+    List<Map<String, double>> result = [];
+    for (int i = 0; i < graphDataPoints.length; ++i) {
+      result.add({
+        'timestamp': workoutTimestamps[i].toDouble(),
+        'data': sum += graphDataPoints[i]
+      });
+    }
+    return result;
   }
 
-  overallVolumeProgress() {
+  List<Map<String, double>> overallVolumeProgress() {
     Map<String, RecentHistory> exerciseIdToRecentHistory = {};
     Constants.exerciseList.keys.forEach((exerciseName) =>
         exerciseIdToRecentHistory[Constants.exerciseList[exerciseName]![0]] =
             RecentHistory());
 
     List<double> graphDataPoints = [];
+    List<int> workoutTimestamps = [];
 
     pastWorkouts.forEach((workout) {
       List<double> workoutProgressDataPoints = [];
       workout.exercises.forEach((exercise) {
-            if (exerciseIdToRecentHistory[exercise.exerciseId]!
-                .isStatisticallySignificant()) {
-              workoutProgressDataPoints.add(
-                  exerciseIdToRecentHistory[exercise.exerciseId]!
-                      .progressPercentage(exercise.totalVolume()));
-            }
-            exerciseIdToRecentHistory[exercise.exerciseId]!
-                .add(exercise.totalVolume());
+        if (exerciseIdToRecentHistory[exercise.exerciseId]!
+            .isStatisticallySignificant()) {
+          workoutProgressDataPoints.add(
+              exerciseIdToRecentHistory[exercise.exerciseId]!
+                  .progressPercentage(exercise.totalVolume()));
+        }
+        exerciseIdToRecentHistory[exercise.exerciseId]!
+            .add(exercise.totalVolume());
       });
       // Take the mean progress % inc/dec out of all the exercises performed
       // in this workout.
-      if (workoutProgressDataPoints.isNotEmpty)
+      if (workoutProgressDataPoints.isNotEmpty) {
         graphDataPoints.add(workoutProgressDataPoints.reduce((a, b) => a + b) /
             workoutProgressDataPoints.length);
+        workoutTimestamps.add(workout.timestamp);
+      }
     });
 
     // Return the cumulative distribution.
     double sum = 0;
-    return [for (final val in graphDataPoints) sum += val];
+    List<Map<String, double>> result = [];
+    for (int i = 0; i < graphDataPoints.length; ++i) {
+      result.add({
+        'timestamp': workoutTimestamps[i].toDouble(),
+        'data': sum += graphDataPoints[i]
+      });
+    }
+    return result;
   }
 }

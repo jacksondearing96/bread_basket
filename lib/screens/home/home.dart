@@ -72,7 +72,6 @@ class Home extends StatelessWidget {
           child: ListView(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // noWorkoutsYet ? Container() : OverallProgress(),
               UserSnapshot(),
               Container(
                 padding: EdgeInsets.fromLTRB(0, 30, 0, 30),
@@ -94,6 +93,8 @@ class Home extends StatelessWidget {
                 ),
               ),
               noWorkoutsYet ? Container() : WeeklyTrainingVolume(),
+              noWorkoutsYet ? Container() : OverallProgress(),
+              SizedBox(height: 15),
               noWorkoutsYet ? Container() : MuscleGroupPieChart(),
               // noWorkoutsYet ? Container() : OverallProgress(),
               HeatmapCalendar(),

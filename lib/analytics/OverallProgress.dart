@@ -6,7 +6,36 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
+import 'package:intl/intl.dart';
+
+class AxisLabelFrequencyController {
+  int skipLimit = 0;
+  int skipCounter = -1;
+  String lastLabelSeen = '';
+  int frequencyController = 3;
+
+  init(int numberOfDataPoints) {
+    skipCounter = -1;
+    skipLimit = max(1, numberOfDataPoints / frequencyController).round();
+  }
+
+  bool isUnique(String label) {
+    if (label == lastLabelSeen) return false;
+    lastLabelSeen = label;
+    return true;
+  }
+
+  bool shouldShowAxisLabel() {
+    ++skipCounter;
+    if (skipCounter > skipLimit) skipCounter = 0;
+    return skipCounter == 0;
+  }
+}
+
 class OverallProgress extends StatefulWidget {
+  AxisLabelFrequencyController axisLabelFrequencyController =
+      AxisLabelFrequencyController();
+
   @override
   State<StatefulWidget> createState() => OverallProgressState();
 }
@@ -23,8 +52,18 @@ class OverallProgressState extends State<OverallProgress> {
   @override
   Widget build(BuildContext context) {
     final history = Provider.of<HistoryService>(context);
-    List<double> weightProgress = history.overallWeightProgress();
-    List<double> volumeProgress = history.overallVolumeProgress();
+    final overallWeightProgress = history.overallWeightProgress();
+    List<double> weightProgress =
+        overallWeightProgress.map((obj) => obj['data']!).toList();
+    List<double> volumeProgress =
+        history.overallVolumeProgress().map((obj) => obj['data']!).toList();
+    List<double> timestamps =
+        overallWeightProgress.map((obj) => obj['timestamp']!).toList();
+    print(timestamps);
+    assert(weightProgress.length == volumeProgress.length);
+    assert(weightProgress.length == timestamps.length);
+
+    widget.axisLabelFrequencyController.init(timestamps.length);
 
     return Padding(
       padding: EdgeInsets.all(20),
@@ -54,46 +93,33 @@ class OverallProgressState extends State<OverallProgress> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          legendEntry(
-                              color: Constants.secondaryColor,
-                              text: 'Max weight'),
-                              SizedBox(height: 4),
-                          legendEntry(
-                              color: Constants.tertiaryColor,
-                              text: 'Total volume'),
-                        ]),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            legendEntry(
+                                color: Constants.secondaryColor,
+                                text: 'Max weight'),
+                            SizedBox(height: 4),
+                            legendEntry(
+                                color: Constants.tertiaryColor,
+                                text: 'Total volume'),
+                          ]),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(right: 16.0, left: 6.0),
                         child: LineChart(
-                          isShowingMainData
-                              ? sampleData1(weightProgress, volumeProgress)
-                              : sampleData2(),
+                          sampleData1(
+                              weightProgress, volumeProgress, timestamps),
                           swapAnimationDuration:
                               const Duration(milliseconds: 250),
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                   ],
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.refresh,
-                    color:
-                        Colors.white.withOpacity(isShowingMainData ? 1.0 : 0.5),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      isShowingMainData = !isShowingMainData;
-                    });
-                  },
-                )
               ],
             ),
           ),
@@ -125,8 +151,8 @@ class OverallProgressState extends State<OverallProgress> {
     );
   }
 
-  LineChartData sampleData1(
-      List<double> weightProgress, List<double> volumeProgress) {
+  LineChartData sampleData1(List<double> weightProgress,
+      List<double> volumeProgress, List<double> timestamps) {
     return LineChartData(
       lineTouchData: LineTouchData(
         touchTooltipData: LineTouchTooltipData(
@@ -140,25 +166,25 @@ class OverallProgressState extends State<OverallProgress> {
       ),
       titlesData: FlTitlesData(
         bottomTitles: SideTitles(
-          showTitles: false,
-          // reservedSize: 22,
-          // getTextStyles: (value) => const TextStyle(
-          //   color: Color(0xff72719b),
-          //   fontWeight: FontWeight.bold,
-          //   fontSize: 16,
-          // ),
-          // margin: 10,
-          // getTitles: (value) {
-          //   switch (value.toInt()) {
-          //     case 2:
-          //       return 'SEPT';
-          //     case 7:
-          //       return 'OCT';
-          //     case 12:
-          //       return 'DEC';
-          //   }
-          //   return '';
-          // },
+          showTitles: true,
+          reservedSize: 10,
+          getTextStyles: (value) => const TextStyle(
+            color: Constants.hintColor,
+            fontSize: 12,
+          ),
+          margin: 10,
+          getTitles: (value) {
+            if (widget.axisLabelFrequencyController.shouldShowAxisLabel()) {
+              DateTime date =
+                  DateTime.fromMillisecondsSinceEpoch(value.round());
+              final DateFormat format = DateFormat('MMM y');
+              String label = format.format(date);
+              return widget.axisLabelFrequencyController.isUnique(label)
+                  ? label
+                  : '';
+            }
+            return '';
+          },
         ),
         leftTitles: SideTitles(
           showTitles: false,
@@ -188,11 +214,12 @@ class OverallProgressState extends State<OverallProgress> {
         show: true,
         border: const Border(
           bottom: BorderSide(
-            color: Color(0xff4e4965),
-            width: 4,
+            color: Constants.hintColor,
+            width: 1,
           ),
           left: BorderSide(
-            color: Colors.transparent,
+            color: Constants.hintColor,
+            width: 1,
           ),
           right: BorderSide(
             color: Colors.transparent,
@@ -202,12 +229,11 @@ class OverallProgressState extends State<OverallProgress> {
           ),
         ),
       ),
-      minX: 0,
-      maxX:
-          [volumeProgress.length, weightProgress.length].reduce(max).toDouble(),
+      minX: timestamps.reduce(min),
+      maxX: timestamps.reduce(max),
       maxY: _maxY(weightProgress, volumeProgress),
       minY: _minY(weightProgress, volumeProgress),
-      lineBarsData: linesBarData1(weightProgress, volumeProgress),
+      lineBarsData: linesBarData1(weightProgress, volumeProgress, timestamps),
     );
   }
 
@@ -225,14 +251,14 @@ class OverallProgressState extends State<OverallProgress> {
     return maxY + buffer * maxY.abs();
   }
 
-  List<LineChartBarData> linesBarData1(
-      List<double> weightProgress, List<double> volumeProgress) {
+  List<LineChartBarData> linesBarData1(List<double> weightProgress,
+      List<double> volumeProgress, List<double> timestamps) {
     double barWidth = 5;
     final lineChartBarData1 = LineChartBarData(
       spots: weightProgress
           .asMap()
           .entries
-          .map((entry) => FlSpot(entry.key.toDouble(), entry.value))
+          .map((entry) => FlSpot(timestamps[entry.key], entry.value))
           .toList(),
       isCurved: true,
       colors: [
@@ -251,7 +277,7 @@ class OverallProgressState extends State<OverallProgress> {
       spots: volumeProgress
           .asMap()
           .entries
-          .map((entry) => FlSpot(entry.key.toDouble(), entry.value))
+          .map((entry) => FlSpot(timestamps[entry.key], entry.value))
           .toList(),
       isCurved: true,
       colors: [
@@ -261,6 +287,13 @@ class OverallProgressState extends State<OverallProgress> {
       isStrokeCapRound: true,
       dotData: FlDotData(
         show: false,
+        // getDotPainter: (spot, percent, barData, index) {
+        //   return FlDotCirclePainter(
+        //       radius: 3,
+        //       color: Constants.primaryColor,
+        //       strokeWidth: 1,
+        //       strokeColor: Constants.primaryColor);
+        // },
       ),
       belowBarData: BarAreaData(show: false, colors: [
         const Color(0x00aa4cfc),
@@ -270,158 +303,6 @@ class OverallProgressState extends State<OverallProgress> {
     return [
       lineChartBarData1,
       lineChartBarData2,
-    ];
-  }
-
-  LineChartData sampleData2() {
-    return LineChartData(
-      lineTouchData: LineTouchData(
-        enabled: false,
-      ),
-      gridData: FlGridData(
-        show: false,
-      ),
-      titlesData: FlTitlesData(
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 22,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff72719b),
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-          margin: 10,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 2:
-                return 'SEPT';
-              case 7:
-                return 'OCT';
-              case 12:
-                return 'DEC';
-            }
-            return '';
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Color(0xff75729e),
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '1m';
-              case 2:
-                return '2m';
-              case 3:
-                return '3m';
-              case 4:
-                return '5m';
-              case 5:
-                return '6m';
-            }
-            return '';
-          },
-          margin: 8,
-          reservedSize: 30,
-        ),
-      ),
-      borderData: FlBorderData(
-          show: true,
-          border: const Border(
-            bottom: BorderSide(
-              color: Color(0xff4e4965),
-              width: 4,
-            ),
-            left: BorderSide(
-              color: Colors.transparent,
-            ),
-            right: BorderSide(
-              color: Colors.transparent,
-            ),
-            top: BorderSide(
-              color: Colors.transparent,
-            ),
-          )),
-      minX: 0,
-      maxX: 14,
-      maxY: 6,
-      minY: 0,
-      lineBarsData: linesBarData2(),
-    );
-  }
-
-  List<LineChartBarData> linesBarData2() {
-    return [
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 4),
-          FlSpot(5, 1.8),
-          FlSpot(7, 5),
-          FlSpot(10, 2),
-          FlSpot(12, 2.2),
-          FlSpot(13, 1.8),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x444af699),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 1),
-          FlSpot(3, 2.8),
-          FlSpot(7, 1.2),
-          FlSpot(10, 2.8),
-          FlSpot(12, 2.6),
-          FlSpot(13, 3.9),
-        ],
-        isCurved: true,
-        colors: const [
-          Color(0x99aa4cfc),
-        ],
-        barWidth: 4,
-        isStrokeCapRound: true,
-        dotData: FlDotData(
-          show: false,
-        ),
-        belowBarData: BarAreaData(show: true, colors: [
-          const Color(0x33aa4cfc),
-        ]),
-      ),
-      LineChartBarData(
-        spots: [
-          FlSpot(1, 3.8),
-          FlSpot(3, 1.9),
-          FlSpot(6, 5),
-          FlSpot(10, 3.3),
-          FlSpot(13, 4.5),
-        ],
-        isCurved: true,
-        curveSmoothness: 0,
-        colors: const [
-          Color(0x4427b6fc),
-        ],
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: FlDotData(show: true),
-        belowBarData: BarAreaData(
-          show: false,
-        ),
-      ),
     ];
   }
 }
