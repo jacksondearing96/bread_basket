@@ -28,7 +28,7 @@ class WorkoutSummary {
               child: Column(children: [
             Text(Constants.shorterDateFormatter.format(
                 new DateTime.fromMillisecondsSinceEpoch(
-                        workout.dateInMilliseconds)
+                        workout.timestamp)
                     .toLocal())),
           ])),
         ],

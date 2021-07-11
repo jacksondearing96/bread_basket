@@ -62,7 +62,7 @@ class HistoryService {
     Map<String, int> workoutDates = {};
     for (PerformedWorkout workout in pastWorkouts) {
       DateTime date =
-          DateTime.fromMillisecondsSinceEpoch(workout.dateInMilliseconds);
+          DateTime.fromMillisecondsSinceEpoch(workout.timestamp);
       workoutDates.update(Util.dateToStringKey(date), (val) => val + 1,
           ifAbsent: () => 1);
     }
@@ -122,7 +122,7 @@ class HistoryService {
     for (PerformedWorkout workout in pastWorkouts.reversed) {
       DateTime now = DateTime.now();
       DateTime workoutTime =
-          DateTime.fromMillisecondsSinceEpoch(workout.dateInMilliseconds);
+          DateTime.fromMillisecondsSinceEpoch(workout.timestamp);
       int difference = now.difference(workoutTime).inDays;
       if (difference >= 7) break;
       volumes[6 - difference] += workout.totalVolume();

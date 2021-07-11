@@ -9,6 +9,7 @@ class Constants {
 
   static const Color primaryColor = Colors.lightBlueAccent;
   static const Color secondaryColor = Colors.greenAccent;
+  static Color tertiaryColor = Colors.purpleAccent[100]!;
 
   static const Color textColor = Colors.white;
   static const Color textColorTemp = Colors.pink;
@@ -20,12 +21,13 @@ class Constants {
   static const Color failureSetTypeColor = Colors.red;
   static const Color normalSetTypeColor = hintColor;
   static Color darkIconColor = Colors.black.withAlpha(140);
-  static Color darkSecondaryBackground =
-      Color.fromARGB(255, 66, 66, 66).withAlpha(120);
+  static Color darkSecondaryBackground = Color.fromARGB(120, 66, 66, 66);
   static Color floatingActionButtonColor = Colors.white;
 
   static final DateFormat dateFormatter = DateFormat('EEEE d MMMM, y');
   static final DateFormat shorterDateFormatter = DateFormat('EEE d MMMM y');
+
+  static final String newWorkoutName = 'New Workout';
 
   static Gradient themeGradient = LinearGradient(
     colors: <Color>[
@@ -165,7 +167,8 @@ class Constants {
     );
   }
 
-  static Map<String, List<String>> exerciseList = {
+  static const deadliftExerciseName = 'deadlift_(barbell)';
+  static const Map<String, List<String>> exerciseList = {
     'assisted_chin_up_(machine)': ['5160', 'biceps', 'back'],
     'back_extension_(bodyweight)': ['5122', 'back'],
     'back_extension_(machine)': ['5156', 'back'],
@@ -191,7 +194,7 @@ class Constants {
     'seated_row_(machine)': ['1143', 'back'],
     'seated_row_(cable)': ['1208', 'back'],
     'straight_arm_pulldown_(cable)': ['3133', 'back'],
-    'deadlift_(barbell)': ['1'],
+    'deadlift_(barbell)': ['1', 'back', 'legs'],
     'bicep_curl_(barbell)': ['1125', 'biceps'],
     'bicep_curl_(cable)': ['3150', 'biceps'],
     'bicep_curl_(dumbbell)': ['1057', 'biceps'],

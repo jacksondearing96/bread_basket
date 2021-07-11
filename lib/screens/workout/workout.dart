@@ -27,7 +27,7 @@ class Workout extends StatefulWidget {
 }
 
 class _WorkoutState extends State<Workout> {
-  String workoutName = 'New Workout';
+  String workoutName = Constants.newWorkoutName;
   ExerciseListProvider exerciseListProvider =
       new ExerciseListProvider();
 
@@ -87,7 +87,7 @@ class _WorkoutState extends State<Workout> {
           lastDate: DateTime.now());
       if (pickedDate != null)
         setState(() {
-          widget.performedWorkout.dateInMilliseconds =
+          widget.performedWorkout.timestamp =
               pickedDate.millisecondsSinceEpoch + (new Random()).nextInt(1000);
         });
     }
@@ -103,7 +103,7 @@ class _WorkoutState extends State<Workout> {
             Text(
                 Constants.dateFormatter.format(
                     new DateTime.fromMillisecondsSinceEpoch(
-                            widget.performedWorkout.dateInMilliseconds)
+                            widget.performedWorkout.timestamp)
                         .toLocal()),
                 style: TextStyle(fontSize: 16.0, color: Constants.hintColor)),
           ],

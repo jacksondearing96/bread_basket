@@ -2,19 +2,29 @@ import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class PerformedSet {
-  String id = DateTime.now().millisecondsSinceEpoch.toString();
+  String id = UniqueKey().toString();
+  int timestamp = DateTime.now().millisecondsSinceEpoch;
   String setType = Constants.normalCode;
   int reps;
   double weight;
 
   PerformedSet({this.weight = 0.0, this.reps = 0});
 
-  static PerformedSet fromJson(Map<String, dynamic> json, String id) {
+  bool equals(PerformedSet other) {
+    return id == other.id &&
+        timestamp == other.timestamp &&
+        setType == other.setType &&
+        reps == other.reps &&
+        weight == other.weight;
+  }
+
+  static PerformedSet fromJson(Map<String, dynamic> json) {
     PerformedSet performedSet = PerformedSet();
-    performedSet.id = id;
+    performedSet.id = json['id'];
     performedSet.setType = json['type']!;
     performedSet.reps = json['reps']! as int;
     performedSet.weight = json['weight']! as double;
+    performedSet.timestamp = json['timestamp']! as int;
     return performedSet;
   }
 
@@ -29,7 +39,13 @@ class PerformedSet {
   }
 
   Map<String, Object> toJson() {
-    return {'type': setType, 'weight': weight, 'reps': reps};
+    return {
+      'type': setType,
+      'weight': weight,
+      'reps': reps,
+      'timestamp': timestamp,
+      'id': id,
+    };
   }
 
   Widget styledTypeCode() {

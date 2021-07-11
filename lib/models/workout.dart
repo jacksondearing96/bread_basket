@@ -1,24 +1,34 @@
 import 'package:bread_basket/models/exercise.dart';
+import 'package:bread_basket/shared/constants.dart';
+import 'package:flutter/material.dart';
 
 class PerformedWorkout {
-  String id = DateTime.now().millisecondsSinceEpoch.toString();
-  int dateInMilliseconds = DateTime.now().millisecondsSinceEpoch;
+  int timestamp = DateTime.now().millisecondsSinceEpoch;
+  String id = UniqueKey().toString();
   PerformedWorkout();
 
   List<Exercise> exercises = [];
-  String name = "New Workout";
+  String name = Constants.newWorkoutName;
 
-  static PerformedWorkout fromJson(Map<String, Object?> json, String id) {
+  bool equals(PerformedWorkout other) {
+    if (exercises.length != other.exercises.length) return false;
+    for (int i = 0; i < exercises.length; ++i) {
+      if (!exercises[i].equals(other.exercises[i])) return false;
+    }
+    return timestamp == other.timestamp && id == other.id && name == other.name;
+  }
+
+  static PerformedWorkout fromJson(Map<String, Object?> json) {
     PerformedWorkout workout = PerformedWorkout();
     workout.name = json['name']! as String;
-    workout.dateInMilliseconds = json['dateInMilliseconds']! as int;
-    workout.id = id;
+    workout.timestamp = json['timestamp']! as int;
+    workout.id = json['id'] as String;
 
-    Map<String, Object?> exercisesJson =
-        json['exercises']! as Map<String, Object?>;
+    Map<dynamic, dynamic> exercisesJson =
+        json['exercises']! as Map<dynamic, dynamic>;
     for (var exerciseId in exercisesJson.keys) {
       workout.exercises.add(Exercise.fromJson(
-          exercisesJson[exerciseId]! as Map<String, Object?>, exerciseId));
+          exercisesJson[exerciseId]! as Map<String, Object?>));
     }
     return workout;
   }
@@ -31,17 +41,18 @@ class PerformedWorkout {
 
   Map<String, Object?> toJson() {
     clearEmptySetsAndExercises();
-    Map<String, dynamic> workoutData = {
+    Map<String, dynamic> workoutJson = {
       'name': name,
-      'dateInMilliseconds': dateInMilliseconds,
+      'id': id,
+      'timestamp': timestamp,
       'exercises': {},
     };
     for (var exercise in exercises) {
       if (exercise.sets.isNotEmpty) {
-        workoutData['exercises'][exercise.id] = exercise.toJson();
+        workoutJson['exercises'][exercise.id] = exercise.toJson();
       }
     }
-    return {id: workoutData};
+    return workoutJson;
   }
 
   double totalVolume() {
@@ -56,7 +67,7 @@ class PerformedWorkout {
     print('');
     print(message);
     print(
-        'WORKOUT[$id]: name: $name, date: ${DateTime.fromMillisecondsSinceEpoch(dateInMilliseconds)}');
+        'WORKOUT[$id]: name: $name, date: ${DateTime.fromMillisecondsSinceEpoch(timestamp)}');
     for (var exercise in exercises) {
       exercise.log();
     }

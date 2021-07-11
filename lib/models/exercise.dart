@@ -6,21 +6,24 @@ import 'package:flutter/material.dart';
 class Exercise {
   final String name;
   final String exerciseId;
+  int timestamp = DateTime.now().millisecondsSinceEpoch;
+  String id = UniqueKey().toString();
+  List<PerformedSet> sets = [];
+  List<dynamic> tags = [];
+
   String _title = 'Unamed Exercise';
   String _subtitle = '';
-  List<dynamic> tags = [];
   late Image _image;
   String _imageLocation = '';
   Image? _equipmentTypeIcon;
   String _equipmentTypeIconLocation = '';
-  String id = DateTime.now().millisecondsSinceEpoch.toString();
-  List<PerformedSet> sets = [];
+
 
   Exercise({required this.exerciseId, required this.name, required this.tags}) {
     this._title = makeTitle();
 
     for (var tag in Constants.equipmentTypes) {
-      if (name.contains(tag)) tags.add(tag);
+      if (name.contains(tag) && !tags.contains(tag)) tags.add(tag);
     }
     this._subtitle = makeSubtitle();
     if (Constants.equipmentTypes.contains(this._subtitle.toLowerCase()))
@@ -40,7 +43,15 @@ class Exercise {
   String get equipmentTypeIconLocation => _equipmentTypeIconLocation;
 
   bool equals(Exercise other) {
-    return this.name == other.name;
+    if (sets.length != other.sets.length) return false;
+    for (int i = 0; i < sets.length; ++i) {
+      if (!sets[i].equals(other.sets[i])) return false;
+    }
+    return this.name == other.name &&
+        this.exerciseId == other.exerciseId &&
+        this.id == other.id &&
+        this.timestamp == other.timestamp &&
+        this.tags == other.tags;
   }
 
   void log() {
@@ -51,7 +62,11 @@ class Exercise {
   String makeTitle() {
     String _title = name;
     if (name.contains('(')) _title = _title.substring(0, _title.indexOf('('));
-    return _title.split('_').map((word) => Util.capitalize(word)).join(' ');
+    return _title
+        .split('_')
+        .map((word) => Util.capitalize(word))
+        .join(' ')
+        .trim();
   }
 
   String makeSubtitle() {
@@ -103,20 +118,20 @@ class Exercise {
     return false;
   }
 
-  static Exercise fromJson(Map<String, Object?> json, String id) {
+  static Exercise fromJson(Map<String, Object?> json) {
     Exercise exercise = Exercise(
         exerciseId: json['exerciseId']! as String,
         name: json['name']! as String,
-        tags: json['tags']! as List<dynamic>);
-    exercise.id = id;
+        tags: json['tags']! as List<String>);
+    exercise.id = json['id']! as String;
+    exercise.timestamp = json['timestamp']! as int;
 
-    Map<String, Object?> setsJson = json['sets']! as Map<String, Object?>;
-    for (var setId in setsJson.keys) {
-      exercise.sets.add(PerformedSet.fromJson(
-          setsJson[setId]! as Map<String, dynamic>, setId));
+    Map<dynamic, dynamic> setsJson = json['sets']! as Map<dynamic, dynamic>;
+    for (String setId in setsJson.keys) {
+      exercise.sets
+          .add(PerformedSet.fromJson(setsJson[setId]! as Map<String, Object?>));
     }
-    exercise.sets
-        .sort((a, b) => int.parse(a.id).compareTo(int.parse(b.id)));
+    exercise.sets.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
     return exercise;
   }
@@ -141,6 +156,8 @@ class Exercise {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> exerciseJson = {
       'exerciseId': exerciseId,
+      'id': id,
+      'timestamp': timestamp,
       'name': name,
       'tags': tags,
       'sets': {}

@@ -9,9 +9,7 @@ void main() {
     const int testReps = 8;
 
     setUp(() {
-      performedSet = PerformedSet();
-      performedSet.weight = testWeight;
-      performedSet.reps = testReps;
+      performedSet = PerformedSet(weight: testWeight, reps: testReps);
     });
 
     test('Initialisation', () {
@@ -19,6 +17,8 @@ void main() {
       expect(initialisedSet.setType, Constants.normalCode);
       expect(initialisedSet.reps, 0);
       expect(initialisedSet.weight, 0.0);
+      expect(initialisedSet.timestamp, TypeMatcher<int>());
+      expect(initialisedSet.id, TypeMatcher<String>());
     });
 
     test('Get weight string', () {
@@ -33,11 +33,19 @@ void main() {
     });
 
     test('ToJson', () {
-      expect(performedSet.toJson(), {
-        'type': Constants.normalCode,
-        'weight': testWeight,
-        'reps': testReps
-      });
+      Map<String, Object?> json = performedSet.toJson();
+      expect(json['type'], Constants.normalCode);
+      expect(json['weight'], testWeight);
+      expect(json['reps'], testReps);
+      expect(json['timestamp'], TypeMatcher<int>());
+      expect(json['id'], TypeMatcher<String>());
+      expect(json.keys.length, 5);
+    });
+
+    test('FromJson', () {
+      Map<String, Object?> json = performedSet.toJson();
+      PerformedSet fromJson = PerformedSet.fromJson(json);
+      expect(fromJson.equals(performedSet), isTrue);
     });
   });
 }

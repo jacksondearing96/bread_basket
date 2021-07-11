@@ -17,7 +17,7 @@ class DatabaseService {
 
   ExerciseCatalog _exerciseListFromJson(Map<String, Object?> json) {
     List<Exercise> exercises = json.keys.map((key) {
-      List<String> tags =
+      List<dynamic> tags =
           ((json[key]) as List).map((elem) => elem as String).toList();
       String id = tags.removeAt(0);
       return Exercise(exerciseId: id, name: key, tags: tags);
@@ -43,7 +43,7 @@ class DatabaseService {
       await Future.delayed(Duration(milliseconds: 1500));
       await broCollection
           .doc(userId)
-          .set(workout.toJson(), SetOptions(merge: true));
+          .set({workout.id: workout.toJson()}, SetOptions(merge: true));
       return true;
     } catch (e) {
       print('Failed to save workout to firebase');
@@ -52,27 +52,28 @@ class DatabaseService {
     }
   }
 
-  HistoryService _historyFromJson(Map<String, Object?> json) {
+  HistoryService _historyFromJson(Map<String, dynamic>? json) {
+    if (json == null) return HistoryService(pastWorkouts: []);
     List<PerformedWorkout> workouts = [];
     for (var id in json.keys) {
       workouts.add(
-          PerformedWorkout.fromJson(json[id]! as Map<String, Object?>, id));
+          PerformedWorkout.fromJson(json[id]! as Map<String, Object?>));
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
-      // dateInMilliseconds. Therefore, default to the time at which the
+      // timestamp. Therefore, default to the time at which the
       // digital workout was initialised if date is the same.
-      if (a.dateInMilliseconds == b.dateInMilliseconds) {
+      if (a.timestamp == b.timestamp) {
         return int.parse(a.id).compareTo(int.parse(b.id));
       }
-      return a.dateInMilliseconds.compareTo(b.dateInMilliseconds);
+      return a.timestamp.compareTo(b.timestamp);
     });
     return HistoryService(pastWorkouts: workouts);
   }
 
-  Map<String, Object?> _historyToJson(HistoryService history) {
+  Map<String, dynamic> _historyToJson(HistoryService history) {
     List<PerformedWorkout> workouts = history.workouts;
-    Map<String, Object?> json = {};
+    Map<String, dynamic> json = {};
     for (var workout in workouts) {
       json[workout.id] = workout.toJson();
     }
