@@ -223,7 +223,7 @@ class DatabaseService {
     'seated_row_(machine)': ['1143', 'back'],
     'seated_row_(cable)': ['1208', 'back'],
     'straight_arm_pulldown_(cable)': ['3133', 'back'],
-    'deadlift_(barbell)': ['1'],
+    'deadlift_(barbell)': ['1', 'back', 'legs'],
     'bicep_curl_(barbell)': ['1125', 'biceps'],
     'bicep_curl_(cable)': ['3150', 'biceps'],
     'bicep_curl_(dumbbell)': ['1057', 'biceps'],

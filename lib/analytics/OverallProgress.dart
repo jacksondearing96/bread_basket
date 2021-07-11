@@ -52,6 +52,7 @@ class OverallProgressState extends State<OverallProgress> {
   @override
   Widget build(BuildContext context) {
     final history = Provider.of<HistoryService>(context);
+
     final overallWeightProgress = history.overallWeightProgress();
     List<double> weightProgress =
         overallWeightProgress.map((obj) => obj['data']!).toList();
@@ -59,9 +60,10 @@ class OverallProgressState extends State<OverallProgress> {
         history.overallVolumeProgress().map((obj) => obj['data']!).toList();
     List<double> timestamps =
         overallWeightProgress.map((obj) => obj['timestamp']!).toList();
-    print(timestamps);
     assert(weightProgress.length == volumeProgress.length);
     assert(weightProgress.length == timestamps.length);
+
+    if (timestamps.isEmpty) return Container();
 
     widget.axisLabelFrequencyController.init(timestamps.length);
 

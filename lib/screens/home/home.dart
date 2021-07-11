@@ -31,14 +31,9 @@ class Home extends StatelessWidget {
           .firstWhere((e) => e.exerciseId == exerciseId.toString());
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          children: [
-            Text(exercise.title, style: TextStyle(color: Constants.hintColor)),
-            ChangeNotifierProvider.value(
-              value: ExerciseProvider(exerciseToProvide: exercise),
-              child: ProgressGraph(exerciseId: exerciseId.toString()),
-            ),
-          ],
+        child: ChangeNotifierProvider.value(
+          value: ExerciseProvider(exerciseToProvide: exercise),
+          child: ProgressGraph(exerciseId: exerciseId.toString()),
         ),
       );
     }
