@@ -77,7 +77,7 @@ class Constants {
 
   static const double workoutSetTypeDropdownWidth = 65.0;
   static const double workoutSetInputWidth = 48.0;
-  static const double prevSetWidth = 76.0;
+  static const double prevSetWidth = 79.0;
   static const double exerciseTypeIconWidth = 32.0;
   static double exerciseTypeIconHeight(String iconLocation) {
     if (iconLocation == 'resources/icons/body.png') return 44;
