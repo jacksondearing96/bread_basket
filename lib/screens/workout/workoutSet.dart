@@ -69,7 +69,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                       validator: _isValidWeight,
                       onChanged: (val) {
                         if (!_formIsValid()) return;
-                        performedSet.weight = max(999, double.parse(val));
+                        performedSet.weight = min(999, double.parse(val));
                       },
                       onEditingComplete: () {
                         if (!_formIsValid()) return;
@@ -94,7 +94,7 @@ class _WorkoutSetState extends State<WorkoutSet> {
                     onChanged: (val) {
                       if (!_formIsValid()) return;
                       setState(
-                          () => performedSet.reps = max(999, int.parse(val)));
+                          () => performedSet.reps = min(999, int.parse(val)));
                       updateSet(exerciseProvider.updateSet, performedSet);
                     },
                   ),
