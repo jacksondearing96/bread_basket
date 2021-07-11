@@ -6,7 +6,7 @@ import 'package:bread_basket/analytics/UserSnapshot.dart';
 import 'package:bread_basket/analytics/WeeklyTrainingVolume.dart';
 import 'package:bread_basket/models/exerciseCatalog.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
-import 'package:bread_basket/screens/workout/workout.dart';
+import 'package:bread_basket/screens/workout/workoutScreen.dart';
 import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
