@@ -1,4 +1,3 @@
-import 'package:bread_basket/analytics/PieChartPercentageIndicator.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/toolTipOnTap.dart';
@@ -34,7 +33,7 @@ class AxisLabelFrequencyController {
 }
 
 class OverallProgress extends StatefulWidget {
-  AxisLabelFrequencyController axisLabelFrequencyController =
+  final AxisLabelFrequencyController axisLabelFrequencyController =
       AxisLabelFrequencyController();
 
   @override

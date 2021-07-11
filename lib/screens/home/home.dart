@@ -94,7 +94,7 @@ class Home extends StatelessWidget {
               ),
               noWorkoutsYet ? Container() : WeeklyTrainingVolume(),
               noWorkoutsYet ? Container() : OverallProgress(),
-              SizedBox(height: 15),
+              SizedBox(height: 25),
               noWorkoutsYet ? Container() : MuscleGroupPieChart(),
               // noWorkoutsYet ? Container() : OverallProgress(),
               HeatmapCalendar(),

@@ -117,7 +117,7 @@ class DatabaseService {
 
   PerformedSet _randomSet(int i) {
     double weight =
-        90 + double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) - i;
+        60 + double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) - i * 0.25;
     return PerformedSet(weight: weight, reps: 5 + _random.nextInt(5));
   }
 
