@@ -1,6 +1,7 @@
 import 'package:bread_basket/analytics/PieChartPercentageIndicator.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/toolTipOnTap.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,14 +83,25 @@ class OverallProgressState extends State<OverallProgress> {
                     const SizedBox(
                       height: 37,
                     ),
-                    const Text(
-                      'Overall progress estimate',
-                      style: TextStyle(
-                        color: Constants.hintColor,
-                        fontSize: 14,
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(
+                        'Overall progress estimate',
+                        style: TextStyle(
+                          color: Constants.hintColor,
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      SizedBox(width: 15),
+                      TooltipOnTap(
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.symmetric(horizontal: 50),
+                        message:
+                            "TL;DR - upwards trend = progress \n\nShows the trend in weight/volume of the best sets in each exercise of a workout with respect to a rolling average of your previous 5 workouts.",
+                        child: Icon(Icons.info_outline_rounded,
+                            color: Constants.hintColor, size: 18),
+                      ),
+                    ]),
                     const SizedBox(
                       height: 20,
                     ),
