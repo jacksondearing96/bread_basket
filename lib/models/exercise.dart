@@ -122,7 +122,7 @@ class Exercise {
     Exercise exercise = Exercise(
         exerciseId: json['exerciseId']! as String,
         name: json['name']! as String,
-        tags: json['tags']! as List<String>);
+        tags: json['tags']! as List<dynamic>);
     exercise.id = json['id']! as String;
     exercise.timestamp = json['timestamp']! as int;
 

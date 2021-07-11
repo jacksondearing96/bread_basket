@@ -1,13 +1,37 @@
+import 'dart:math';
+
 import 'package:bread_basket/models/exerciseCatalog.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
 import 'package:bread_basket/services/history.dart';
+import 'package:bread_basket/shared/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bread_basket/models/exercise.dart';
 
 class DatabaseService {
   final String? userId;
-  DatabaseService({this.userId});
+
+  late final Exercise deadlift, squat, benchPress;
+  late ExerciseCatalog exerciseCatalog;
+  Random _random = new Random();
+
+  DatabaseService({this.userId}) {
+    exerciseCatalog =
+        _exerciseListFromJson(Constants.exerciseList);
+
+    this.deadlift = exerciseCatalog.exercises
+        .where((exercise) =>
+            exercise.exerciseId == Constants.deadliftExerciseId.toString())
+        .first;
+    this.squat = exerciseCatalog.exercises
+        .where((exercise) =>
+            exercise.exerciseId == Constants.squatExerciseId.toString())
+        .first;
+    this.benchPress = exerciseCatalog.exercises
+        .where((exercise) =>
+            exercise.exerciseId == Constants.benchPressExerciseId.toString())
+        .first;
+  }
 
   final CollectionReference broCollection =
       FirebaseFirestore.instance.collection('bros');
@@ -55,9 +79,9 @@ class DatabaseService {
   HistoryService _historyFromJson(Map<String, dynamic>? json) {
     if (json == null) return HistoryService(pastWorkouts: []);
     List<PerformedWorkout> workouts = [];
-    for (var id in json.keys) {
-      workouts.add(
-          PerformedWorkout.fromJson(json[id]! as Map<String, Object?>));
+    for (String id in json.keys) {
+      workouts
+          .add(PerformedWorkout.fromJson(json[id]! as Map<String, Object?>));
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
@@ -89,6 +113,79 @@ class DatabaseService {
             toFirestore: (workouts, _) => _historyToJson(workouts))
         .snapshots()
         .map((snapshot) => snapshot.data() ?? HistoryService(pastWorkouts: []));
+  }
+
+  PerformedSet _randomSet(int i) {
+    double weight =
+        90 + double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) - i;
+    return PerformedSet(weight: weight, reps: 5 + _random.nextInt(5));
+  }
+
+  String randomId() => (_random.nextDouble() * 100000000).round().toString();
+
+  Map<String, Object?> _randomWorkout(int daysAgo) {
+    PerformedWorkout workout = PerformedWorkout();
+    workout.timestamp -=
+        (daysAgo * 24 * 60 * 60 * 1000 + _random.nextInt(10000)).round();
+
+    Exercise squat2 = Exercise(
+        exerciseId: squat.exerciseId, name: squat.name, tags: squat.tags);
+    Exercise benchPress2 = Exercise(
+        exerciseId: benchPress.exerciseId,
+        name: benchPress.name,
+        tags: benchPress.tags);
+    Exercise deadlift2 = Exercise(
+        exerciseId: deadlift.exerciseId,
+        name: deadlift.name,
+        tags: deadlift.tags);
+    for (int j = 0; j < 5; ++j) {
+      deadlift2.sets.add(_randomSet(daysAgo));
+      squat2.sets.add(_randomSet(daysAgo));
+      benchPress2.sets.add(_randomSet(daysAgo));
+    }
+
+    if (_random.nextDouble() < 0.2) workout.exercises.addAll([deadlift2, squat2, benchPress2]);
+
+    for (int i = 0; i < 3; ++i) {
+      Exercise exercise = exerciseCatalog
+          .exercises[_random.nextInt(exerciseCatalog.exercises.length)];
+      Exercise exercise2 = Exercise(
+          exerciseId: exercise.exerciseId,
+          name: exercise.name,
+          tags: exercise.tags);
+      for (int j = 0; j < 3; ++j) {
+        exercise2.sets.add(_randomSet(daysAgo));
+      }
+      workout.exercises.add(exercise2);
+    }
+
+    return workout.toJson();
+  }
+
+  void addDataToDemoAccount() async {
+    print('Adding data to demo account.');
+    Map<String, Object?> workouts = {};
+    for (int i = 0; i < 90; ++i) {
+      if (_random.nextInt(100) < 50) {
+        final workout = _randomWorkout(i);
+        workouts[workout['id']! as String] = workout;
+      }
+      if (_random.nextInt(100) < 20) {
+        final workout = _randomWorkout(i);
+        workouts[workout['id']! as String] = workout;
+      }
+      if (_random.nextInt(100) < 5) {
+        final workout = _randomWorkout(i);
+        workouts[workout['id']! as String] = workout;
+      }
+    }
+    print('${workouts.keys.length} workouts to upload.');
+    try {
+      await broCollection.doc(userId).set(workouts);
+    } catch (e) {
+      print('Failed to save workout to firebase');
+      print(e.toString());
+    }
   }
 
   void uploadExercises() {

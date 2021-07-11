@@ -1,6 +1,7 @@
 import 'package:bread_basket/analytics/NumberOfWorkouts.dart';
 import 'package:bread_basket/analytics/TotalWeightVolumeLifted.dart';
 import 'package:bread_basket/models/user.dart';
+import 'package:bread_basket/services/database.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:flutter/material.dart';
@@ -43,8 +44,16 @@ class UserSnapshot extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                    child: NumberOfWorkouts(
-                  numberOfWorkouts: history.pastWorkouts.length,
+                    child: GestureDetector(
+                  onTap: () {
+                    if (user.name == 'DemoName') {
+                      DatabaseService(userId: user.userId)
+                          .addDataToDemoAccount();
+                    }
+                  },
+                  child: NumberOfWorkouts(
+                    numberOfWorkouts: history.pastWorkouts.length,
+                  ),
                 )),
                 Expanded(
                   child: TotalWeightVolumeLifted(kgs: totalVolume.round()),
