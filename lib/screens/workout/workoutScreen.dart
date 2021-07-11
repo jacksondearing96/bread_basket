@@ -29,7 +29,7 @@ class WorkoutScreen extends StatefulWidget {
 class _WorkoutScreenState extends State<WorkoutScreen> {
   String workoutName = Constants.newWorkoutName;
   ExerciseListProvider exerciseListProvider =
-      new ExerciseListProvider();
+      ExerciseListProvider();
 
   bool isLoading = false;
 

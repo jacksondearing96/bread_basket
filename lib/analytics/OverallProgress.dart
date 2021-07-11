@@ -273,7 +273,7 @@ class OverallProgressState extends State<OverallProgress> {
           .entries
           .map((entry) => FlSpot(timestamps[entry.key], entry.value))
           .toList(),
-      isCurved: true,
+      isCurved: false,
       colors: [
         Constants.secondaryColor,
       ],
@@ -292,7 +292,7 @@ class OverallProgressState extends State<OverallProgress> {
           .entries
           .map((entry) => FlSpot(timestamps[entry.key], entry.value))
           .toList(),
-      isCurved: true,
+      isCurved: false,
       colors: [
         Constants.tertiaryColor,
       ],

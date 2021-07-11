@@ -10,8 +10,9 @@ import 'dart:math';
 
 class ProgressGraph extends StatefulWidget {
   final String exerciseId;
+  final bool showTitle;
 
-  ProgressGraph({required this.exerciseId});
+  ProgressGraph({required this.exerciseId, this.showTitle = false});
 
   @override
   _ProgressGraphState createState() => _ProgressGraphState();
@@ -52,8 +53,10 @@ class _ProgressGraphState extends State<ProgressGraph> {
                 verticalInterval = (bestPastWeight / 4).round().toDouble() + 1;
             }
             return Column(children: [
-              Text(exerciseProvider.exercise.title,
-                  style: TextStyle(color: Constants.hintColor)),
+              widget.showTitle
+                  ? Text(exerciseProvider.exercise.title,
+                      style: TextStyle(color: Constants.hintColor))
+                  : Container(),
               Container(
                 height: 150,
                 decoration: const BoxDecoration(

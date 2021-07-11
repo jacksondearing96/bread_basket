@@ -33,7 +33,10 @@ class Home extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 10),
         child: ChangeNotifierProvider.value(
           value: ExerciseProvider(exerciseToProvide: exercise),
-          child: ProgressGraph(exerciseId: exerciseId.toString()),
+          child: ProgressGraph(
+            exerciseId: exerciseId.toString(),
+            showTitle: true,
+          ),
         ),
       );
     }

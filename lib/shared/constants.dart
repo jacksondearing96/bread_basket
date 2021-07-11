@@ -35,6 +35,12 @@ class Constants {
       Constants.secondaryColor.withOpacity(0.9)
     ],
   );
+  static Gradient alternateGradient = LinearGradient(
+    colors: <Color>[
+      Constants.tertiaryColor,
+      Constants.primaryColor,
+    ],
+  );
 
   static const Color progressGraphBackgroundColor = Colors.transparent;
   static Color progressGraphGridLineColor = Color.fromARGB(200, 45, 45, 45);

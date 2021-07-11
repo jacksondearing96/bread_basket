@@ -117,6 +117,7 @@ class _SignInState extends State<SignIn> {
                       text: 'See demo account',
                       imageIconLocation: Constants.dumbbellIcon,
                       onPressed: _signInToDemoAccount,
+                      alternateColor: true,
                     ),
                     SizedBox(height: 50),
                   ],

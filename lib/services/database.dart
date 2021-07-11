@@ -16,8 +16,7 @@ class DatabaseService {
   Random _random = new Random();
 
   DatabaseService({this.userId}) {
-    exerciseCatalog =
-        _exerciseListFromJson(Constants.exerciseList);
+    exerciseCatalog = _exerciseListFromJson(Constants.exerciseList);
 
     this.deadlift = exerciseCatalog.exercises
         .where((exercise) =>
@@ -80,8 +79,7 @@ class DatabaseService {
     if (json == null) return HistoryService(pastWorkouts: []);
     List<Workout> workouts = [];
     for (String id in json.keys) {
-      workouts
-          .add(Workout.fromJson(json[id]! as Map<String, Object?>));
+      workouts.add(Workout.fromJson(json[id]! as Map<String, Object?>));
     }
     workouts.sort((a, b) {
       // It's possible for two workouts to have the same date and therefore
@@ -116,8 +114,9 @@ class DatabaseService {
   }
 
   PerformedSet _randomSet(int i) {
-    double weight =
-        60 + double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) - i * 0.25;
+    double weight = 60 +
+        double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) -
+        i * 0.25;
     return PerformedSet(weight: weight, reps: 5 + _random.nextInt(5));
   }
 
@@ -144,7 +143,8 @@ class DatabaseService {
       benchPress2.sets.add(_randomSet(daysAgo));
     }
 
-    if (_random.nextDouble() < 0.2) workout.exercises.addAll([deadlift2, squat2, benchPress2]);
+    if (_random.nextDouble() < 0.2)
+      workout.exercises.addAll([deadlift2, squat2, benchPress2]);
 
     for (int i = 0; i < 3; ++i) {
       Exercise exercise = exerciseCatalog
@@ -169,14 +169,14 @@ class DatabaseService {
       if (_random.nextInt(100) < 50) {
         final workout = _randomWorkout(i);
         workouts[workout['id']! as String] = workout;
-      }
-      if (_random.nextInt(100) < 20) {
-        final workout = _randomWorkout(i);
-        workouts[workout['id']! as String] = workout;
-      }
-      if (_random.nextInt(100) < 5) {
-        final workout = _randomWorkout(i);
-        workouts[workout['id']! as String] = workout;
+        if (_random.nextInt(100) < 40) {
+          final workout = _randomWorkout(i);
+          workouts[workout['id']! as String] = workout;
+          if (_random.nextInt(100) < 25) {
+            final workout = _randomWorkout(i);
+            workouts[workout['id']! as String] = workout;
+          }
+        }
       }
     }
     print('${workouts.keys.length} workouts to upload.');

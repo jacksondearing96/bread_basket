@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final IconData? iconData;
   final String? imageIconLocation;
   final Function? onPressed;
+  final bool? alternateColor;
   final bool isLarge;
 
   final color = Constants.textColor;
@@ -20,10 +21,15 @@ class CustomButton extends StatelessWidget {
     this.height = 50.0,
     this.iconData,
     this.imageIconLocation,
+    this.alternateColor,
     this.onPressed,
     this.isLarge = false,
   }) : super(key: key) {
-    this.gradient = Constants.themeGradient;
+    if (this.alternateColor != null && this.alternateColor!) {
+      this.gradient = Constants.alternateGradient;
+    } else {
+      this.gradient = Constants.themeGradient;
+    }
   }
 
   Widget _normalContainer({decoration: BoxDecoration, child: Widget}) {
@@ -67,8 +73,7 @@ class CustomButton extends StatelessWidget {
                   SizedBox(width: 10),
                   Text(text,
                       style:
-                          TextStyle(
-                            fontWeight: FontWeight.bold, color: color))
+                          TextStyle(fontWeight: FontWeight.bold, color: color))
                 ]),
               ),
             )),
