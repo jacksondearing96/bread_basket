@@ -28,8 +28,11 @@ class TotalWeightVolumeLifted extends StatelessWidget {
           SizedBox(width: 20),
           Expanded(
               child: Column(children: [
-            Text(kgs.toString(),
-                style: TextStyle(fontSize: 18, color: Colors.white)),
+            FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(kgs.toString(),
+                  style: TextStyle(fontSize: 18, color: Colors.white)),
+            ),
             Text('kgs lifted',
                 style: TextStyle(color: Constants.hintColor, fontSize: 12))
           ])),

@@ -12,7 +12,7 @@ class AxisLabelFrequencyController {
   int skipLimit = 0;
   int skipCounter = -1;
   String lastLabelSeen = '';
-  int frequencyController = 3;
+  int frequencyController = 4;
 
   init(int numberOfDataPoints) {
     skipCounter = -1;
@@ -68,7 +68,7 @@ class OverallProgressState extends State<OverallProgress> {
     widget.axisLabelFrequencyController.init(timestamps.length);
 
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(18),
       child: Column(children: [
         AspectRatio(
           aspectRatio: 1.23,

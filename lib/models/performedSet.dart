@@ -29,7 +29,8 @@ class PerformedSet {
   }
 
   String getWeightString() {
-    String str = weight.toString();
+    String str = weight.toStringAsFixed(2);
+    str = str.replaceAll('.0', '');
     str = str.replaceAll('.0', '');
     return str;
   }

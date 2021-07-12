@@ -46,13 +46,16 @@ class _WorkoutSetState extends State<WorkoutSet> {
                   width: Constants.prevSetWidth,
                   child: widget.prevSet == null
                       ? Container()
-                      : Row(children: [
-                          widget.prevSet!.styledTypeCode(),
-                          Text(
-                            '${widget.prevSet!.reps} x ${widget.prevSet!.getWeightString()}kg',
-                            style: TextStyle(color: Constants.hintColor),
-                          ),
-                        ]),
+                      : FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: Row(children: [
+                            widget.prevSet!.styledTypeCode(),
+                            Text(
+                              '${widget.prevSet!.reps} x ${widget.prevSet!.getWeightString()}kg',
+                              style: TextStyle(color: Constants.hintColor),
+                            ),
+                          ]),
+                      ),
                 ),
                 Container(
                   width: Constants.workoutSetInputWidth,
