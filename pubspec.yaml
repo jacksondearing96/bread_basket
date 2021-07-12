@@ -44,11 +44,14 @@ dev_dependencies:
     sdk: flutter
 
 flutter_icons:
-  android: true
-  ios: false
-  adaptive_icon_background: "resources/app_images/app_icon_background.png"
-  adaptive_icon_foreground: "resources/app_images/app_icon_transparent.png"
-  image_path: "resources/app_images/app_icon_transparent.png"
+  # android: true
+  # ios: false
+  # adaptive_icon_background: "resources/app_images/app_icon_background.png"
+  # adaptive_icon_foreground: "resources/app_images/app_icon_transparent.png"
+  # image_path: "resources/app_images/app_icon_transparent.png"
+  android: false
+  ios: true
+  image_path: "resources/app_images/app_icon_ios.png"
 
   # adaptive_icon_background: "resources/icons/app_icon_background.png"
 
