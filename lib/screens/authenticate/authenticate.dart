@@ -21,6 +21,6 @@ class _AuthenticateState extends State<Authenticate> {
   Widget build(BuildContext context) {
     return showSignIn
         ? SignIn(toggleView: toggleView, authService: authService)
-        : Register(toggleView: toggleView);
+        : Register(toggleView: toggleView, authService: authService);
   }
 }

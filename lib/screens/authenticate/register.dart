@@ -2,6 +2,7 @@ import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customButton.dart';
 import 'package:bread_basket/shared/customTextFormField.dart';
+import 'package:bread_basket/shared/keys.dart';
 import 'package:bread_basket/shared/loading.dart';
 import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
@@ -9,15 +10,15 @@ import 'package:email_validator/email_validator.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
+  final AuthService authService;
 
-  Register({required this.toggleView});
+  Register({required this.toggleView, required this.authService});
 
   @override
   _RegisterState createState() => _RegisterState();
 }
 
 class _RegisterState extends State<Register> {
-  final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   bool loading = false;
@@ -61,8 +62,8 @@ class _RegisterState extends State<Register> {
       FormState? state = _formKey.currentState;
       if (state != null && state.validate()) {
         setState(() => loading = true);
-        dynamic userCredential =
-            await _auth.registerWithEmailAndPassword(email, password, name);
+        dynamic userCredential = await widget.authService
+            .registerWithEmailAndPassword(email, password, name);
         if (userCredential == null) {
           setState(() {
             error = 'Could not register new user';
@@ -75,6 +76,7 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : Scaffold(
+            key: Keys.registerPageScaffold,
             backgroundColor: Constants.backgroundColor,
             appBar: Constants.gradientAppBar(
               title: Text('Sign up to Monotonic'),
@@ -88,18 +90,21 @@ class _RegisterState extends State<Register> {
                     children: <Widget>[
                       SizedBox(height: 20.0),
                       CustomTextFormField(
+                        key: Keys.registerNameField,
                         hint: 'Firstname',
                         validator: _isValidName,
                         onChanged: _updateNameFromUserInput,
                       ),
                       SizedBox(height: 20.0),
                       CustomTextFormField(
+                        key: Keys.registerEmailField,
                         hint: 'Email',
                         validator: _isValidEmail,
                         onChanged: _updateEmailFromUserInput,
                       ),
                       SizedBox(height: 20.0),
                       CustomTextFormField(
+                        key: Keys.registerPasswordField,
                         hint: 'Password',
                         validator: Util.isValidPassword,
                         onChanged: _updatePasswordFromUserInput,
@@ -107,12 +112,14 @@ class _RegisterState extends State<Register> {
                       ),
                       SizedBox(height: 20.0),
                       CustomTextFormField(
+                        key: Keys.registerConfirmPasswordField,
                         hint: 'Verify password',
                         validator: _passwordsMatch,
                         obscureText: true,
                       ),
                       SizedBox(height: 20.0),
                       CustomButton(
+                        key: Keys.registerButton,
                         text: 'Register',
                         onPressed: _register,
                       ),
@@ -127,6 +134,7 @@ class _RegisterState extends State<Register> {
                           style: TextStyle(color: Constants.hintColor)),
                       SizedBox(height: 10),
                       CustomButton(
+                        key: Keys.registerSignInButton,
                         text: 'Sign in',
                         onPressed: () => widget.toggleView(),
                       ),

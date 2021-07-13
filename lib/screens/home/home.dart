@@ -11,6 +11,7 @@ import 'package:bread_basket/services/auth.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/customButton.dart';
+import 'package:bread_basket/shared/keys.dart';
 import 'package:flutter/material.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +51,7 @@ class Home extends StatelessWidget {
     }
 
     return Scaffold(
+      key: Keys.homePageScaffold,
       backgroundColor: Constants.backgroundColor,
       appBar: Constants.gradientAppBar(
         title: Text('Monotonic'),
