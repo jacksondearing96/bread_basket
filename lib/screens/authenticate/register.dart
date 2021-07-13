@@ -78,7 +78,7 @@ class _RegisterState extends State<Register> {
         : Scaffold(
             backgroundColor: Constants.backgroundColor,
             appBar: Constants.gradientAppBar(
-              title: Text('Sign up to GymStats'),
+              title: Text('Sign up to Monotonic'),
             ),
             body: SingleChildScrollView(
               child: Container(

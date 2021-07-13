@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
       appBar: Constants.gradientAppBar(
-        title: Text('GymStats'),
+        title: Text('Monotonic'),
         actions: <Widget>[
           TextButton.icon(
             icon: Icon(Icons.logout, color: Constants.textColor),

@@ -68,7 +68,7 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             backgroundColor: Constants.backgroundColor,
             appBar: Constants.gradientAppBar(
-              title: Text('Sign in to GymStats'),
+              title: Text('Sign in to Monotonic'),
             ),
             body: Container(
               padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
