@@ -1,16 +1,8 @@
-# bread_basket
+# Build Android app:
 
-A new Flutter project.
+flutter build appbundle
+This creates bread_basket/build/app/outputs/bundle/release/app.aab which can be uploaded to Google Play Console.
 
-## Getting Started
+# Build iOS app:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+open project in XCode, use Product > Archive. Then wait for the build to finish and follow the steps to validate and distribute the version through the new window that pops up. This will make the app available in App Store Connect.
