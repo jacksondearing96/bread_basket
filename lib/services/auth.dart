@@ -35,7 +35,7 @@ class AuthService {
     try {
       Firebase.UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      userCredential.user!.updateProfile(displayName: name);
+      userCredential.user!.updateDisplayName(name);
       return _userFromFirebaseUser(userCredential.user);
     } catch (e) {
       print(e.toString());

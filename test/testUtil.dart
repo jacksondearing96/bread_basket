@@ -1,6 +1,5 @@
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
-import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/shared/constants.dart';
 
