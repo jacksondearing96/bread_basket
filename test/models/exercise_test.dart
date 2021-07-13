@@ -1,35 +1,25 @@
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
-import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../testUtil.dart';
 
 void main() {
   group('Exercise tests', () {
-    late Exercise testExercise;
-    const int testExerciseId = Constants.deadliftExerciseId;
-    const String testName = Constants.deadliftExerciseName;
-    List<String> testTags = ['chest', 'shoulders'];
-    PerformedSet testSet1 = PerformedSet(weight: 10.0, reps: 7);
-    PerformedSet testSet2 = PerformedSet(weight: 5.5, reps: 11);
-    setUp(() {
-      testExercise = Exercise(
-          exerciseId: testExerciseId.toString(),
-          name: testName,
-          tags: testTags);
-
-      testExercise.sets.add(testSet1);
-      testExercise.sets.add(testSet2);
-    });
-
     test('Initialisation', () {
-      expect(testExercise.name, testName);
-      expect(testExercise.tags, testTags);
+      Exercise testExercise = TestUtil.testExercise();
+      expect(testExercise.name, TestUtil.testName);
+      expect(Util.listEquals(testExercise.tags, TestUtil.testTags), isFalse);
+      List<dynamic> expected = List.from(TestUtil.testTags);
+      expected.add('barbell');
+      expect(Util.listEquals(testExercise.tags, expected), isTrue);
       expect(testExercise.timestamp, TypeMatcher<int>());
       expect(testExercise.id, TypeMatcher<String>());
       expect(testExercise.exerciseId, '1');
       expect(testExercise.sets.length, 2);
-      expect(testExercise.sets[0].equals(testSet1), isTrue);
-      expect(testExercise.sets[1].equals(testSet2), isTrue);
+      expect(testExercise.sets[0].equals(TestUtil.testSet1()), isTrue);
+      expect(testExercise.sets[1].equals(TestUtil.testSet2()), isTrue);
       expect(testExercise.title, 'Deadlift');
       expect(testExercise.subtitle, '');
       expect(testExercise.imageLocation,
@@ -40,23 +30,56 @@ void main() {
     });
 
     test('ToJson', () {
+      Exercise testExercise = TestUtil.testExercise();
       Map<String, Object?> json = testExercise.toJson();
-      expect(json['name'], testName);
-      expect(json['exerciseId'], testExerciseId.toString());
+      expect(json['name'], TestUtil.testName);
+      expect(json['exerciseId'], TestUtil.testExerciseId);
       expect(json['id'], TypeMatcher<String>());
       expect(json['tags'], ['chest', 'shoulders', 'barbell']);
       expect(json['timestamp'], TypeMatcher<int>());
       expect(json['sets'], {
-        testSet1.id: testSet1.toJson(),
-        testSet2.id: testSet2.toJson(),
+        TestUtil.testSet1().id: TestUtil.testSet1().toJson(),
+        TestUtil.testSet2().id: TestUtil.testSet2().toJson(),
       });
       expect(json.keys.length, 6);
     });
 
     test('FromJson', () {
+      Exercise testExercise = TestUtil.testExercise();
       Map<String, Object?> json = testExercise.toJson();
       Exercise fromJson = Exercise.fromJson(json);
       expect(fromJson.equals(testExercise), isTrue);
+    });
+
+    test('Total volume', () {
+      expect(TestUtil.testExercise().totalVolume(), 130.5);
+    });
+
+    test('Best set', () {
+      Exercise testExercise = TestUtil.testExercise();
+      expect(testExercise.bestSet().weight, 10.0);
+
+      testExercise.sets.add(PerformedSet(weight: 15, reps: 1));
+      expect(testExercise.bestSet().weight, 15);
+    });
+
+    test('Equals', () {
+      Exercise testExercise = TestUtil.testExercise();
+      Exercise exercise2 = Exercise(
+          exerciseId: testExercise.exerciseId,
+          name: testExercise.name,
+          tags: List.from(testExercise.tags));
+
+      expect(testExercise.equals(exercise2), isFalse);
+
+      exercise2.id = testExercise.id;
+      exercise2.sets = testExercise.sets.map(PerformedSet.from).toList();
+      exercise2.timestamp = testExercise.timestamp;
+
+      expect(testExercise.equals(exercise2), isTrue);
+
+      testExercise.sets[0].weight = 99;
+      expect(testExercise.equals(exercise2), isFalse);
     });
   });
 }

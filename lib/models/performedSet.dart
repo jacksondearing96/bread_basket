@@ -1,4 +1,5 @@
 import 'package:bread_basket/shared/constants.dart';
+import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
 
 class PerformedSet {
@@ -9,6 +10,14 @@ class PerformedSet {
   double weight;
 
   PerformedSet({this.weight = 0.0, this.reps = 0});
+
+  static PerformedSet from(PerformedSet from) {
+    PerformedSet set = PerformedSet(weight: from.weight, reps: from.reps);
+    set.id = from.id;
+    set.timestamp = from.timestamp;
+    set.setType = from.setType;
+    return set;
+  }
 
   bool equals(PerformedSet other) {
     return id == other.id &&
@@ -30,9 +39,9 @@ class PerformedSet {
 
   String getWeightString() {
     String str = weight.toStringAsFixed(2);
-    str = str.replaceAll('.00', '');
-    str = str.replaceAll('.0', '');
-    return str;
+    str = Util.removeLastCharThatMatches(str, '0');
+    str = Util.removeLastCharThatMatches(str, '0');
+    return Util.removeLastCharThatMatches(str, '.');
   }
 
   double volume() {

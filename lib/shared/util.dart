@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
+import 'package:bread_basket/shared/constants.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:collection/collection.dart';
 
 class Util {
   static String? isValidEmail(String? email) {
@@ -58,4 +60,33 @@ class Util {
   static String? isAValidInteger(String? val) {
     return (val != null && int.tryParse(val) != null) ? null : 'invalid';
   }
+
+  static String removeLastCharThatMatches(String str, String c) {
+    return (str[str.length - 1] == c) ? str.substring(0, str.length - 1) : str;
+  }
+
+  static String makeTitle(String name) {
+    String _title = name;
+    if (name.contains('(')) _title = _title.substring(0, _title.indexOf('('));
+    return _title
+        .split('_')
+        .map((word) => Util.capitalize(word))
+        .join(' ')
+        .trim();
+  }
+
+  static String makeSubtitle(String name) {
+    if (!name.contains('(')) return '';
+    List<String> subtitleWords =
+        name.substring(name.indexOf('(') + 1, name.length - 1).split('_');
+    if (subtitleWords.isEmpty) return '';
+
+    if (Constants.equipmentTypes.contains(subtitleWords[0])) {
+      subtitleWords.removeAt(0);
+    }
+
+    return subtitleWords.map((word) => Util.capitalize(word)).join(' ');
+  }
+
+  static Function listEquals = const ListEquality().equals;
 }

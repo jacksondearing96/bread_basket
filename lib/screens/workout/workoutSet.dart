@@ -52,7 +52,8 @@ class _WorkoutSetState extends State<WorkoutSet> {
                             widget.prevSet!.styledTypeCode(),
                             Text(
                               '${widget.prevSet!.reps} x ${widget.prevSet!.getWeightString()}kg',
-                              style: TextStyle(color: Constants.hintColor, fontSize: 14),
+                              style: TextStyle(
+                                  color: Constants.hintColor, fontSize: 14),
                             ),
                           ]),
                         ),

@@ -94,5 +94,22 @@ void main() {
       expect(Util.isAValidInteger('-1353'), null);
       expect(Util.isAValidInteger('1'), null);
     });
+
+    test('Remove last char if present', () {
+      expect(Util.removeLastCharThatMatches('abc', 'c'), 'ab');
+      expect(Util.removeLastCharThatMatches('abc', 'b'), 'abc');
+    });
+
+    test('Make title', () {
+      expect(Util.makeTitle('lat_pulldown_(iso-lateral_machine_under_grip)'),
+          'Lat Pulldown');
+      expect(Util.makeTitle('bench_press_(barbell)'), 'Bench Press');
+    });
+
+    test('Make subtitle', () {
+      expect(Util.makeSubtitle('lat_pulldown_(iso-lateral_machine_under_grip)'),
+          'Iso-lateral Machine Under Grip');
+      expect(Util.makeSubtitle('bench_press_(barbell)'), '');
+    });
   });
 }

@@ -26,6 +26,7 @@ class RecentHistory {
   }
 }
 
+// TODO: This service could be optimised greatly by caching results.
 class HistoryService {
   List<Workout> pastWorkouts;
 

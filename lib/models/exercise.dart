@@ -18,14 +18,13 @@ class Exercise {
   Image? _equipmentTypeIcon;
   String _equipmentTypeIconLocation = '';
 
-
   Exercise({required this.exerciseId, required this.name, required this.tags}) {
-    this._title = makeTitle();
+    this._title = Util.makeTitle(name);
+    this._subtitle = Util.makeSubtitle(name);
 
     for (var tag in Constants.equipmentTypes) {
       if (name.contains(tag) && !tags.contains(tag)) tags.add(tag);
     }
-    this._subtitle = makeSubtitle();
     if (Constants.equipmentTypes.contains(this._subtitle.toLowerCase()))
       this._subtitle = '';
 
@@ -42,44 +41,33 @@ class Exercise {
   String get imageLocation => _imageLocation;
   String get equipmentTypeIconLocation => _equipmentTypeIconLocation;
 
+  static Exercise from(Exercise from) {
+    Exercise exercise = Exercise(
+        exerciseId: from.exerciseId,
+        name: from.name,
+        tags: List.from(from.tags));
+    exercise.timestamp = from.timestamp;
+    exercise.id = from.id;
+    exercise.sets = from.sets.map(PerformedSet.from).toList();
+    return exercise;
+  }
+
   bool equals(Exercise other) {
     if (sets.length != other.sets.length) return false;
     for (int i = 0; i < sets.length; ++i) {
       if (!sets[i].equals(other.sets[i])) return false;
     }
+
     return this.name == other.name &&
         this.exerciseId == other.exerciseId &&
         this.id == other.id &&
         this.timestamp == other.timestamp &&
-        this.tags == other.tags;
+        Util.listEquals(this.tags, other.tags);
   }
 
   void log() {
     print("EXERCISE >> ID: $exerciseId, name: $name, tags: $tags");
     for (PerformedSet s in sets) s.log();
-  }
-
-  String makeTitle() {
-    String _title = name;
-    if (name.contains('(')) _title = _title.substring(0, _title.indexOf('('));
-    return _title
-        .split('_')
-        .map((word) => Util.capitalize(word))
-        .join(' ')
-        .trim();
-  }
-
-  String makeSubtitle() {
-    if (!name.contains('(')) return '';
-    List<String> subtitleWords =
-        name.substring(name.indexOf('(') + 1, name.length - 1).split('_');
-    if (subtitleWords.isEmpty) return '';
-
-    if (Constants.equipmentTypes.contains(subtitleWords[0])) {
-      subtitleWords.removeAt(0);
-    }
-
-    return subtitleWords.map((word) => Util.capitalize(word)).join(' ');
   }
 
   String findExerciseEquipmentTypeIcon() {
@@ -137,20 +125,11 @@ class Exercise {
   }
 
   double totalVolume() {
-    double totalVolume = 0;
-    for (PerformedSet performedSet in sets) {
-      totalVolume += performedSet.volume();
-    }
-    return totalVolume;
+    return sets.fold(0, (volume, set) => volume + set.volume());
   }
 
   PerformedSet bestSet() {
-    double bestWeight = 0;
-    PerformedSet bestSet = PerformedSet();
-    for (PerformedSet performedSet in sets) {
-      if (performedSet.weight > bestWeight) bestSet = performedSet;
-    }
-    return bestSet;
+    return sets.reduce((set1, set2) => set1.weight > set2.weight ? set1 : set2);
   }
 
   Map<String, dynamic> toJson() {

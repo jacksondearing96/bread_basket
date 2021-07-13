@@ -56,11 +56,8 @@ class Workout {
   }
 
   double totalVolume() {
-    double totalVolume = 0;
-    for (Exercise exercise in exercises) {
-      totalVolume += exercise.totalVolume();
-    }
-    return totalVolume;
+    return exercises.fold(
+        0, (volume, exercise) => volume + exercise.totalVolume());
   }
 
   void log({String? message}) {
