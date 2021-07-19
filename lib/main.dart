@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
                             userId: user == null ? null : user.userId)
                         .history,
                     child: MaterialApp(
+                      debugShowCheckedModeBanner:false,
                       theme: ThemeData(
                         textTheme: TextTheme(
                           bodyText1: TextStyle(color: Constants.textColor),
