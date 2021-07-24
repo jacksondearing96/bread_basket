@@ -1,3 +1,4 @@
+import 'package:bread_basket/models/user.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/toolTipOnTap.dart';
@@ -52,12 +53,17 @@ class OverallProgressState extends State<OverallProgress> {
   @override
   Widget build(BuildContext context) {
     final history = Provider.of<HistoryService>(context);
+    final user = Provider.of<User?>(context);
+    bool skipDuplicateDaysForDemoGraph =
+        user != null && user.name == "DemoName";
 
-    final overallWeightProgress = history.overallWeightProgress();
+    final overallWeightProgress = history.overallWeightProgress(skipDuplicateDaysForDemoGraph);
+
     List<double> weightProgress =
         overallWeightProgress.map((obj) => obj['data']!).toList();
     List<double> volumeProgress =
-        history.overallVolumeProgress().map((obj) => obj['data']!).toList();
+        history.overallVolumeProgress(skipDuplicateDaysForDemoGraph).map((obj) => obj['data']!).toList();
+
     List<double> timestamps =
         overallWeightProgress.map((obj) => obj['timestamp']!).toList();
     assert(weightProgress.length == volumeProgress.length);
@@ -98,7 +104,7 @@ class OverallProgressState extends State<OverallProgress> {
                         padding: EdgeInsets.all(20),
                         margin: EdgeInsets.symmetric(horizontal: 50),
                         message:
-                            "TL;DR - upwards trend = progress \n\nShows the trend in weight/volume of the best sets in each exercise of a workout with respect to a rolling average of your previous 5 workouts.",
+                            "TL;DR - upwards trend = progress \n\nShows the trend in mean weight/volume after each exercise of a workout.",
                         child: Icon(Icons.info_outline_rounded,
                             color: Constants.hintColor, size: 18),
                       ),

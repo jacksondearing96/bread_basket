@@ -8,17 +8,19 @@ class RecentHistory {
   List<double> _recentDataPoints = [];
 
   add(double dataPoint) {
-    if (_recentDataPoints.length == 5) _recentDataPoints.removeAt(0);
     _recentDataPoints.add(dataPoint);
   }
 
   double _mean() {
+    if (_recentDataPoints.isEmpty) return 0;
     return _recentDataPoints.reduce((a, b) => a + b) / _recentDataPoints.length;
   }
 
   double progressPercentage(double currentDataPoint) {
     double mean = _mean();
-    return (currentDataPoint - mean) / mean;
+    _recentDataPoints.add(currentDataPoint);
+    double newMean = _mean();
+    return (newMean - mean) / mean;
   }
 
   bool isStatisticallySignificant() {
@@ -150,7 +152,7 @@ class HistoryService {
    * Plot this cumulatively. 
    */
 
-  List<Map<String, double>> overallWeightProgress() {
+  List<Map<String, double>> overallWeightProgress(bool isDemoAccount) {
     Map<String, RecentHistory> exerciseIdToRecentHistory = {};
     Constants.exerciseList.keys.forEach((exerciseName) =>
         exerciseIdToRecentHistory[Constants.exerciseList[exerciseName]![0]] =
@@ -158,40 +160,35 @@ class HistoryService {
 
     List<double> graphDataPoints = [];
     List<int> workoutTimestamps = [];
+    int timestamp = 0;
 
     pastWorkouts.forEach((workout) {
       List<double> workoutProgressDataPoints = [];
+      if (shouldSkipThisWorkoutForNiceLookingGraph(
+          workout, timestamp, isDemoAccount)) return;
+      timestamp = workout.timestamp;
       workout.exercises.forEach((exercise) {
-        if (exerciseIdToRecentHistory[exercise.exerciseId]!
-            .isStatisticallySignificant()) {
-          workoutProgressDataPoints.add(
-              exerciseIdToRecentHistory[exercise.exerciseId]!
-                  .progressPercentage(exercise.bestSet().weight));
-        }
-        exerciseIdToRecentHistory[exercise.exerciseId]!
-            .add(exercise.bestSet().weight);
+        double bestWeight = exercise.bestSet().weight;
+        RecentHistory exerciseHistory =
+            exerciseIdToRecentHistory[exercise.exerciseId]!;
+
+        exerciseHistory.isStatisticallySignificant()
+            ? workoutProgressDataPoints
+                .add(exerciseHistory.progressPercentage(bestWeight))
+            : exerciseHistory.add(bestWeight);
       });
       // Take the mean progress % inc/dec out of all the exercises performed
       // in this workout.
       if (workoutProgressDataPoints.isNotEmpty)
         graphDataPoints.add(workoutProgressDataPoints.reduce((a, b) => a + b) /
             workoutProgressDataPoints.length);
-        workoutTimestamps.add(workout.timestamp);
+      workoutTimestamps.add(workout.timestamp);
     });
 
-    // Return the cumulative distribution.
-    double sum = 0;
-    List<Map<String, double>> result = [];
-    for (int i = 0; i < graphDataPoints.length; ++i) {
-      result.add({
-        'timestamp': workoutTimestamps[i].toDouble(),
-        'data': sum += graphDataPoints[i]
-      });
-    }
-    return result;
+    return cumulativeDistribution(graphDataPoints, workoutTimestamps);
   }
 
-  List<Map<String, double>> overallVolumeProgress() {
+  List<Map<String, double>> overallVolumeProgress(bool isDemoAccount) {
     Map<String, RecentHistory> exerciseIdToRecentHistory = {};
     Constants.exerciseList.keys.forEach((exerciseName) =>
         exerciseIdToRecentHistory[Constants.exerciseList[exerciseName]![0]] =
@@ -200,17 +197,26 @@ class HistoryService {
     List<double> graphDataPoints = [];
     List<int> workoutTimestamps = [];
 
+    int timestamp = 0;
+
     pastWorkouts.forEach((workout) {
       List<double> workoutProgressDataPoints = [];
+
+      if (shouldSkipThisWorkoutForNiceLookingGraph(
+          workout, timestamp, isDemoAccount)) return;
+      timestamp = workout.timestamp;
+
       workout.exercises.forEach((exercise) {
-        if (exerciseIdToRecentHistory[exercise.exerciseId]!
-            .isStatisticallySignificant()) {
-          workoutProgressDataPoints.add(
-              exerciseIdToRecentHistory[exercise.exerciseId]!
-                  .progressPercentage(exercise.totalVolume()));
+        double totalVolume = exercise.totalVolume();
+        RecentHistory exerciseHistory =
+            exerciseIdToRecentHistory[exercise.exerciseId]!;
+
+        if (exerciseHistory.isStatisticallySignificant()) {
+          workoutProgressDataPoints
+              .add(exerciseHistory.progressPercentage(totalVolume));
+        } else {
+          exerciseHistory.add(totalVolume);
         }
-        exerciseIdToRecentHistory[exercise.exerciseId]!
-            .add(exercise.totalVolume());
       });
       // Take the mean progress % inc/dec out of all the exercises performed
       // in this workout.
@@ -221,15 +227,31 @@ class HistoryService {
       }
     });
 
-    // Return the cumulative distribution.
+    return cumulativeDistribution(graphDataPoints, workoutTimestamps);
+  }
+
+  List<Map<String, double>> cumulativeDistribution(
+      List<double> graphDataPoints, List<int> timestamps) {
     double sum = 0;
     List<Map<String, double>> result = [];
     for (int i = 0; i < graphDataPoints.length; ++i) {
       result.add({
-        'timestamp': workoutTimestamps[i].toDouble(),
+        'timestamp': timestamps[i].toDouble(),
         'data': sum += graphDataPoints[i]
       });
     }
     return result;
+  }
+
+  bool shouldSkipThisWorkoutForNiceLookingGraph(
+      Workout workout, int lastWorkoutTimestamp, bool isDemoAccount) {
+    if (!isDemoAccount) return false;
+
+    var date = DateTime.fromMillisecondsSinceEpoch(workout.timestamp);
+    var lastWorkoutDate =
+        DateTime.fromMillisecondsSinceEpoch(lastWorkoutTimestamp);
+    return lastWorkoutDate.day == date.day &&
+        lastWorkoutDate.month == date.month &&
+        lastWorkoutDate.year == date.year;
   }
 }
