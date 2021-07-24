@@ -25,8 +25,10 @@ class _ProgressGraphState extends State<ProgressGraph> {
 
     List<PerformedSet> bestSets =
         history.bestSetFromEveryPastWorkout(exerciseId: widget.exerciseId);
-    double bestPastWeight = Util.bestWeight(bestSets);
-    double worstPastWeight = Util.worstWeight(bestSets);
+    double bestPastWeight = Util.bestWeight(bestSets).ceil().toDouble();
+    double worstPastWeight = Util.worstWeight(bestSets).floor().toDouble();
+    while (bestPastWeight % 4 != 0) ++bestPastWeight;
+    while (worstPastWeight % 4 != 0) --worstPastWeight;
     double verticalInterval =
         ((bestPastWeight - worstPastWeight) / 4).round().toDouble();
     if (verticalInterval == 0)
