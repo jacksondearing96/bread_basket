@@ -1,3 +1,4 @@
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/util.dart';
@@ -9,6 +10,7 @@ class Exercise {
   int timestamp = DateTime.now().millisecondsSinceEpoch;
   String id = UniqueKey().toString();
   List<PerformedSet> sets = [];
+  List<CardioSession> cardioSessions = [];
   List<dynamic> tags = [];
 
   String _title = 'Unamed Exercise';

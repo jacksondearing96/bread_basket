@@ -1,3 +1,4 @@
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,11 @@ class ExerciseProvider extends ChangeNotifier {
 
   void updateSet(int index, PerformedSet performedSet) {
     _exercise.sets[index] = performedSet;
+    notifyListeners();
+  }
+
+  void updateCardioSession(int index, CardioSession cardioSession) {
+    _exercise.cardioSessions[index] = cardioSession;
     notifyListeners();
   }
 

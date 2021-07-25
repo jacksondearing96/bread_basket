@@ -3,6 +3,7 @@ import 'package:bread_basket/analytics/ProgressGraph.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
+import 'package:bread_basket/screens/workout/workoutCardioSesssion.dart';
 import 'package:bread_basket/screens/workout/workoutSet.dart';
 import 'package:bread_basket/services/history.dart';
 import 'package:bread_basket/shared/constants.dart';
@@ -119,12 +120,19 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                           exerciseProvider.removeSet(index),
                       child: ChangeNotifierProvider.value(
                         value: exerciseProvider,
-                        child: WorkoutSet(
-                            key: UniqueKey(),
-                            setIndex: index,
-                            prevSet: mostRecentSetsOfExercise.length > index
-                                ? mostRecentSetsOfExercise[index]
-                                : null),
+                        // child: exercise.tags.contains('cardio')
+                        // // TODO: add prev session support here.
+                        //     ? WorkoutCardioSession(
+                        //         key: UniqueKey(),
+                        //         setIndex: index,
+                        //         prevSession: null)
+                        //     : WorkoutSet(
+                          child: WorkoutSet(
+                                key: UniqueKey(),
+                                setIndex: index,
+                                prevSet: mostRecentSetsOfExercise.length > index
+                                    ? mostRecentSetsOfExercise[index]
+                                    : null),
                       ));
                 },
               ),
