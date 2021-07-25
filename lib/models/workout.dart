@@ -36,7 +36,12 @@ class Workout {
   clearEmptySetsAndExercises() {
     exercises.forEach(
         (exercise) => exercise.sets.removeWhere((set) => set.reps == 0));
-    exercises.removeWhere((exercise) => exercise.sets.isEmpty);
+    exercises.forEach((exercise) => exercise.cardioSessions.removeWhere(
+        (cardioSession) =>
+            (cardioSession.distanceInMetres == 0) &&
+            cardioSession.duration == Duration()));
+    exercises.removeWhere(
+        (exercise) => exercise.sets.isEmpty && exercise.cardioSessions.isEmpty);
   }
 
   Map<String, Object?> toJson() {
@@ -48,7 +53,7 @@ class Workout {
       'exercises': {},
     };
     for (var exercise in exercises) {
-      if (exercise.sets.isNotEmpty) {
+      if (exercise.sets.isNotEmpty || exercise.cardioSessions.isNotEmpty) {
         workoutJson['exercises'][exercise.id] = exercise.toJson();
       }
     }

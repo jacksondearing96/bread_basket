@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/exerciseCatalog.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
@@ -11,7 +12,7 @@ import 'package:bread_basket/models/exercise.dart';
 class DatabaseService {
   final String? userId;
 
-  late final Exercise deadlift, squat, benchPress;
+  late final Exercise deadlift, squat, benchPress, running;
   late ExerciseCatalog exerciseCatalog;
   Random _random = new Random();
 
@@ -29,6 +30,10 @@ class DatabaseService {
     this.benchPress = exerciseCatalog.exercises
         .where((exercise) =>
             exercise.exerciseId == Constants.benchPressExerciseId.toString())
+        .first;
+    this.running = exerciseCatalog.exercises
+        .where(
+            (exercise) => exercise.exerciseId == Constants.runningId.toString())
         .first;
   }
 
@@ -62,6 +67,7 @@ class DatabaseService {
   }
 
   Future<bool> saveWorkout(Workout workout) async {
+    workout.log();
     try {
       await Future.delayed(Duration(milliseconds: 1500));
       await broCollection
@@ -113,6 +119,17 @@ class DatabaseService {
         .map((snapshot) => snapshot.data() ?? HistoryService(pastWorkouts: []));
   }
 
+  CardioSession _randomCardioSession(int i) {
+    double distance = 5 +
+        double.parse((_random.nextDouble() * 2).toStringAsFixed(1)) -
+        i * 0.03;
+    var s = CardioSession(
+        distanceInMetres: distance,
+        duration: Duration(minutes: (_random.nextDouble() * 20 + 10).round()));
+    s.log();
+    return s;
+  }
+
   PerformedSet _randomSet(int i) {
     double weight = 60 +
         double.parse((_random.nextDouble() * 25).toStringAsFixed(1)) -
@@ -137,14 +154,18 @@ class DatabaseService {
         exerciseId: deadlift.exerciseId,
         name: deadlift.name,
         tags: deadlift.tags);
-    for (int j = 0; j < 5; ++j) {
+    Exercise running2 = Exercise(
+        exerciseId: running.exerciseId, name: running.name, tags: running.tags);
+
+    for (int j = 0; j < 3; ++j) {
       deadlift2.sets.add(_randomSet(daysAgo));
       squat2.sets.add(_randomSet(daysAgo));
       benchPress2.sets.add(_randomSet(daysAgo));
+      running2.cardioSessions.add(_randomCardioSession(daysAgo));
     }
 
     if (_random.nextDouble() < 0.2)
-      workout.exercises.addAll([deadlift2, squat2, benchPress2]);
+      workout.exercises.addAll([deadlift2, squat2, benchPress2, running2]);
 
     for (int i = 0; i < 3; ++i) {
       Exercise exercise = exerciseCatalog
@@ -154,11 +175,13 @@ class DatabaseService {
           name: exercise.name,
           tags: exercise.tags);
       for (int j = 0; j < 3; ++j) {
-        exercise2.sets.add(_randomSet(daysAgo));
+        exercise2.tags.contains('cardio')
+            ? exercise2.cardioSessions.add(_randomCardioSession(daysAgo))
+            : exercise2.sets.add(_randomSet(daysAgo));
       }
       workout.exercises.add(exercise2);
     }
-
+    // print(workout.toJson());
     return workout.toJson();
   }
 

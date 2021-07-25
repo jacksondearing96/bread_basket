@@ -1,5 +1,6 @@
 import 'package:bread_basket/analytics/ExerciseProgressIndicator.dart';
 import 'package:bread_basket/analytics/ProgressGraph.dart';
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
@@ -35,9 +36,12 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         builder: (context, exerciseProvider, child) {
       Exercise exercise = exerciseProvider.exercise;
       List<PerformedSet> sets = exerciseProvider.exercise.sets;
+      List<CardioSession> cardioSessions =
+          exerciseProvider.exercise.cardioSessions;
       List<PerformedSet> mostRecentSetsOfExercise =
           history.mostRecentSetsOf(exerciseId: exercise.exerciseId);
-      mostRecentSetsOfExercise.forEach((set) => set.log());
+      List<CardioSession> mostRecentCardioSessionsOfExercise =
+          history.mostRecentCardioSessionsOf(exerciseId: exercise.exerciseId);
 
       return Card(
         color: Colors.transparent,
@@ -95,12 +99,14 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                 child: ProgressGraph(exerciseId: exercise.exerciseId),
               ),
               SizedBox(height: 15),
-              _header(),
+              _header(exerciseProvider.exercise),
               ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
-                itemCount: sets.length,
+                itemCount: exercise.tags.contains('cardio')
+                    ? cardioSessions.length
+                    : sets.length,
                 itemBuilder: (context, index) {
                   return Dismissible(
                       direction: DismissDirection.endToStart,
@@ -120,14 +126,16 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
                           exerciseProvider.removeSet(index),
                       child: ChangeNotifierProvider.value(
                         value: exerciseProvider,
-                        // child: exercise.tags.contains('cardio')
-                        // // TODO: add prev session support here.
-                        //     ? WorkoutCardioSession(
-                        //         key: UniqueKey(),
-                        //         setIndex: index,
-                        //         prevSession: null)
-                        //     : WorkoutSet(
-                          child: WorkoutSet(
+                        child: exercise.tags.contains('cardio')
+                            ? WorkoutCardioSession(
+                                key: UniqueKey(),
+                                setIndex: index,
+                                prevSession: mostRecentCardioSessionsOfExercise
+                                            .length >
+                                        index
+                                    ? mostRecentCardioSessionsOfExercise[index]
+                                    : null)
+                            : WorkoutSet(
                                 key: UniqueKey(),
                                 setIndex: index,
                                 prevSet: mostRecentSetsOfExercise.length > index
@@ -162,18 +170,34 @@ class _WorkoutExerciseTileState extends State<WorkoutExerciseTile> {
         return _chars.codeUnitAt(_rnd.nextInt(_chars.length));
       }));
 
-  Row _header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Container(
-            width: Constants.workoutSetTypeDropdownWidth, child: _text('Set')),
-        Container(width: Constants.prevSetWidth, child: _text('Prev')),
-        Container(
-            width: Constants.workoutSetInputWidth, child: _text('Weight')),
-        Container(width: Constants.workoutSetInputWidth, child: _text('Reps')),
-      ],
-    );
+  Row _header(Exercise exercise) {
+    return exercise.tags.contains('cardio')
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(width: Constants.prevSetWidth, child: _text('Prev')),
+              Container(
+                  width: Constants.cardioDistanceWidth,
+                  child: _text('Distance')),
+              Container(
+                  width: Constants.cardioDurationWidth,
+                  child: _text('Duration')),
+            ],
+          )
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                  width: Constants.workoutSetTypeDropdownWidth,
+                  child: _text('Set')),
+              Container(width: Constants.prevSetWidth, child: _text('Prev')),
+              Container(
+                  width: Constants.workoutSetInputWidth,
+                  child: _text('Weight')),
+              Container(
+                  width: Constants.workoutSetInputWidth, child: _text('Reps')),
+            ],
+          );
   }
 
   Text _text(String text) {

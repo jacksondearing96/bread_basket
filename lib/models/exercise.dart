@@ -123,6 +123,18 @@ class Exercise {
     }
     exercise.sets.sort((a, b) => a.timestamp.compareTo(b.timestamp));
 
+    // Account for cardioSessions being bootstrapped -- may get null here.
+    dynamic cardioSessionsJson = json['cardioSessions'];
+    if (cardioSessionsJson != null) {
+      cardioSessionsJson = cardioSessionsJson as Map<dynamic, dynamic>;
+      for (String sessionId in cardioSessionsJson.keys) {
+        exercise.cardioSessions.add(CardioSession.fromJson(
+            cardioSessionsJson[sessionId]! as Map<String, Object?>));
+      }
+      exercise.cardioSessions
+          .sort((a, b) => a.timestamp.compareTo(b.timestamp));
+    }
+
     return exercise;
   }
 
@@ -141,11 +153,19 @@ class Exercise {
       'timestamp': timestamp,
       'name': name,
       'tags': tags,
-      'sets': {}
+      'sets': {},
+      'cardioSessions': {}
     };
     for (PerformedSet set in sets) {
       // Skip empty sets.
       if (set.reps != 0) exerciseJson['sets']![set.id] = set.toJson();
+    }
+    for (CardioSession session in cardioSessions) {
+      // Skip 0 duration sessions.
+      if (session.duration != Duration()) {
+        print('ADDING A CARDIO SESSION');
+        exerciseJson['cardioSessions']![session.id] = session.toJson();
+      }
     }
     return exerciseJson;
   }

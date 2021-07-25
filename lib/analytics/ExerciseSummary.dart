@@ -22,7 +22,9 @@ class ExerciseSummary extends StatelessWidget {
             Expanded(
               child: Column(children: [
                 Row(children: [
-                  Text('${exercise.sets.length} x '),
+                  exercise.tags.contains('cardio')
+                      ? Text('${exercise.cardioSessions.length} x ')
+                      : Text('${exercise.sets.length} x '),
                   exercise.equipmentTypeIconLocation == ''
                       ? Container()
                       : Container(
@@ -32,8 +34,7 @@ class ExerciseSummary extends StatelessWidget {
                           child: Opacity(
                             opacity: Constants.equipmentTypeIconOpacity,
                             child: ImageIcon(
-                              AssetImage(
-                                  exercise.equipmentTypeIconLocation),
+                              AssetImage(exercise.equipmentTypeIconLocation),
                               color: Constants.textColor,
                             ),
                           )),
@@ -63,8 +64,10 @@ class ExerciseSummary extends StatelessWidget {
         ),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           TinyExerciseProgressIndicator(exercise: exercise),
-          Text('best: ${setToString(exercise.bestSet())}kg',
-              style: TextStyle(fontSize: 14)),
+          exercise.sets.isEmpty
+              ? Container()
+              : Text('best: ${setToString(exercise.bestSet())}kg',
+                  style: TextStyle(fontSize: 14)),
         ]),
         Divider(
           color: Constants.hintColor,

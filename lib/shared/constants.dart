@@ -82,6 +82,9 @@ class Constants {
   static const double signInErrorMessageFontSize = 14.0;
 
   static const double workoutSetTypeDropdownWidth = 65.0;
+  static const double cardioSetCountWidth = 25.0;
+  static const double cardioDistanceWidth = 55;
+  static const double cardioDurationWidth = 55;
   static const double workoutSetInputWidth = 48.0;
   static const double prevSetWidth = 79.0;
   static const double prevSessionWidth = 100;
@@ -139,6 +142,7 @@ class Constants {
 
   static const int benchPressExerciseId = 35;
   static const int deadliftExerciseId = 1;
+  static const int runningId = 5123;
   static const int squatExerciseId = 151;
 
   static List<Color> pieChartColors = [

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   late Exercise _exercise;
+  late bool isCardio;
 
   ExerciseProvider({required exerciseToProvide}) {
     _exercise = exerciseToProvide;
+    this.isCardio = _exercise.tags.contains('cardio');
   }
 
   Exercise get exercise => _exercise;
@@ -17,23 +19,27 @@ class ExerciseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSet(int index, PerformedSet performedSet) {
-    _exercise.sets[index] = performedSet;
-    notifyListeners();
-  }
-
   void updateCardioSession(int index, CardioSession cardioSession) {
     _exercise.cardioSessions[index] = cardioSession;
     notifyListeners();
   }
 
+  void updateSet(int index, PerformedSet performedSet) {
+    _exercise.sets[index] = performedSet;
+    notifyListeners();
+  }
+
   void removeSet(int index) {
-    _exercise.sets.removeAt(index);
+    isCardio
+        ? _exercise.cardioSessions.removeAt(index)
+        : _exercise.sets.removeAt(index);
     notifyListeners();
   }
 
   void addSet() {
-    _exercise.sets.add(PerformedSet());
+    isCardio
+        ? _exercise.cardioSessions.add(CardioSession())
+        : _exercise.sets.add(PerformedSet());
     notifyListeners();
   }
 

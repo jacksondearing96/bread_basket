@@ -44,7 +44,7 @@ class CardioSession {
   String getDistanceString() {
     if (distanceInMetres >= 1000)
       return '${(distanceInMetres / 1000).toStringAsFixed(1)} km';
-    return '$distanceInMetres m';
+    return '${distanceInMetres.round()} m';
   }
 
   double volume() {

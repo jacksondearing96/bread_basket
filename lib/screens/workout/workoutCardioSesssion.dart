@@ -1,6 +1,5 @@
 import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/providers/exerciseProvider.dart';
-import 'package:bread_basket/screens/workout/workoutSetTypeDropdown.dart';
 import 'package:bread_basket/shared/constants.dart';
 import 'package:bread_basket/shared/util.dart';
 import 'package:flutter/material.dart';
@@ -31,14 +30,14 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
         builder: (context, exerciseProvider, child) {
       CardioSession session =
           exerciseProvider.exercise.cardioSessions[widget.setIndex];
+      session.log();
 
       onTimeInputTap() {
         Picker(
           adapter: NumberPickerAdapter(data: <NumberPickerColumn>[
-            const NumberPickerColumn(
-                begin: 0, end: 999, suffix: Text(' hours')),
-            const NumberPickerColumn(
-                begin: 0, end: 60, suffix: Text(' minutes'), jump: 15),
+            const NumberPickerColumn(begin: 0, end: 999, suffix: Text(' h')),
+            const NumberPickerColumn(begin: 0, end: 60, suffix: Text(' min')),
+            const NumberPickerColumn(begin: 0, end: 60, suffix: Text('sec'))
           ]),
           delimiter: <PickerDelimiter>[
             PickerDelimiter(
@@ -73,10 +72,6 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                ChangeNotifierProvider.value(
-                  value: exerciseProvider,
-                  child: WorkoutSetTypeDropdown(setIndex: widget.setIndex),
-                ),
                 Container(
                   width: Constants.prevSessionWidth,
                   child: widget.prevSession == null
@@ -85,7 +80,7 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
                           fit: BoxFit.scaleDown,
                           child: Row(children: [
                             Text(
-                              '${widget.prevSession!.getDistanceString()} - ${widget.prevSession!.getDurationString()}kg',
+                              '${widget.prevSession!.getDistanceString()} - ${widget.prevSession!.getDurationString()}',
                               style: TextStyle(
                                   color: Constants.hintColor, fontSize: 14),
                             ),
@@ -93,7 +88,7 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
                         ),
                 ),
                 Container(
-                  width: Constants.workoutSetInputWidth,
+                  width: Constants.cardioDistanceWidth,
                   child: TextFormField(
                       style: TextStyle(color: Constants.textColor),
                       focusNode: durationFocusNode,
@@ -103,11 +98,11 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
                       keyboardType: TextInputType.number,
                       textAlign: TextAlign.center,
                       decoration:
-                          Constants.setInputDecoration.copyWith(hintText: ''),
+                          Constants.setInputDecoration.copyWith(hintText: 'km'),
                       validator: _isValidDistanceInKilometres,
                       onChanged: (val) {
                         if (!_formIsValid()) return;
-                        session.distanceInMetres = min(999, double.parse(val));
+                        session.distanceInMetres = min(999, double.parse(val)) * 1000;
                       },
                       onEditingComplete: () {
                         if (!_formIsValid()) return;
@@ -117,20 +112,15 @@ class _WorkoutCardioSessionState extends State<WorkoutCardioSession> {
                       }),
                 ),
                 GestureDetector(
-                  onTap: onTimeInputTap(),
                   child: Container(
-                    width: Constants.workoutSetInputWidth,
-                    child: TextFormField(
+                    width: Constants.cardioDurationWidth,
+                    child: Text(
+                      session.getDurationString(),
                       style: TextStyle(color: Constants.textColor),
-                      focusNode: distanceFocusNode,
-                      initialValue: session.duration == Duration()
-                          ? ''
-                          : session.getDurationString(),
                       textAlign: TextAlign.center,
-                      decoration:
-                          Constants.setInputDecoration.copyWith(hintText: ''),
                     ),
                   ),
+                  onTap: onTimeInputTap,
                 ),
               ],
             )),

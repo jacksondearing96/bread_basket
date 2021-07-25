@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/user.dart';
@@ -28,8 +29,7 @@ class WorkoutScreen extends StatefulWidget {
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
   String workoutName = Constants.newWorkoutName;
-  ExerciseListProvider exerciseListProvider =
-      ExerciseListProvider();
+  ExerciseListProvider exerciseListProvider = ExerciseListProvider();
 
   bool isLoading = false;
 
@@ -44,8 +44,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void save(User? user) async {
     if (user == null) return;
     startLoading();
-    widget.workout.exercises = exerciseListProvider
-        .exercises
+    widget.workout.exercises = exerciseListProvider.exercises
         .map((exerciseProvider) => exerciseProvider.exercise)
         .toList();
     widget.workout.clearEmptySetsAndExercises();
@@ -58,8 +57,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       return;
     }
 
-    dynamic saveSuceeded = await DatabaseService(userId: user.userId)
-        .saveWorkout(widget.workout);
+    dynamic saveSuceeded =
+        await DatabaseService(userId: user.userId).saveWorkout(widget.workout);
     if (saveSuceeded) {
       Navigator.pop(context);
       WorkoutSummary(workout: widget.workout).show(context);
@@ -250,7 +249,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   void _processSelectedExercises(List<Exercise> exercises) {
     for (Exercise exercise in exercises) {
       // Start it off with 1 empty set.
-      exercise.sets.add(PerformedSet());
+      exercise.tags.contains('cardio')
+          ? exercise.cardioSessions.add(CardioSession())
+          : exercise.sets.add(PerformedSet());
       exerciseListProvider.addExercise(exercise);
     }
   }

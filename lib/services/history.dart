@@ -1,3 +1,4 @@
+import 'package:bread_basket/models/cardioSession.dart';
 import 'package:bread_basket/models/exercise.dart';
 import 'package:bread_basket/models/performedSet.dart';
 import 'package:bread_basket/models/workout.dart';
@@ -20,7 +21,7 @@ class RecentHistory {
     double mean = _mean();
     _recentDataPoints.add(currentDataPoint);
     double newMean = _mean();
-    return (newMean - mean) / mean;
+    return mean == 0 ? 0 : (newMean - mean) / mean;
   }
 
   bool isStatisticallySignificant() {
@@ -39,6 +40,27 @@ class HistoryService {
   double totalVolume() {
     return pastWorkouts.fold(
         0, (volume, workout) => volume + workout.totalVolume());
+  }
+
+  List<CardioSession> mostRecentCardioSessionsOf(
+      {exerciseId: String, bool skipFirstFound = false}) {
+    bool isMostRecentExercise = true;
+    for (Workout workout in pastWorkouts.reversed.toList()) {
+      // Want to skip the first item this time because the first item will
+      // be the set that we just completed.
+      if (skipFirstFound && isMostRecentExercise) {
+        isMostRecentExercise = false;
+        continue;
+      }
+
+      for (Exercise exercise in workout.exercises) {
+        if (exercise.exerciseId == exerciseId) {
+          print('found a prev run, returning');
+          return exercise.cardioSessions;
+        }
+      }
+    }
+    return [];
   }
 
   List<PerformedSet> mostRecentSetsOf(
@@ -168,6 +190,7 @@ class HistoryService {
           workout, timestamp, isDemoAccount)) return;
       timestamp = workout.timestamp;
       workout.exercises.forEach((exercise) {
+        if (exercise.sets.isEmpty) return;
         double bestWeight = exercise.bestSet().weight;
         RecentHistory exerciseHistory =
             exerciseIdToRecentHistory[exercise.exerciseId]!;

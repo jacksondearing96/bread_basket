@@ -41,7 +41,13 @@ void main() {
         TestUtil.testSet1().id: TestUtil.testSet1().toJson(),
         TestUtil.testSet2().id: TestUtil.testSet2().toJson(),
       });
-      expect(json.keys.length, 6);
+      expect(json['cardioSessions'], {
+        TestUtil.testCardioSession1().id:
+            TestUtil.testCardioSession1().toJson(),
+        TestUtil.testCardioSession2().id:
+            TestUtil.testCardioSession2().toJson(),
+      });
+      expect(json.keys.length, 7);
     });
 
     test('FromJson', () {

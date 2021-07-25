@@ -42,6 +42,10 @@ class _ProgressGraphState extends State<ProgressGraph> {
         ? Container()
         : Consumer<ExerciseProvider>(
             builder: (context, exerciseProvider, child) {
+            // TODO: Implement progress graph for cardio exercises.
+            if (exerciseProvider.exercise.tags.contains('cardio'))
+              return Container();
+
             PerformedSet? bestCurrentSet = exerciseProvider.bestSet();
             if (bestCurrentSet != null) {
               bestSets.add(exerciseProvider.bestSet()!);
